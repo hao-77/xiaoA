@@ -1,5 +1,5 @@
 <!-- 顶部导航栏 -->
-<navigation-bar title="考核进度" back="{{true}}" color="#fff" background="#165dff"></navigation-bar>
+<navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
 <view class="title">考核进度</view>
 

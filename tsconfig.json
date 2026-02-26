@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-, "miniprogram/pages/teamIntro/teamIntro.js", "miniprogram/pages/groupIntro/groupIntro.js", "miniprogram/pages/application/application.js", "miniprogram/pages/index/index.js", "miniprogram/pages/groupDetailed/groupDetailed.js", "miniprogram/pages/login/login.js", "miniprogram/pages/progress/progress.js", "miniprogram/pages/homework/homework.js", "miniprogram/pages/register/register.js", "miniprogram/pages/mine/mine.js", "miniprogram/pages/home/home.js"  ],
+, "miniprogram/pages/teamIntro/teamIntro.js", "miniprogram/pages/groupIntro/groupIntro.js", "miniprogram/pages/application/application.js", "miniprogram/pages/index/index.js", "miniprogram/pages/groupDetailed/groupDetailed.js", "miniprogram/pages/login/login.js", "miniprogram/pages/progress/progress.js", "miniprogram/pages/homework/homework.js", "miniprogram/pages/register/register.js", "miniprogram/pages/mine/mine.js", "miniprogram/pages/home/home.js", "miniprogram/components/groupDetailed/groupDetailed.js", "miniprogram/pages/operation/operation.js", "miniprogram/pages/product/product.js", "miniprogram/pages/mechanical/mechanical.js", "miniprogram/pages/frontEnd0/frontEnd.js", "miniprogram/pages/EC/EC.js", "miniprogram/pages/backStage/backStage.js", "miniprogram/pages/AI/AI.js"  ],
   "exclude": [
     "node_modules"
   ]

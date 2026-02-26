@@ -1,10 +1,30 @@
 /* pages/home/home.wxss */
 /* 顶部标题 */
 .top-title {
-  text-align: center;
-  padding: 104rpx 0 252rpx 0;
-  font-size: 36rpx;
-  font-weight: bold;
+  padding: 55rpx 0 252rpx 0;
+  position: relative;
+  image{
+  position: absolute;
+
+  }
+.Always{
+  position: absolute;
+  width: 710rpx;
+  height: 180rpx;
+  right: 20rpx;
+}.homeLogo{
+  position: absolute;
+  width: 520rpx;
+  height: 370rpx;
+  right: 100rpx;
+  z-index: 2;
+}
+.blueCloud{
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  right: 100rpx;
+}
 }
 
 /* 按钮组 */

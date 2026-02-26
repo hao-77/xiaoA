@@ -1,4 +1,4 @@
-<navigation-bar title="作业详情" back="{{false}}" color="#fff" background="blue"></navigation-bar><custom-tabbar currentPage="home"></custom-tabbar>
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 <view class="duration">
 一期作业2024-06-20 —— 2024-08-20
 </view>

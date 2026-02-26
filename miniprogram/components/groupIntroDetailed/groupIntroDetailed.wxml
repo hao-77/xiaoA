@@ -1,0 +1,54 @@
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="Background">
+  <!-- 背景相关图片（动态传值） -->
+  <view class="groupsBackground">
+    <image 
+      class="cloud-img" 
+      src="{{cloudImg}}" 
+      mode="widthFix"
+     style="height: 431rpx; display: inline-block; box-sizing: border-box"></image>
+    <image 
+      class="star-img" 
+      src="{{starImg}}" 
+      mode="widthFix"
+     style="position: absolute; left: 53rpx; top: 98rpx"></image>
+    <image 
+      class="which-group-img" 
+      src="{{whichGroupImg}}" 
+      mode="widthFix"
+     style="position: absolute; left: 314rpx; top: 62rpx"></image>
+    <image 
+      class="left-img" 
+      src="{{leftImg}}" 
+      mode="widthFix"
+     style="height: 571rpx; display: block; box-sizing: border-box; left: 0rpx; top: 360rpx; position: absolute; width: 157rpx"></image>
+    <image 
+      class="right-img" 
+      src="{{rightImg}}" 
+      mode="widthFix"
+     style="position: absolute; left: 578rpx; top: 375rpx; width: 157rpx; height: 658rpx; display: block; box-sizing: border-box"></image>
+  </view>
+
+  <!-- 组别核心内容（动态传值） -->
+  <view class="group" style="height: 777rpx; display: block; box-sizing: border-box; left: 55rpx; top: 372rpx; position: absolute">
+    <image 
+      class="operation-img" 
+      src="{{operationImg}}" 
+      mode="widthFix"
+    ></image>
+    
+    <view class="detailedItems">
+      <view class="detailed" wx:for="{{introList}}" wx:key="index">
+        <view class="detailedTitle">{{item.title}}</view>
+        <view class="detailedInfo">{{item.content}}</view>
+      </view>
+    </view>
+
+    <view class="recruitmentRequirements">    
+      <view class="recruitment" wx:for="{{recruitment}}" wx:key="index">
+        <view class="recruitmentTitle">{{item.title}}</view>
+        <view class="recruitmentInfo">{{item.content}}</view>
+      </view></view>
+  </view>
+</view>

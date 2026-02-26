@@ -106,3 +106,14 @@ page {
   border: solid #f5a554 1rpx;
   margin: 40rpx;
 }
+.groupsBackground{
+  width: 100%;
+  height: 500rpx;
+  background-color: #ffece4;
+}
+.groups{
+  background-color: #fedcda;
+  view{
+    position: absolute;
+  }
+}
