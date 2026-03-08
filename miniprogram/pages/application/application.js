@@ -28,7 +28,7 @@ Page({
   fetchSignUpInfo() {
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: 'https://smalla.cosh.fun/user/user/sign-up',
+      url: 'http://localhost:8080/user/user/sign-up',
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token')
@@ -182,7 +182,7 @@ Page({
     const requestMethod = this.data.hasSubmitted ? 'PUT' : 'POST';
 
     wx.request({
-      url: 'https://smalla.cosh.fun/user/user/sign-up',
+      url: 'http://localhost:8080/user/user/sign-up',
       method: requestMethod,
       header: {
         'Content-Type': 'application/json',

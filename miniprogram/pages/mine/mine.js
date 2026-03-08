@@ -26,7 +26,7 @@ Page({
     this.setData({ loading: true }); // 修复：登出前显示加载
 
     wx.request({
-      url: 'https://smalla.cosh.fun/user/user/logout',
+      url: 'http://localhost:8080/user/user/logout',
       method: 'POST',
       header: {
         'Content-Type': 'application/json',

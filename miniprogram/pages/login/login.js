@@ -93,7 +93,7 @@ Page({
 
     // 真实接口请求
     wx.request({
-      url: 'https://smalla.cosh.fun/user/user/login',
+      url: 'http://localhost:8080/user/user/login',
       method: 'POST',
       header: {
         'Content-Type': 'application/json'

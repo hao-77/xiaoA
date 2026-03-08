@@ -32,7 +32,7 @@ Page({
     this.setData({ onLoading: true });
 
     wx.request({
-      url: 'https://smalla.cosh.fun/admin/user/login',
+      url: 'http://localhost:8080/admin/user/login',
       method: "POST",
       header: {
         'Content-Type': 'application/json'

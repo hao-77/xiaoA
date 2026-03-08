@@ -56,7 +56,7 @@ Page({
 
     wx.showLoading({ title: '加载时间段...' });
     wx.request({
-      url: `https://smalla.cosh.fun/user/user-appointments/duration`,
+      url: `http://localhost:8080/user/user-appointments/duration`,
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token'),
@@ -254,7 +254,7 @@ submitAppointment() {
     success: (res) => {
       if (res.confirm) {
         wx.request({
-          url: 'https://smalla.cosh.fun/user/user-appointments',
+          url: 'http://localhost:8080/user/user-appointments',
           method: 'POST',
           header: {
             'Authorization': wx.getStorageSync('token'),
