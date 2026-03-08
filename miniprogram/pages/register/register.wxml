@@ -1,4 +1,4 @@
-<navigation-bar title="考核进度" back="{{true}}" color="#fff" background="#165dff"></navigation-bar>
+<navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
 <!-- 预约日期选择（匹配样式类名 + 增加空数据提示） -->
 <view class="registerDate" wx:if="{{availableDates.length > 0}}">

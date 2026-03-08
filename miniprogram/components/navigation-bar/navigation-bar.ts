@@ -20,7 +20,7 @@ Component({
     },
     color: {
       type: String,
-      value: ''
+      value: '#fff3e9'
     },
     back: {
       type: Boolean,

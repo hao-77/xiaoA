@@ -1,5 +1,5 @@
 <!-- 顶部导航栏 -->
-<navigation-bar title="团队介绍" back="{{false}}" color="#fff" background="blue"></navigation-bar>
+<navigation-bar title="团队介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
 <!-- 轮播图区域（优先用接口返回的轮播图，无则用默认） -->
 <swiper class="banner-swiper" indicator-dots circular>

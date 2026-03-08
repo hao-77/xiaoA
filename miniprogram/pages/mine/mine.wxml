@@ -1,7 +1,7 @@
 <!--pages/mine/mine.wxml-->
-<navigation-bar title="小A创新创业团队" back="{{false}}" color="#fff" background="#165dff"></navigation-bar>
-<view class="avatar">
-<img src="../../assets/凌波丽.jpg" alt="1"/></view>
+<navigation-bar title="小A创新创业团队" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<view class="avatar" style="width: 250rpx; height: 250rpx; display: block; box-sizing: border-box">
+<image src="../../assets/默认头像.png" alt="1"/></view>
 <view class="title">Always Be A!</view>
 <button bindtap="logout">登出</button>
 <custom-tabbar currentPage="home"></custom-tabbar>

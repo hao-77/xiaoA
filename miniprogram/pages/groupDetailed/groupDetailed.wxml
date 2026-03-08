@@ -1,5 +1,5 @@
 <!--pages/groupDetailed/groupDetailed.wxml-->
-<navigation-bar title="组别介绍" back="{{false}}" color="#fff" background="#165dff"></navigation-bar>
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>>
 <!-- 轮播图区域 -->
 <swiper class="banner-swiper" indicator-dots circular>
   <swiper-item >

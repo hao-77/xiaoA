@@ -4,6 +4,11 @@
     url="/pages/home/home" 
     class="tab-item {{currentPage === 'home' ? 'active' : ''}}"
   >
+    <image 
+      class="tab-icon" 
+      src="{{currentPage === 'home' ? '../../assets/HOME.png' : '../../assets/HOME_off.png'}}"
+      mode="aspectFit"
+    ></image>
     <text class="tab-text">首页</text>
   </navigator>
 
@@ -12,6 +17,11 @@
     url="/pages/mine/mine" 
     class="tab-item {{currentPage === 'mine' ? 'active' : ''}}"
   >
+    <image 
+      class="tab-icon" 
+      src="{{currentPage === 'mine' ? '../../assets/my.png' : '../../assets/my_OFF.png'}}"
+      mode="aspectFit"
+    ></image>
     <text class="tab-text">我的</text>
   </navigator>
 </view>

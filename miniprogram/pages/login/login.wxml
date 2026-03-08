@@ -1,10 +1,10 @@
-<navigation-bar title="登录/注册" back="{{false}}" color="black" background="#165dff"></navigation-bar>
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 <view class="login-container" style="height: 966rpx; display: block; box-sizing: border-box; left: 0rpx; top: 0rpx">
 
   <!-- 登录/注册卡片 -->
   <view class="login-card">
     <view class="avatar" style="position: relative; left: 282rpx; top: 85rpx; width: 129rpx; height: 129rpx; display: block; box-sizing: border-box">
-      <img src="" alt=""/>
+      <image src="../../assets/默认头像.png" alt=""/>
     </view>
     <!-- 表单区域 -->
     <view class="form-section" style="position: relative; left: 0rpx; top: 164rpx">

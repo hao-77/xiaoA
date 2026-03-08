@@ -1,7 +1,16 @@
-<navigation-bar title="小A创新创业团队" back="{{false}}" color="#fff" background="blue"></navigation-bar>
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 <!-- 顶部标题区域 -->
-<view class="top-title">
-  <text>ALways be A！</text>
+<view class="top-title" style="height: 506rpx; display: block; box-sizing: border-box; left: -2rpx; top: 0rpx; position: relative">
+<image style="position: absolute; left: 44rpx; top: 23rpx; width: 669rpx; height: 180rpx; display: block; box-sizing: border-box" class="Always" src="../../assets/Always.png" mode=""/>
+<image style="position: absolute; left: 116rpx; top: 53rpx; height: 416rpx; display: block; box-sizing: border-box" class="homeLogo" src="../../assets/homeLogo.png" mode=""/>
+<image style="position: relative; left: 62rpx; top: 175rpx; height: 225rpx; display: inline-block; box-sizing: border-box; width: 628rpx" class="homeLogo0" src="../../assets/homeLogo0.png" mode=""/>
+<image style="height: 123rpx; display: block; box-sizing: border-box; left: 32rpx; top: 23rpx; width: 168rpx; position: absolute" class="blueCloud" src="../../assets/blueCloud.png" mode=""/>
+
+<image style="position: absolute; left: 375rpx; top: 84rpx; width: 332rpx; height: 355rpx; display: block; box-sizing: border-box" class="pinkCloud1" src="../../assets/pinkCloud1.png" mode=""/>
+<image style="position: absolute; left: 32rpx; top: 140rpx; width: 217rpx; height: 203rpx; display: block; box-sizing: border-box" class="pinkCloud2" src="../../assets/pinkCloud2.png" mode=""/>
+<image style="position: absolute; left: 644rpx; top: 0rpx; width: 107rpx; height: 180rpx; display: block; box-sizing: border-box" src="../../assets/star1.png" mode=""/>
+<image style="width: 107rpx; height: 123rpx; display: block; box-sizing: border-box; left: 606rpx; top: 346rpx; position: absolute" src="../../assets/star1.png" mode=""/>
+<image style="width: 84rpx; height: 91rpx; display: block; box-sizing: border-box; left: 91rpx; top: 316rpx; position: absolute" src="../../assets/star1.png" mode=""/>
 </view>
 
 <!-- 按钮区域 -->
@@ -18,9 +27,9 @@
 </view>
 
 <!-- 精选推文区域 -->
-<view class="post-area" style="height: 327rpx; display: block; box-sizing: border-box; position: relative; left: 2rpx; top: -27rpx">
+<view class="post-area" style="height: 327rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx">
   <text class="post-title">精选推文：</text>
-  <view class="post-card" style="height: 172rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 38rpx">
+  <view class="post-card" style="height: 172rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx">
     <text class="post-content">我是推文标题</text>
     <view class="post-img">
       <!-- 占位图（实际项目替换为图片路径） -->
