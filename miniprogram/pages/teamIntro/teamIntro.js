@@ -59,5 +59,24 @@ Page({
         console.error('拉取团队信息失败:', err);
       }
     });
+  },
+
+  // 跳转到项目介绍页面（可根据实际路径调整）
+  toProjectIntro() {
+    wx.showToast({
+      title: '暂未开放项目介绍',
+      icon: 'none'
+    });
+    // 若有项目介绍页面，取消注释并修改路径
+    // wx.navigateTo({
+    //   url: '/pages/projectIntro/projectIntro'
+    // });
+  },
+
+  // 核心：跳转到组别介绍页面 /pages/groupIntro/groupIntro
+  toGroupIntro() {
+    wx.navigateTo({
+      url: '/pages/groupIntro/groupIntro'
+    });
   }
 });

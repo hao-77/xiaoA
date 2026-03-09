@@ -1,0 +1,4 @@
+{
+  "usingComponents": { "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "custom-tabbar": "/components/custom-tabbar/custom-tabbar"}  
+}

@@ -14,27 +14,41 @@
 </view>
 
 <!-- 按钮区域 -->
-<view class="btn-group">
+<view class="btn-group" style="height: 212rpx; display: flex; box-sizing: border-box">
   <view class="btn-item active" bindtap="toApplication">
+
+  <view class="img" style="width: 84rpx; height: 84rpx; display: block; box-sizing: border-box">
+    <image style="position: relative; left: 8rpx; top: 16rpx; width: 69rpx; height: 69rpx; display: inline-block; box-sizing: border-box" src="../../assets/Application.png" mode=""/>
+    </view>
     <text>我要报名</text>
+
   </view>
   <view class="btn-item" bindtap="toProgress">
-    <text>我的报名进度</text>
+  <view class="img" style="width: 96rpx; height: 86rpx; display: block; box-sizing: border-box">
+    <image style="width: 88rpx; height: 77rpx; display: inline-block; box-sizing: border-box; left: 0rpx; top: 9rpx; position: relative" src="../../assets/Progress2.png" mode=""/>
+
+  </view>
+
+    <text>报名进度</text>
+
   </view>
   <view class="btn-item" bindtap="toTeamIntro">
+  <view class="img" style="width: 96rpx; height: 89rpx; display: block; box-sizing: border-box">
+    <image style="position: relative; left: 2rpx; top: 7rpx" src="../../assets/TeamIntro.png" mode=""/>
+  </view>
+
     <text>团队介绍</text>
+
   </view>
 </view>
 
 <!-- 精选推文区域 -->
-<view class="post-area" style="height: 327rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx">
-  <text class="post-title">精选推文：</text>
-  <view class="post-card" style="height: 172rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx">
-    <text class="post-content">我是推文标题</text>
-    <view class="post-img">
-      <!-- 占位图（实际项目替换为图片路径） -->
-      <image src="/images/placeholder.png" mode="widthFix"></image>
-    </view>
+<view class="post-area" style="height: 457rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx">
+  <image class="post-title" src="../../assets/post-title.png" style="width: 313rpx; height: 91rpx; display: inline-block; box-sizing: border-box; position: relative; left: 28rpx; top: 20rpx"></image>
+  <image style="position: relative; left: 191rpx; top: -16rpx; width: 138rpx; height: 130rpx; display: inline-block; box-sizing: border-box" src="../../assets/star1.png" mode=""/>
+  <view class="post-card" style="height: 227rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx">
+<image style="height: 280rpx; display: block; box-sizing: border-box; position: absolute; left: 7rpx; top: -2rpx; width: 613rpx; z-index: 1" src="../../assets/border.png" mode=""/>
+<image style="height: 232rpx; display: block; box-sizing: border-box; position: absolute; left: 28rpx; top: 23rpx; width: 573rpx; z-index: 2" src="../../assets/tuiwen.png" mode=""/>
   </view>
 </view>
 

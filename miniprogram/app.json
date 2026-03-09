@@ -19,7 +19,8 @@
     "pages/frontEnd0/frontEnd",
     "pages/mechanical/mechanical",
     "pages/product/product",
-    "pages/operation/operation"
+    "pages/operation/operation",
+    "pages/nowProgress/nowProgress"
   ],
   "window": {
     "navigationBarTextStyle": "black",

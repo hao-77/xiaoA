@@ -11,7 +11,17 @@
     ></image>
     <text class="tab-text">首页</text>
   </navigator>
-
+  <navigator 
+    url="/pages/nowProgress/nowProgress" 
+    class="tab-item {{currentPage === 'nowProgress' ? 'active' : ''}}"
+  >
+    <image 
+      class="tab-icon" 
+      src="{{currentPage === 'nowProgress' ? '../../assets/progress.png' : '../../assets/progress_off.png'}}"
+      mode="aspectFit"
+    ></image>
+    <text class="tab-text">进度</text>
+  </navigator>
   <!-- 我的 tab -->
   <navigator 
     url="/pages/mine/mine" 
@@ -24,4 +34,6 @@
     ></image>
     <text class="tab-text">我的</text>
   </navigator>
+
+  
 </view>

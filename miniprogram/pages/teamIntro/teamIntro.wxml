@@ -1,73 +1,43 @@
 <!-- 顶部导航栏 -->
 <navigation-bar title="团队介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
-<!-- 轮播图区域（优先用接口返回的轮播图，无则用默认） -->
-<swiper class="banner-swiper" indicator-dots circular>
-  <!-- 接口返回的轮播图 -->
-  <block wx:if="{{teamData.imgUrl1 && teamData.imgUrl1.length > 0}}">
-    <swiper-item wx:for="{{teamData.imgUrl1}}" wx:key="index">
-      <view class="banner-item">
-        <image src="{{item}}" mode="widthFix"></image>
-      </view>
-    </swiper-item>
-  </block>
-  <!-- 默认轮播图（接口无数据时显示） -->
-  <block wx:else>
-    <swiper-item>
-      <view class="banner-item">
-        <image src="/images/team-banner1.png" mode="widthFix"></image>
-      </view>
-    </swiper-item>
-    <swiper-item>
-      <view class="banner-item">
-        <image src="/images/team-banner2.png" mode="widthFix"></image>
-      </view>
-    </swiper-item>
-  </block>
+<!-- 轮播图区域（单张图，去掉指示器） -->
+<swiper class="banner-swiper" indicator-dots="{{false}}" circular="{{false}}">
+  <swiper-item>
+    <view class="banner-item">
+      <image src="../../assets/tu2.png" mode="aspectFill"></image>
+    </view>
+  </swiper-item>
 </swiper>
 
-<!-- 选项卡区域 -->
-<view class="tab-group">
-  <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
-    <image src="/images/team-icon.png" mode="widthFix"></image>
-    <text>团队风采</text>
-  </view>
-  <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
-    <image src="/images/group-icon.png" mode="widthFix"></image>
-    <text>组别介绍</text>
-  </view>
-</view>
-
-<!-- 内容区域（根据选项卡切换展示不同内容 + 可编辑） -->
-<view class="content-area">
-  <!-- 团队风采标题/内容 -->
-  <view wx:if="{{currentTab === 0}}">
-    <view class="content-title">{{teamData.teamTitle || '团队风采'}}</view>
-    <view class="content-input">
-      <textarea 
-        placeholder="请输入团队风采介绍" 
-        bindinput="onTeamInput"
-        value="{{teamData.teamContent || ''}}"></textarea>
+<!-- 内容卡片区域（层叠式） -->
+<view class="card-stack">
+  <!-- 底层卡片 -->
+  <view class="content-card layer-back"></view>
+  <!-- 中间层卡片 -->
+  <view class="content-card layer-middle"></view>
+  <!-- 顶层卡片（内容） -->
+  <view class="content-card layer-front">
+    <!-- 团队介绍 -->
+    <view class="section-item0">
+      <view class="section-title">团队介绍</view>
+      <view class="section-content">
+        小A创新创业团队成立于2015年，涵盖机械制造、自动化、软件开发、AI等领域，于2019年入驻国家级创新创业教育实践基地—工大创谷，成为主要运营团队。团队与华为共建鲲鹏&昇腾开发者创享社，持续为鲲鹏昇腾及华为各产业链输送高质量实战型人才和拔尖创新人才。团队摘得国赛金奖等国家级以上奖项、省级奖项累计200+奖项、企业合作累计资金达300万元、发表SCI、EI论文11篇专利软著累计百余项、国内外交流机会超过30次、每年在项目上的流动资金至少20w+，成为工大创谷高水平创新创业团队。
+      </view>
     </view>
-  </view>
-  <!-- 组别介绍标题/内容 -->
-  <view wx:elif="{{currentTab === 1}}">
-    <view class="content-title">{{teamData.groupTitle || '组别介绍'}}</view>
-    <view class="content-input">
-      <textarea 
-        placeholder="请输入组别介绍内容" 
-        bindinput="onGroupInput"
-        value="{{teamData.groupContent || ''}}"></textarea>
+
+    <!-- 项目介绍 -->
+    <view class="section-item clickable" bindtap="toProjectIntro">
+      <view class="section-title">项目介绍</view>
+      <view class="section-arrow">点击查看 →</view>
+    </view>
+
+    <!-- 组别介绍（绑定跳转到groupIntro页面的方法） -->
+    <view class="section-item clickable" bindtap="toGroupIntro">
+      <view class="section-title">组别介绍</view>
+      <view class="section-arrow">点击查看 →</view>
     </view>
   </view>
 </view>
-
-<!-- 底部图片区域（优化内联样式，改为类名） -->
-<view class="bottom-img">
-  <image src="{{teamData.bottomImg || '/images/team-bottom.png'}}" mode="widthFix"></image>
-</view>
-
-<!-- 保存按钮（可选，用于提交编辑后的内容） -->
-<button class="save-btn" bindtap="saveTeamData" wx:if="{{isSuperAdmin}}">保存修改</button>
 
 <custom-tabbar currentPage="home"></custom-tabbar>
