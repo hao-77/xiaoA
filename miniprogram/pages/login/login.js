@@ -91,9 +91,12 @@ Page({
       loadingText: '登录中...'
     });
 
+    // 获取全局API地址
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    
     // 真实接口请求
     wx.request({
-      url: 'http://localhost:8080/user/user/login',
+      url: apiBaseUrl + '/user/user/login',
       method: 'POST',
       header: {
         'Content-Type': 'application/json'

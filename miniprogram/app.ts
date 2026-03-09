@@ -1,8 +1,8 @@
 // app.ts
 
-// API 基础地址配置
+// API 统一配置
 // 开发环境使用本地后端，生产环境使用线上后端
-export const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'http://localhost:8080';
 
 App<IAppOption>({
   globalData: {

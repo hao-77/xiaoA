@@ -31,8 +31,11 @@ Page({
     // 1. 开始请求前显示加载状态
     this.setData({ onLoading: true });
 
+    // 获取全局API地址
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    
     wx.request({
-      url: 'http://localhost:8080/admin/user/login',
+      url: apiBaseUrl + '/admin/user/login',
       method: "POST",
       header: {
         'Content-Type': 'application/json'
