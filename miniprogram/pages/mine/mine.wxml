@@ -1,7 +1,13 @@
 <!--pages/mine/mine.wxml-->
 <navigation-bar title="小A创新创业团队" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 239rpx; top: 41rpx; width: 137rpx" src="../../assets/star2.png" mode=""/>
+<image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: -77rpx; top: 271rpx; width: 156rpx" src="../../assets/star3.png" mode=""/>
+<image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: 245rpx; top: 149rpx; width: 137rpx" src="../../assets/star1.png" mode=""/>
 <view class="avatar" style="width: 250rpx; height: 250rpx; display: block; box-sizing: border-box">
-<image src="../../assets/默认头像.png" alt="1"/></view>
-<view class="title">Always Be A!</view>
-<button bindtap="logout">登出</button>
-<custom-tabbar currentPage="home"></custom-tabbar>
+<image style="position: relative; left: -2rpx; top: -58rpx" src="../../assets/touxiang2.png" alt="1"/></view>
+<image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 281rpx; top: -344rpx; width: 95rpx" src="../../assets/zhi.png" mode=""/>
+<image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 304rpx; top: -344rpx; width: 67rpx" src="../../assets/zhi2.png" mode=""/>
+<image style="height: 205rpx; display: inline-block; box-sizing: border-box; position: relative; left: 9rpx; top: -170rpx; width: 412rpx" src="../../assets/fish.png" mode=""/>
+
+<button bindtap="logout" style="position: relative; left: 0rpx; top: -239rpx">登出</button>
+<custom-tabbar currentPage="mine"></custom-tabbar>

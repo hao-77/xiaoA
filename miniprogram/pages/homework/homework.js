@@ -1,117 +1,184 @@
 Page({
   data: {
-    isUploading: false,      // 是否正在上传
-    uploadProgress: 0,       // 上传进度
-    uploadedFiles: [],       // 已上传文件列表
-    errorMsg: ''             // 错误提示
+    availableDates: [], // 可预约日期列表
+    currentProcess: { id: '', startTime: '', endTime: '' }, // 流程信息（含时间字段）
+    processList: [] // 流程列表（备用）
   },
 
-  // 选择并上传文件
-  chooseAndUploadFile() {
-    const that = this;
-    // 清空之前的错误提示
-    this.setData({ errorMsg: '' });
-
-    // 1. 选择文件
-    wx.chooseMessageFile({
-      count: 5,                // 最多选择5个文件
-      type: 'all',             // 选择所有类型文件（image/video/audio/file）
-      extension: [             // 可自定义允许的文件后缀
-        'doc', 'docx', 'pdf', 'txt', 'jpg', 'png', 
-        'mp4', 'mp3', 'xls', 'xlsx', 'ppt', 'pptx'
-      ],
-      success(res) {
-        // 获取选择的文件列表
-        const tempFiles = res.tempFiles;
-        if (tempFiles.length === 0) return;
-
-        that.setData({ isUploading: true });
-        // 逐个上传文件
-        tempFiles.forEach((file, index) => {
-          that.uploadSingleFile(file, index, tempFiles.length);
-        });
-      },
-      fail(err) {
-        that.setData({ 
-          isUploading: false,
-          errorMsg: '文件选择失败：' + (err.errMsg || '未知错误')
-        });
-        console.error('选择文件失败：', err);
-      }
-    });
+  /**
+   * 生命周期函数--监听页面加载
+   * 页面加载时直接调用接口拉取数据，不再解析URL参数
+   */
+  onLoad(options) {
+    // 1. 先拉取流程进度（含startTime/endTime）
+    this.fetchUserProgress();
   },
 
-  // 上传单个文件
-  uploadSingleFile(file, fileIndex, totalCount) {
-    const that = this;
-    // 2. 上传文件到微信临时服务器
-    wx.uploadFile({
-      url: 'https://your-server-url.com/upload', // 替换为你的后端上传接口
-      filePath: file.path,
-      name: 'file',
+  /**
+   * 拉取用户流程进度（核心接口，获取startTime/endTime）
+   */
+  fetchUserProgress() {
+    wx.showLoading({ title: '加载中...' });
+    wx.request({
+      url: 'https://smalla.cosh.fun/user/process/progress',
+      method: 'GET',
       header: {
-        'content-type': 'multipart/form-data'
-        // 可添加token等认证信息：'Authorization': 'Bearer ' + token
+        'Authorization': wx.getStorageSync('token') // 带上登录token
       },
-      formData: {
-        filename: file.name,
-        filetype: file.type
-      },
-      // 上传进度回调
-      progress(progressEvent) {
-        const progress = Math.floor((progressEvent.totalBytesSent / progressEvent.totalBytesExpectedToSend) * 100);
-        // 计算整体进度
-        const overallProgress = Math.floor(((fileIndex * 100) + progress) / totalCount);
-        that.setData({ uploadProgress: overallProgress });
-      },
-      success(res) {
-        try {
-          const data = JSON.parse(res.data);
-          // 上传成功，添加到已上传列表
-          if (res.statusCode === 200) {
-            const newFile = {
-              name: file.name,
-              size: file.size,
-              path: file.path,
-              uploadRes: data
-            };
-            that.setData({
-              uploadedFiles: [...that.data.uploadedFiles, newFile],
-              uploadProgress: fileIndex + 1 === totalCount ? 100 : that.data.uploadProgress
-            });
-          } else {
-            throw new Error(data.message || '上传失败');
-          }
-        } catch (e) {
-          that.setData({ errorMsg: `文件 ${file.name} 上传失败：${e.message}` });
-        }
-      },
-      fail(err) {
-        that.setData({ 
-          errorMsg: `文件 ${file.name} 上传失败：${err.errMsg}`
-        });
-        console.error('文件上传失败：', err);
-      },
-      complete() {
-        // 所有文件上传完成后重置状态
-        if (fileIndex + 1 === totalCount) {
-          that.setData({ 
-            isUploading: false,
-            uploadProgress: 0
+      success: (res) => {
+        wx.hideLoading();
+        if (res.data.code === 200 && res.data.data) {
+          const { currentProcess, processList } = res.data.data;
+          console.log('拉取到的流程数据：', currentProcess, processList);
+
+          // 回填到页面数据（供WXML渲染考核时间）
+          this.setData({
+            currentProcess: currentProcess,
+            processList: processList
+          });
+          console.log('setData后最新的currentProcess：', this.data.currentProcess);
+          // 也可以针对性打印关键字段
+          console.log('考核开始时间：', this.data.currentProcess.startTime);
+          console.log('考核结束时间：', this.data.currentProcess.endTime);
+          console.log('流程ID：', this.data.currentProcess.id);
+
+          // 流程数据获取成功后，调用查询预约日期的方法
+          this.userAppointmentsDate();
+        } else {
+          wx.showToast({
+            title: '获取流程信息失败',
+            icon: 'none'
           });
         }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '网络错误，请重试',
+          icon: 'none'
+        });
+        console.error('拉取流程进度失败:', err);
       }
     });
   },
 
-  // 格式化文件大小（字节转KB/MB）
-  formatSize(bytes) {
-    if (bytes < 1024) {
-      return bytes + ' B';
-    } else if (bytes < 1024 * 1024) {
-      return (bytes / 1024).toFixed(2) + ' KB';
-    } else {
-      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  /**
+   * 查询流程可预约日期
+   */
+  userAppointmentsDate() {
+    // 从当前流程中获取 processId
+    const processId = this.data.currentProcess.id;
+    console.log('当前流程ID：', processId);
+
+    if (!processId) {
+      wx.showToast({
+        title: '流程信息不完整',
+        icon: 'none'
+      });
+      return;
     }
+
+    wx.showLoading({ title: '加载可预约日期...' });
+    wx.request({
+      url: `https://smalla.cosh.fun/user/user-appointments/date?processId=${processId}`,
+      method: 'GET',
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      },
+      success: (res) => {
+        wx.hideLoading();
+        if (res.data.code === 200 && res.data.data) {
+          console.log('可预约日期接口返回：', res.data.data);
+          const availableDates = res.data.data;
+          
+          // 把日期数据存到页面 data 中
+          this.setData({
+            availableDates: availableDates
+          });
+        } else {
+          wx.showToast({
+            title: '获取可预约日期失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '网络错误，请重试',
+          icon: 'none'
+        });
+        console.error('获取可预约日期失败:', err);
+      }
+    });
+  },
+
+  /**
+   * 格式化时间（YYYY-MM-DD HH:MM:SS → YYYY-MM-DD）
+   * 兼容字段为空的情况
+   */
+  formatTime(timeStr) {
+    if (!timeStr) return '未设置';
+    // 截取日期部分（处理 "2024-06-20 10:00:00" 格式）
+    return timeStr.split(' ')[0] || timeStr;
+  },
+
+  /**
+   * 复制提交地址功能
+   */
+  copySubmitAddress() {
+    wx.setClipboardData({
+      data: '1111111@qq.com',
+      success: () => {
+        wx.showToast({
+          title: '复制成功',
+          icon: 'success',
+          duration: 1500
+        });
+      },
+      fail: () => {
+        wx.showToast({
+          title: '复制失败，请重试',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  /**
+   * 核心：将接口拉取的参数传递给register页面
+   */
+  gotoRegisterPage() {
+    const { availableDates, currentProcess } = this.data;
+    
+    // 1. 校验参数完整性
+    if (!availableDates || availableDates.length === 0) {
+      wx.showToast({
+        title: '暂无可预约日期',
+        icon: 'none'
+      });
+      return;
+    }
+    if (!currentProcess.id) {
+      wx.showToast({
+        title: '流程信息缺失',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // 2. 缓存processId供register页面使用
+    wx.setStorageSync('currentProcessId', currentProcess.id);
+
+    // 3. 跳转并传递可预约日期参数
+    wx.navigateTo({
+      url: `/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`,
+      fail: () => {
+        wx.showToast({
+          title: '预约页面暂未开放',
+          icon: 'none'
+        });
+      }
+    });
   }
 });

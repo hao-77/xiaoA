@@ -1,48 +1,33 @@
-<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
-<view class="duration">
-一期作业2024-06-20 —— 2024-08-20
+<navigation-bar title="详情页面" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<!-- 动态展示考核时间，兼容字段为空的情况 -->
+<view class="container" style="height: 1410rpx; display: flex; box-sizing: border-box"><view class="duration" style="position: relative; left: 0rpx; top: -152rpx">
+<view>
+  一期作业
+</view>  {{currentProcess.startTime}} —— {{currentProcess.endTime}}
 </view>
 <view class="request">
-<view class="requestTitle"> 作业要求</view>
-<textarea style="width: 499rpx; display: block; box-sizing: border-box; left: 29rpx; top: 0rpx; position: relative" value="" placeholder="请输入"/>
+  <view class="requestTitle">考核要求</view>
+  <view class="requestDetailed"></view>
 </view>
 <view class="submit">
-<view class="submitLeft">
-  <view class="submitTitle">提交地址</view>
-  <view class="submitNumble">1111111@qq.com</view>
-</view>
-<button class="submitbutton" style="width: 149rpx; display: block; box-sizing: border-box; left: 63rpx; top: 0rpx; position: relative">复制</button>
+  <view class="submitLeft">
+    <view class="submitTitle">提交地址</view>
+    <view class="submitNumble">1111111@qq.com</view>
+  </view>
+  <button class="submitbutton" 
+          bindtap="copySubmitAddress"
+          style="width: 149rpx; display: block; box-sizing: border-box; left: 63rpx; top: 0rpx; position: relative">
+    复制
+  </button>
 </view>
 <view class="work">
-作业附件
-<view class="upload-container" style="height: 250rpx; display: block; box-sizing: border-box">
-  <!-- 上传按钮 -->
+  作业附件
+  <!-- 跳转register页面的按钮，绑定新方法 -->
   <button 
-    class="upload-btn" 
+    class="detail-btn" 
     type="primary" 
-    bindtap="chooseAndUploadFile"
-    disabled="{{isUploading}}"
-   style="height: 110rpx; display: block; box-sizing: border-box; left: 0rpx; top: 55rpx; position: relative">
-    {{isUploading ? '上传中...' : '选择并上传文件'}}
+    bindtap="gotoRegisterPage"
+    style="height: 77rpx; width: 459rpx; margin-top: 20rpx; display: block; box-sizing: border-box; position: relative; left: 0rpx; top: 110rpx">
+    查看详情
   </button>
-
-  <!-- 上传进度展示 -->
-  <view class="progress-container" wx:if="{{isUploading}}">
-    <progress percent="{{uploadProgress}}" show-info stroke-width="4" />
-  </view>
-
-  <!-- 上传结果展示 -->
-  <view class="result-list" wx:if="{{uploadedFiles.length > 0}}">
-    <view class="result-title">已上传文件：</view>
-    <view class="file-item" wx:for="{{uploadedFiles}}" wx:key="index">
-      <view class="file-name">{{item.name}}</view>
-      <view class="file-size">大小：{{formatSize(item.size)}}</view>
-      <view class="file-status success">上传成功</view>
-    </view>
-  </view>
-
-  <!-- 错误提示 -->
-  <view class="error-tip" wx:if="{{errorMsg}}">{{errorMsg}}</view>
-</view>
-
-</view>
+</view></view>

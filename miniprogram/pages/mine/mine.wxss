@@ -19,3 +19,6 @@ image{
 button{
   margin: 200rpx;
 }
+page{
+  background: linear-gradient(#b3d5f6 1%,#ffe0dd);
+}

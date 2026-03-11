@@ -199,6 +199,18 @@ Page({
             title: this.data.hasSubmitted ? '修改成功' : '提交成功',
             icon: 'success'
           });
+          setTimeout(() => {
+            wx.navigateTo({
+              url: '/pages/homework/homework', // 替换为你实际的homework页面路径
+              fail: () => {
+                // 兜底：如果navigateTo失败（如页面层级问题），用redirectTo
+                wx.redirectTo({
+                  url: '/pages/homework/homework'
+                });
+              }
+            });
+          }, 1500);
+        
         } else {
           // 特殊处理手机号已被使用的错误
           if (res.data.msg && res.data.msg.includes('手机号已被使用')) {

@@ -39,6 +39,7 @@
   background: #fff;
   margin: 20rpx;
   margin-top: 60rpx;
+  margin-left: 100rpx;
 
 }
 .time-item {
@@ -93,4 +94,117 @@
 .time-list {
   min-height: 140rpx;
   padding: 20rpx;
+}
+/* 日期选择容器 */
+.registerDate {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 20rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+.registerDateLeft {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 20rpx;
+}
+.registerDateRight {
+  flex: 0.8;
+  position: relative;
+}
+
+/* 自定义下拉框触发按钮 */
+.custom-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 15rpx;
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+.picker-text {
+  color: #333;
+}
+
+/* 下拉日期列表 */
+.date-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  margin-top: 5rpx;
+  max-height: 400rpx;
+  overflow-y: auto;
+  z-index: 999;
+}
+.date-item {
+  padding: 15rpx;
+  font-size: 26rpx;
+  color: #666;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.date-item:last-child {
+  border-bottom: none;
+}
+.date-item:active {
+  background: #f5f5f5;
+}
+
+/* 原有样式 */
+.empty-tip {
+  padding: 30rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+}
+.time-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx;
+  gap: 15rpx;
+}
+.time-item {
+  padding: 15rpx 20rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: 1rpx solid #eee;
+}
+.time-item.active {
+  background: #fff3e9;
+  color: #ff6700;
+  border-color: #ff6700;
+}
+.time-item.disabled {
+  color: #999;
+  background: #f9f9f9;
+}
+.time-text {
+  display: block;
+  margin-bottom: 5rpx;
+}
+.count-text {
+  font-size: 22rpx;
+  color: #999;
+}
+.submit-btn {
+  margin: 30rpx 20rpx;
+  padding: 15rpx;
+  background: #ff6700;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+.submit-btn[disabled] {
+  background: #ccc;
+  color: #fff;
+}
+.registerInfo {
+  padding: 20rpx;
+  font-size: 26rpx;
+  color: #666;
 }
