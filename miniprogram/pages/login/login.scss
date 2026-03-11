@@ -33,7 +33,6 @@
 
 /* 登录卡片 */
 .login-card {
-  background-color: #ffffff;
   padding: 40rpx 30rpx;
   box-shadow: 0 -10rpx 50rpx rgba(0, 0, 0, 0.1);
   position: relative;
@@ -287,4 +286,8 @@ button{
   background-color: #165dff;
   color: #fff;
 
+}
+page {
+  background: linear-gradient(to bottom, #b3d5f6 1%, #e6e8f0, #fedfdc);
+  min-height: 100vh; /* 确保渐变铺满全屏 */
 }

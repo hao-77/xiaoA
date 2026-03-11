@@ -17,7 +17,7 @@ Page({
   // 跳转至进度页
   toProgress: function() {
     wx.navigateTo({
-      url: "/pages/progress/progress"
+      url: "/pages/nowProgress/nowProgress"
     });
   },
   toTeamIntro:function(){
