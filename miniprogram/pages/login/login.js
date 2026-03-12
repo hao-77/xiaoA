@@ -142,11 +142,12 @@ Page({
   // 统一处理登录接口响应（修改跳转逻辑）
   handleLoginResponse(res) {
     if (res.statusCode === 200 && res.data.code === 200) {
-      const { saTokenInfo } = res.data.data;
+      const { saTokenInfo, ...userData } = res.data.data;
       if (saTokenInfo && saTokenInfo.tokenValue) {
         // 存储登录凭证到本地
         wx.setStorageSync('token', saTokenInfo.tokenValue);
-        wx.setStorageSync('userInfo', res.data.data);
+        // 存储用户信息（去除saTokenInfo，保留其他用户数据）
+        wx.setStorageSync('userInfo', userData);
         wx.setStorageSync('isLogin', true); // 设置登录标志
         
         wx.showToast({ 

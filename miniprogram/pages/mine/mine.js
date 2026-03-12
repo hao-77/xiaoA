@@ -9,7 +9,7 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 生命周期函数--监听页面显示
    */
   onShow() {
     // 页面显示时获取用户信息
@@ -20,12 +20,12 @@ Page({
   fetchUserInfo() {
     const userInfo = wx.getStorageSync('userInfo');
     const token = wx.getStorageSync('token');
-    
+
     if (token && userInfo) {
-      // 从缓存中获取用户信息
-      const realName = userInfo.realName || '';
-      const phone = userInfo.phone || '';
-      
+      // 从缓存中获取用户信息，兼容多种字段名
+      const realName = userInfo.realName || userInfo.name || userInfo.nickname || '';
+      const phone = userInfo.phone || userInfo.phoneNumber || '';
+
       // 优先显示真名，没有则显示手机号
       const displayName = realName || phone || '用户';
       this.setData({
@@ -123,11 +123,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {},
 
   /**
    * 生命周期函数--监听页面隐藏
