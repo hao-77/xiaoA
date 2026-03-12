@@ -60,7 +60,7 @@ Page({
             collegeIndex: data.college ? (data.college - 1) : 0,
             gradeIndex: data.grade ? (data.grade - 1) : 0,
             groupIndex: groupIndex, // 使用优化后的组别索引
-            wordCount: data.personalIntroduction?.length || 0,
+            wordCount: data.personalIntroduction ? data.personalIntroduction.length : 0,
             hasSubmitted: hasSubmitted,
             isPhoneExist: isPhoneExist
           });

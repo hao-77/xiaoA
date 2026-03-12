@@ -24,11 +24,11 @@
   </view>
 
   <view class="img" style="height: 173rpx; display: block; box-sizing: border-box; left: 0rpx; top: -6rpx; position: relative">
-    <image style="height: 253rpx; display: block; box-sizing: border-box; left: 0rpx; top: 173rpx; position: absolute" src="../../assets/progressCloud.png" class="progressCloud" mode=""/>
-    <image style="height: 292rpx; display: block; box-sizing: border-box; left: 407rpx; top: 274rpx; width: 318rpx; position: absolute" src="../../assets/progressSun.png" class="progressSun" mode=""/>
-    <image style="height: 292rpx; display: block; box-sizing: border-box; left: 187rpx; top: 495rpx; position: absolute; width: 621rpx" src="../../assets/sunShine.png" class="sunShine" mode=""/>
-    <image style="position: absolute; left: 98rpx; top: 689rpx; height: 253rpx; display: block; box-sizing: border-box; width: 248rpx" src="../../assets/long.png" mode=""/>
-    <image style="width: 381rpx; height: 328rpx; display: block; box-sizing: border-box; left: 307rpx; top: 652rpx; position: absolute" src="../../assets/tree.png" class="tree" mode=""/>
-    <image style="position: absolute; left: 0rpx; top: 864rpx" src="../../assets/tu.png" class="tu" mode=""/>
+    <image style="height: 253rpx; display: block; box-sizing: border-box; left: 0rpx; top: 173rpx; position: absolute" src="../../packageDisplay/assets/progressCloud.png" class="progressCloud" mode=""/>
+    <image style="height: 292rpx; display: block; box-sizing: border-box; left: 407rpx; top: 274rpx; width: 318rpx; position: absolute" src="../../packageDisplay/assets/progressSun.png" class="progressSun" mode=""/>
+    <image style="height: 292rpx; display: block; box-sizing: border-box; left: 187rpx; top: 495rpx; position: absolute; width: 621rpx" src="../../packageDisplay/assets/sunShine.png" class="sunShine" mode=""/>
+    <image style="position: absolute; left: 98rpx; top: 689rpx; height: 253rpx; display: block; box-sizing: border-box; width: 248rpx" src="../../packageDisplay/assets/long.png" mode=""/>
+    <image style="width: 381rpx; height: 328rpx; display: block; box-sizing: border-box; left: 307rpx; top: 652rpx; position: absolute" src="../../packageDisplay/assets/tree.png" class="tree" mode=""/>
+    <image style="position: absolute; left: 0rpx; top: 864rpx" src="../../packageDisplay/assets/tu.png" class="tu" mode=""/>
   </view>
 <custom-tabbar currentPage="nowProgress"></custom-tabbar>

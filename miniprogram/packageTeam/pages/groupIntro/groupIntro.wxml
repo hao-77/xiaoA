@@ -1,0 +1,43 @@
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="groupsBackground" style="height: 0rpx; display: block; box-sizing: border-box">
+  <image style="height: 457rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/teamCloud.png" mode=""/>
+  <image style="position: relative; left: -43rpx; top: -370rpx; width: 323rpx; height: 299rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/star.png" mode=""/>
+  <image style="position: relative; left: -109rpx; top: -466rpx; width: 370rpx; height: 250rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/whichGroup.png" mode=""/>
+  <image style="position: relative; left: 545rpx; top: -1241rpx; width: 231rpx; height: 299rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/teamIntroductionLogo.png" mode=""/>
+  <image style="width: 149rpx; height: 815rpx; display: inline-block; box-sizing: border-box; position: relative; left: -231rpx; top: -499rpx" src="../../packageTeam/assets/left.png" mode=""/>
+  <image style="position: relative; left: 224rpx; top: -450rpx; width: 149rpx; height: 864rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/right.png" mode=""/>
+</view>
+
+<view class="groups" style="height: 1480rpx; display: block; box-sizing: border-box">
+  <!-- AI组 - 绑定点击事件，传递组别名称 -->
+  <view class="AI" style="height: 274rpx; display: block; box-sizing: border-box; width: 362rpx; position: relative; left: 195rpx; top: 398rpx" bindtap="goToGroupPage" data-group="AI">
+    <image style="width: 374rpx; height: 281rpx; display: inline-block; box-sizing: border-box"  src="../../packageTeam/assets/AI.png" mode=""/>
+  </view>
+  <!-- 前端组 -->
+  <view class="frontEnd" style="position: relative;height:100rpx; left: 175rpx; top: 199rpx; height: 274rpx; display: block; box-sizing: border-box; width: 402rpx" bindtap="goToGroupPage" data-group="frontEnd">
+    <image style="width: 409rpx; display: inline-block; box-sizing: border-box"  src="../../packageTeam/assets/frontEnd.png" mode=""/>
+  </view>
+  <!-- 机械组 -->
+  <view class="mechanical" style="position: relative; height: 304rpx; display: block; box-sizing: border-box; left: 157rpx; top: -14rpx; width: 442rpx" bindtap="goToGroupPage" data-group="mechanical">
+    <image style="width: 444rpx; display: inline-block; box-sizing: border-box"  src="../../packageTeam/assets/mechanical.png" mode=""/>
+  </view>
+  <!-- 产品组 -->
+  <view class="product" style="position: relative; height: 348rpx; display: block; box-sizing: border-box; left: 140rpx; top: -241rpx; width: 473rpx" bindtap="goToGroupPage" data-group="product">
+    <image style="width: 480rpx; display: inline-block; box-sizing: border-box"  src="../../packageTeam/assets/product.png" mode=""/>
+  </view>
+  <!-- 后端组 -->
+  <view class="backStage" style="position: relative; height: 348rpx; display: block; box-sizing: border-box; left: 118rpx; top: -513rpx; width: 513rpx" bindtap="goToGroupPage" data-group="backStage">
+    <image style="width: 519rpx; display: inline-block; box-sizing: border-box"  src="../../packageTeam/assets/backStage.png" mode=""/>
+  </view>
+  <!-- 电控组 -->
+  <view class="EC" style="position: relative; height: 348rpx; display: block; box-sizing: border-box; left: 96rpx; top: -799rpx; width: 557rpx" bindtap="goToGroupPage" data-group="EC">
+    <image style="width: 560rpx; display: inline-block; box-sizing: border-box" src="../../packageTeam/assets/EC.png" mode=""/>
+  </view>
+  <!-- 运营组 -->
+  <view class="operation" style="height: 348rpx; display: block; box-sizing: border-box; position: relative; left: 83rpx; top: -1080rpx; width: 581rpx" bindtap="goToGroupPage" data-group="operation">
+    <image style="width: 607rpx; display: inline-block; box-sizing: border-box; left: 0rpx; top: 0rpx"  src="../../packageTeam/assets/operation.png" mode=""/>
+  </view>
+</view>
+
+<custom-tabbar currentPage="home"></custom-tabbar>

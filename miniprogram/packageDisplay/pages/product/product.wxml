@@ -1,6 +1,6 @@
 <!-- 运营组 -->
 <groupIntroDetailed 
-  groupMainImg="../../assets/product.png"
+  groupMainImg="../../packageDisplay/assets/product.png"
   introList="{{operationIntro}}"
 ></groupIntroDetailed>
 
