@@ -5,7 +5,7 @@
 <swiper class="banner-swiper" indicator-dots="{{false}}" circular="{{false}}">
   <swiper-item>
     <view class="banner-item">
-      <image src="../../packageTeam/assets/tu2.png" mode="aspectFill"></image>
+      <image src="../assets/tu2.png" mode="aspectFill"></image>
     </view>
   </swiper-item>
 </swiper>
