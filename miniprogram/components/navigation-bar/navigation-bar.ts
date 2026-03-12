@@ -94,21 +94,15 @@ Component({
     },
     back() {
       const data = this.data;
-      const pages = getCurrentPages();
       
       // 尝试返回上一页
-      if (pages.length > 1) {
-        wx.navigateBack({
-          delta: data.delta || 1,
-          fail: (err) => {
-            console.log(' navigateBack失败，尝试跳转首页');
-            this.goHome();
-          }
-        });
-      } else {
-        // 没有页面栈或只有1页，直接返回首页
-        this.goHome();
-      }
+      wx.navigateBack({
+        delta: data.delta || 1,
+        fail: (err) => {
+          console.log('navigateBack失败，尝试跳转首页', err);
+          this.goHome();
+        }
+      });
       this.triggerEvent('back', { delta: data.delta }, {});
     },
     
