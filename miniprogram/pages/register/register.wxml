@@ -1,21 +1,29 @@
 <navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
-<!-- 预约日期选择（匹配样式类名 + 增加空数据提示） -->
+<!-- 自定义日期下拉选择框（替换原生picker） -->
 <view class="registerDate" wx:if="{{availableDates.length > 0}}">
   <view class="registerDateLeft">选择日期：</view>
   <view class="registerDateRight">
-    <picker mode="date" 
-            value="{{currentDate}}" 
-            start="{{startDate}}" 
-            end="{{endDate}}" 
-            bindchange="onDateChange"
-            disableDate="{{disableDate()}}">
-      <view class="date-picker">
-        <text class="picker-text">
-          {{formatDate(currentDate)}} {{formatWeekday(currentDate)}}
-        </text>
+    <!-- 下拉框触发按钮 -->
+    <view class="custom-picker" bindtap="toggleDatePicker">
+      <text class="picker-text">
+        {{formatDate(currentDate)}} {{formatWeekday(currentDate)}}
+      </text>
+      <icon type="{{showDatePicker ? 'up' : 'down'}}" size="16" color="#666"></icon>
+    </view>
+    
+    <!-- 下拉日期列表（仅显示可预约日期） -->
+    <view class="date-dropdown" wx:if="{{showDatePicker}}">
+      <view 
+        class="date-item" 
+        wx:for="{{formatAvailableDates}}" 
+        wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="selectDate"
+        style="{{item.value === currentDate ? 'background:#fff3e9;color:#ff6700;' : ''}}">
+        {{item.label}}
       </view>
-    </picker>
+    </view>
   </view>
 </view>
 <!-- 无可用日期提示 -->
@@ -23,36 +31,29 @@
   暂无可预约日期
 </view>
 
-<!-- 时间段列表（核心修改：适配接口字段 + 空数据提示 + 样式兼容） -->
+<!-- 时间段列表（原有代码不变） -->
 <view class="time-list" wx:if="{{timeList.length > 0}}">
-  <block wx:for="{{timeList}}" wx:key="id"> <!-- 改用id作为key，更稳定 -->
-    <!-- 修复：disabled判断改为直接用availablePerson字段，更准确 -->
+  <block wx:for="{{timeList}}" wx:key="id">
     <view class="time-item {{item.active ? 'active' : ''}} {{item.availablePerson <= 0 ? 'disabled' : ''}}"
           data-index="{{index}}"
           bindtap="onTimeTap">
-      <!-- 确保文本显示：优先用接口的time字段，兜底显示默认值 -->
       <text class="time-text">{{item.time || '未设置时间段'}}</text>
-      <!-- 剩余人数：优先用availablePerson，适配接口返回 -->
       <text class="count-text">余{{item.availablePerson || 0}}人</text>
     </view>
   </block>
 </view>
-<!-- 无时间段提示 -->
 <view class="empty-tip" wx:else>
   当前日期暂无可预约时间段
 </view>
 
-<!-- 提交按钮（优化禁用逻辑） -->
+<!-- 提交按钮 + 已选信息（原有代码不变） -->
 <button class="submit-btn" 
         bindtap="submitAppointment" 
         disabled="{{!selectedTime || selectedCount <= 0}}">
   确认预约
 </button>
 
-<!-- 已预约信息（优化显示逻辑） -->
 <view class="registerInfo" wx:if="{{selectedTime}}">
   <view class="registerTime">已选时间：{{formatDate(currentDate)}} {{selectedTime}}</view>
   <view>剩余名额：{{selectedCount || 0}}人</view>
 </view>
-
-<!-- 新增全局样式：确保空提示可见 -->

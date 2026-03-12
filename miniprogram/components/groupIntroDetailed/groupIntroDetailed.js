@@ -1,63 +1,61 @@
 Component({
-  /**
-   * 组件的属性列表：定义可外部传入的动态参数
-   */
   properties: {
-    // 背景相关图片
-    cloudImg: {
+    // 背景相关图片（保留）
+    cloudImg: { type: String, value: '../../assets/teamCloud.png' },
+    starImg: { type: String, value: '../../assets/star.png' },
+    whichGroupImg: { type: String, value: '../../assets/whichGroup.png' },
+    leftImg: { type: String, value: '../../assets/left.png' },
+    rightImg: { type: String, value: '../../assets/right.png' },
+    // 🔥 关键修改：属性名从 groupMainImg 改为 groupMainImg（通用组别主图）
+    groupMainImg: {
       type: String,
-      value: '../../assets/teamCloud.png' // 默认值
+      value: '../../assets/operation.png' // 默认值
     },
-    starImg: {
-      type: String,
-      value: '../../assets/star.png'
-    },
-    whichGroupImg: {
-      type: String,
-      value: '../../assets/whichGroup.png'
-    },
-    leftImg: {
-      type: String,
-      value: '../../assets/left.png'
-    },
-    rightImg: {
-      type: String,
-      value: '../../assets/right.png'
-    },
-    // 组别主图
-    operationImg: {
-      type: String,
-      value: '../../assets/operation.png'
-    },
-    // 组别介绍列表（数组，支持多组介绍）
-    introList: {
-      type: Array,
-      value: [
-        {
-          title: '组别介绍',
-          content: '运营组内部工作内容主要分六个方向产品经理，UI，美工，传媒，财务，运维。工作内容为竞赛管理、财务经费管理、品牌宣传和媒体运营、产品管理和协调等方面。'
-        }
-      ]
-    },
-    recruitment:{
-      type: Array,
-      value: [
-        {
-          title: '招新需求',
-          content: '运营组内部工作内容主要分六个方向产品经理，UI，美工，传媒，财务，运维。工作内容为竞赛管理、财务经费管理、品牌宣传和媒体运营、产品管理和协调等方面。'
-        }
-      ]
-    }
-
+    // 组别ID（保留）
+    groupId: { type: Number, value: 1 }
   },
 
-  /**
-   * 组件的初始数据
-   */
-  data: {},
+  data: { introList: [], recruitment: [] },
 
-  /**
-   * 组件的方法列表
-   */
-  methods: {}
-})
+  lifetimes: { attached() { this.fetchGroupData(); } },
+
+  methods: {
+    fetchGroupData() {
+      const token = wx.getStorageSync('superToken');
+      if (!token) {
+        wx.showToast({ title: '未获取到权限凭证', icon: 'none' });
+        return;
+      }
+
+      wx.showLoading({ title: '加载中...' });
+      wx.request({
+        url: 'https://smalla.cosh.fun/group/list',
+        method: 'GET',
+        header: { 'Authorization': token },
+        success: (res) => {
+          wx.hideLoading();
+          if (res.data.code === 200 && res.data.data) {
+            const groupList = res.data.data;
+            const currentGroup = groupList.find(item => item.id === this.properties.groupId);
+            if (!currentGroup) {
+              wx.showToast({ title: '未找到对应组别信息', icon: 'none' });
+              return;
+            }
+
+            this.setData({
+              introList: [{ title: '组别介绍', content: currentGroup.content || '暂无介绍内容' }],
+              recruitment: [{ title: '招新需求', content: currentGroup.demand || '暂无招新需求' }]
+            });
+          } else {
+            wx.showToast({ title: res.data.msg || '获取组别信息失败', icon: 'none' });
+          }
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          console.error('拉取组别数据失败:', err);
+          wx.showToast({ title: '网络错误，请重试', icon: 'none' });
+        }
+      });
+    }
+  }
+});

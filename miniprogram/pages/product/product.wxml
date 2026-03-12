@@ -1,6 +1,6 @@
 <!-- 运营组 -->
 <groupIntroDetailed 
-  operationImg="../../assets/AI.png"
+  groupMainImg="../../assets/product.png"
   introList="{{operationIntro}}"
 ></groupIntroDetailed>
 

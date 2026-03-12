@@ -6,7 +6,11 @@ Page({
     startDate: '2025-01-01', // 可选日期范围的开始
     endDate: '2026-12-31', // 可选日期范围的结束
     selectedTime: '', // 选中的时间段
-    selectedCount: 0 // 选中时间段的剩余人数
+    selectedCount: 0, // 选中时间段的剩余人数
+    // 新增：自定义下拉框相关
+    showDatePicker: false, // 是否显示下拉日期列表
+    // 格式化后的可预约日期列表（带中文日期和星期）
+    formatAvailableDates: []
   },
 
   onLoad(options) {
@@ -18,6 +22,15 @@ Page({
           availableDates: availableDates
         });
         console.log('接收的可预约日期：', availableDates);
+        
+        // 新增：格式化可预约日期（转成带中文日期+星期的结构）
+        const formatDates = availableDates.map(date => ({
+          value: date, // 原始日期（YYYY-MM-DD）
+          label: `${this.formatDate(date)}(${this.formatWeekday(date)})` // 显示文本
+        }));
+        this.setData({
+          formatAvailableDates: formatDates
+        });
       } catch (e) {
         console.error('解析可预约日期失败：', e);
         wx.showToast({
@@ -41,6 +54,26 @@ Page({
     });
   },
 
+  // 新增：切换下拉框显示/隐藏
+  toggleDatePicker() {
+    this.setData({
+      showDatePicker: !this.data.showDatePicker
+    });
+  },
+
+  // 新增：选择下拉框中的日期
+  selectDate(e) {
+    const selectedValue = e.currentTarget.dataset.value;
+    this.setData({
+      currentDate: selectedValue,
+      showDatePicker: false // 选择后关闭下拉框
+    }, () => {
+      // 加载选中日期的时间段
+      this.loadTimeListByDate(selectedValue);
+    });
+  },
+
+
   // 核心：根据日期加载时间段（适配新接口 /user/user-appointments/duration）
   loadTimeListByDate(date) {
     // 校验processId
@@ -56,7 +89,7 @@ Page({
 
     wx.showLoading({ title: '加载时间段...' });
     wx.request({
-      url: `http://localhost:8080/user/user-appointments/duration`,
+      url: `https://smalla.cosh.fun/user/user-appointments/duration`,
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token'),
@@ -179,7 +212,8 @@ Page({
         title: '该日期不可预约',
         icon: 'none'
       });
-      return; // 不更新日期，阻止选择
+      // 恢复到之前的选中日期，避免显示错误日期
+      return; 
     }
 
     this.setData({
@@ -198,7 +232,7 @@ Page({
     return `${year}-${month}-${day}`;
   },
 
-  // 格式化日期为“12月14日”
+  // 格式化日期为"12月14日"
   formatDate(dateStr) {
     if (!dateStr) return '';
     const [year, month, day] = dateStr.split('-');
@@ -213,72 +247,73 @@ Page({
     return weekList[date.getDay()];
   },
 
-  // 核心修复：disableDate 方法（小程序要求返回函数）
+  // 核心修复：disableDate 方法（小程序要求返回函数，优化逻辑）
   disableDate() {
-    const that = this;
+    const { availableDates } = this.data;
     // 返回一个函数，接收日期对象，判断是否禁用
-    return function(date) {
-      const { availableDates } = that.data;
-      // 无可用日期时，不禁用（避免全灰）
-      if (availableDates.length === 0) return false;
-      // 将日期对象转为 YYYY-MM-DD 格式
+    return (date) => {
+      // 无可用日期时，禁用所有日期（避免用户选择无效日期）
+      if (availableDates.length === 0) return true;
+      // 将日期对象转为 YYYY-MM-DD 格式（兼容不同时区）
       const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-      // 不在可预约列表中的日期，返回true（禁用）
+      // 不在可预约列表中的日期，返回true（禁用）；在列表中返回false（可用）
       return !availableDates.includes(dateStr);
     };
   },
 
-  // 提交预约（适配新字段）
-// 提交预约（适配新接口 /user/user-appointments，参数为 appointDurationId）
-submitAppointment() {
-  const { currentDate, selectedTime, timeList } = this.data;
-  const processId = wx.getStorageSync('currentProcessId');
+  // 提交预约（适配新接口 /user/user-appointments，参数为 appointDurationId）
+  submitAppointment() {
+    const { currentDate, selectedTime, timeList } = this.data;
+    const processId = wx.getStorageSync('currentProcessId');
 
-  // 找到选中的时间段对象，获取其ID
-  const selectedItem = timeList.find(item => item.time === selectedTime);
+    // 找到选中的时间段对象，获取其ID
+    const selectedItem = timeList.find(item => item.time === selectedTime);
 
-  // 校验
-  if (!selectedItem || selectedItem.availablePerson <= 0) {
-    wx.showToast({ title: '请选择可用的时间段', icon: 'none' });
-    return;
-  }
-  if (!processId) {
-    wx.showToast({ title: '流程信息缺失', icon: 'none' });
-    return;
-  }
-
-  wx.showModal({
-    title: '确认预约',
-    content: `你选择了${this.formatDate(currentDate)}(${this.formatWeekday(currentDate)}) ${selectedTime}，剩余名额：${selectedItem.availablePerson}`,
-    confirmText: '确认',
-    success: (res) => {
-      if (res.confirm) {
-        wx.request({
-          url: 'http://localhost:8080/user/user-appointments',
-          method: 'POST',
-          header: {
-            'Authorization': wx.getStorageSync('token'),
-            'Content-Type': 'application/json'
-          },
-          // 接口参数：只需要 appointDurationId（即时间段的id）
-          data: {
-            appointDurationId: selectedItem.id // 这里是关键，必须传时间段的ID
-          },
-          success: (res) => {
-            if (res.data.code === 200) {
-              wx.showToast({ title: '预约成功', icon: 'success' });
-              setTimeout(() => wx.navigateBack(), 1500);
-            } else {
-              wx.showToast({ title: res.data.msg || '预约失败', icon: 'none' });
-            }
-          },
-          fail: (err) => {
-            console.error('预约提交失败：', err);
-            wx.showToast({ title: '网络错误，请重试', icon: 'none' });
-          }
-        });
-      }
+    // 校验
+    if (!selectedItem || selectedItem.availablePerson <= 0) {
+      wx.showToast({ title: '请选择可用的时间段', icon: 'none' });
+      return;
     }
-  });
-}
+    if (!processId) {
+      wx.showToast({ title: '流程信息缺失', icon: 'none' });
+      return;
+    }
+
+    wx.showModal({
+      title: '确认预约',
+      content: `你选择了${this.formatDate(currentDate)}(${this.formatWeekday(currentDate)}) ${selectedTime}，剩余名额：${selectedItem.availablePerson}`,
+      confirmText: '确认',
+      success: (res) => {
+        console.log("token",wx.getStorageSync('token'))
+        if (res.confirm) {
+          console.log(selectedItem.id )
+          wx.request({
+            url: 'https://smalla.cosh.fun/user/user-appointments',
+            method: 'POST',
+            header: {
+              'Authorization': wx.getStorageSync('token'),
+              'Content-Type': 'application/json'
+            },
+            // 接口参数：只需要 appointDurationId（即时间段的id）
+            data: {
+              appointDurationId: selectedItem.id // 这里是关键，必须传时间段的ID
+            },
+            success: (res) => {
+              console.log(res)
+              if (res.data.code === 200) {
+                wx.showToast({ title: '预约成功', icon: 'success' });
+                setTimeout(() => wx.navigateBack(), 1500);
+              } else {
+                wx.showToast({ title: res.data.msg || '预约失败', icon: 'none' });
+              }
+            },
+            fail: (err) => {
+              console.error('预约提交失败：', err);
+              wx.showToast({ title: '网络错误，请重试', icon: 'none' });
+            }
+          });
+        }
+      }
+    });
+  }
 });

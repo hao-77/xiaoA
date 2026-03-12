@@ -14,7 +14,7 @@
           <view class="teamName">报名组别：{{currentProcess.groupName}}</view>
         </view>
         <view class="progressRight">
-          <button>查看详情</button>
+          <button bindtap="gotoHomework">查看详情</button>
         </view>
       </view>
       <view class="progressBottom">
