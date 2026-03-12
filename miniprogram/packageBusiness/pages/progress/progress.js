@@ -107,19 +107,12 @@ Page({
 
   // 跳转到register页面（预约页面）
   gotoRegisterPage() {
-    const { availableDates, currentProcess } = this.data;
+    const { currentProcess } = this.data;
     
-    // 校验数据
-    if (!availableDates || availableDates.length === 0) {
+    // 校验数据 - 只需要流程ID
+    if (!currentProcess || !currentProcess.id) {
       wx.showToast({
-        title: '暂无可预约日期',
-        icon: 'none'
-      });
-      return;
-    }
-    if (!currentProcess.id) {
-      wx.showToast({
-        title: '流程信息缺失',
+        title: '暂无考核流程',
         icon: 'none'
       });
       return;
@@ -128,9 +121,9 @@ Page({
     // 缓存processId，供register页面使用
     wx.setStorageSync('currentProcessId', currentProcess.id);
 
-    // 跳转并传递可预约日期（编码避免特殊字符）
+    // 直接跳转到报名详情页面，不传递日期参数（让register页面自己拉取）
     wx.navigateTo({
-      url: '/packageBusiness/pages/register/register?availableDates=' + encodeURIComponent(JSON.stringify(availableDates))
+      url: '/packageBusiness/pages/register/register'
     });
   },
 
