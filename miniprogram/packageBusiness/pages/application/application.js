@@ -26,9 +26,12 @@ Page({
 
   // 从后端拉取已有报名信息（GET接口）
   fetchSignUpInfo() {
+    // 获取全局API地址
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: 'http://localhost:8080/user/user/sign-up',
+      url: apiBaseUrl + '/user/user/sign-up',
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token')
@@ -182,7 +185,7 @@ Page({
     const requestMethod = this.data.hasSubmitted ? 'PUT' : 'POST';
 
     wx.request({
-      url: 'http://localhost:8080/user/user/sign-up',
+      url: apiBaseUrl + '/user/user/sign-up',
       method: requestMethod,
       header: {
         'Content-Type': 'application/json',
