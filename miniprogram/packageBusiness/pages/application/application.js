@@ -123,6 +123,9 @@ Page({
 
   // 表单提交/修改
   formSubmit(e) {
+    // 获取全局API地址
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    
     const formData = e.detail.value
     console.log('表单提交数据：', formData)
 
