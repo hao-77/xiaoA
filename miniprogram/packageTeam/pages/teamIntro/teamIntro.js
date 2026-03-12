@@ -28,7 +28,7 @@ Page({
   fetchTeamData() {
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: 'http://localhost:8080/team',
+      url: getApp().globalData.apiBaseUrl + '/team',
       method: 'GET',
       header: {
         // 如果需要超级管理员权限，这里带上 superToken

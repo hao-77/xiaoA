@@ -25,8 +25,9 @@ Page({
 
     this.setData({ loading: true }); // 修复：登出前显示加载
 
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
     wx.request({
-      url: 'http://localhost:8080/user/user/logout',
+      url: apiBaseUrl + '/user/user/logout',
       method: 'POST',
       header: {
         'Content-Type': 'application/json',

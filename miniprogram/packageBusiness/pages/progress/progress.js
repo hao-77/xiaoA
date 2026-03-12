@@ -14,7 +14,7 @@ Page({
   fetchUserProgress() {
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: 'http://localhost:8080/user/process/progress',
+      url: `${getApp().globalData.apiBaseUrl}/user/process/progress',
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token') // 带上登录token
@@ -72,7 +72,7 @@ Page({
 
     wx.showLoading({ title: '加载可预约日期...' });
     wx.request({
-      url: `http://localhost:8080/user/user-appointments/date?processId=${processId}`,
+      url: getApp().globalData.apiBaseUrl + '/user/user-appointments/date?processId=' + processId,
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token')
