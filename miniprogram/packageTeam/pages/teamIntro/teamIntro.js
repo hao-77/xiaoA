@@ -73,10 +73,10 @@ Page({
     // });
   },
 
-  // 核心：跳转到组别介绍页面 /pages/groupIntro/groupIntro
+  // 核心：跳转到组别介绍页面
   toGroupIntro() {
     wx.navigateTo({
-      url: '/pages/groupIntro/groupIntro'
+      url: '/packageTeam/pages/groupIntro/groupIntro'
     });
   }
 });

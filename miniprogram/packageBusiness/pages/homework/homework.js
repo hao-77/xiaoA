@@ -172,7 +172,7 @@ Page({
 
     // 3. 跳转并传递可预约日期参数
     wx.navigateTo({
-      url: `/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`,
+      url: `/packageBusiness/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`,
       fail: () => {
         wx.showToast({
           title: '预约页面暂未开放',

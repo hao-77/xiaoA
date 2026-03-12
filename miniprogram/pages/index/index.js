@@ -1,3 +1,3 @@
 wx.navigateTo({
-  url: '/pages/groupDetailed/groupDetailed' // 目标页面路径
+  url: '/packageTeam/pages/groupDetailed/groupDetailed' // 目标页面路径
 })

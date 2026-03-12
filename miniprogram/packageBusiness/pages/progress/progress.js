@@ -130,7 +130,7 @@ Page({
 
     // 跳转并传递可预约日期（编码避免特殊字符）
     wx.navigateTo({
-      url: `/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`
+      url: `/packageBusiness/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`
     });
   },
 

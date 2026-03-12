@@ -122,7 +122,7 @@ gotoHomework() {
 
   // 跳转homework并传递参数（核心）
   wx.navigateTo({
-    url: `/pages/homework/homework?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}&currentProcess=${encodeURIComponent(JSON.stringify(currentProcess))}`,
+    url: `/packageBusiness/pages/homework/homework?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}&currentProcess=${encodeURIComponent(JSON.stringify(currentProcess))}`,
     fail: () => {
       wx.showToast({ title: '页面跳转失败', icon: 'none' });
     }
