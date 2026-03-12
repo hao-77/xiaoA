@@ -4,7 +4,6 @@
     "pages/index/index",
     "pages/home/home",
     "pages/mine/mine",
-    "pages/logs/logs",
     "pages/backStage/backStage"
   ],
   "subPackages": [
