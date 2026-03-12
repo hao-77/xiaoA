@@ -70,12 +70,10 @@ Page({
   userAppointmentsDate() {
     // 从当前流程中获取 processId
     const currentProcess = this.data.currentProcess;
+    // 如果没有流程ID，仍然显示页面，只是提示暂无考核安排
     if (!currentProcess || !currentProcess.id) {
-      console.log('当前流程信息不完整或为空');
-      wx.showToast({
-        title: '暂无考核流程',
-        icon: 'none'
-      });
+      console.log('暂无考核流程安排');
+      // 不再弹出错误提示，页面会显示"暂无考核安排"
       return;
     }
     const processId = currentProcess.id;

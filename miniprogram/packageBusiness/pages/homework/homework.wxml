@@ -3,7 +3,14 @@
 <view class="container" style="height: 1410rpx; display: flex; box-sizing: border-box"><view class="duration" style="position: relative; left: 0rpx; top: -152rpx">
 <view>
   一期作业
-</view>  {{currentProcess.startTime}} —— {{currentProcess.endTime}}
+</view>
+<!-- 根据是否有考核时间显示不同内容 -->
+<block wx:if="{{currentProcess.id}}">
+  {{currentProcess.startTime}} —— {{currentProcess.endTime}}
+</block>
+<block wx:else>
+  <text style="color: #999; font-size: 28rpx;">暂无考核安排</text>
+</block>
 </view>
 <view class="request">
   <view class="requestTitle">考核要求</view>
