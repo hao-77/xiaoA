@@ -14,7 +14,7 @@ Page({
   fetchUserProgress() {
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: `${getApp().globalData.apiBaseUrl}/user/process/progress',
+      url: getApp().globalData.apiBaseUrl + '/user/process/progress',
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token') // 带上登录token
@@ -130,7 +130,7 @@ Page({
 
     // 跳转并传递可预约日期（编码避免特殊字符）
     wx.navigateTo({
-      url: `/packageBusiness/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`
+      url: '/packageBusiness/pages/register/register?availableDates=' + encodeURIComponent(JSON.stringify(availableDates))
     });
   },
 
