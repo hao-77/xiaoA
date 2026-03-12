@@ -26,6 +26,13 @@ Page({
     });
   },
 
+  // 跳转至精选推文/最新动态
+  toTweets: function() {
+    wx.navigateTo({
+      url: "/packageDisplay/pages/nowProgress/nowProgress"
+    });
+  },
+
   // 核心：登录超级管理员获取 superToken（适配后端返回格式）
   superAdmin: function() {
     // 1. 开始请求前显示加载状态

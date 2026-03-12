@@ -4,7 +4,12 @@
 <image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: -77rpx; top: 271rpx; width: 156rpx" src="../../assets/star3.png" mode=""/>
 <image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: 245rpx; top: 149rpx; width: 137rpx" src="../../assets/star1.png" mode=""/>
 <view class="avatar" style="width: 250rpx; height: 250rpx; display: block; box-sizing: border-box">
-<image style="position: relative; left: -2rpx; top: -58rpx" src="../../assets/touxiang2.png" alt="1"/></view>
+<image style="position: relative; left: -2rpx; top: -58rpx" src="../../assets/touxiang2.png" alt="1"/>
+</view>
+<!-- 用户名显示 -->
+<view style="text-align: center; margin-top: 20rpx; font-size: 32rpx; color: #333;">
+  {{userName ? userName : '未登录'}}
+</view>
 <image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 281rpx; top: -344rpx; width: 95rpx" src="../../assets/zhi.png" mode=""/>
 <image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 304rpx; top: -344rpx; width: 67rpx" src="../../assets/zhi2.png" mode=""/>
 <image style="height: 205rpx; display: inline-block; box-sizing: border-box; position: relative; left: 9rpx; top: -170rpx; width: 412rpx" src="../../assets/fish.png" mode=""/>

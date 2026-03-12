@@ -3,7 +3,42 @@ Page({
    * 页面的初始数据
    */
   data: {
-    loading: false // 修复：新增 loading 变量，避免 setData 报错
+    loading: false, // 修复：新增 loading 变量，避免 setData 报错
+    userName: '',   // 用户名
+    userPhone: ''   // 用户手机号
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onShow() {
+    // 页面显示时获取用户信息
+    this.fetchUserInfo();
+  },
+
+  // 获取用户信息
+  fetchUserInfo() {
+    const userInfo = wx.getStorageSync('userInfo');
+    const token = wx.getStorageSync('token');
+    
+    if (token && userInfo) {
+      // 从缓存中获取用户信息
+      const realName = userInfo.realName || '';
+      const phone = userInfo.phone || '';
+      
+      // 优先显示真名，没有则显示手机号
+      const displayName = realName || phone || '用户';
+      this.setData({
+        userName: displayName,
+        userPhone: phone
+      });
+    } else {
+      // 未登录
+      this.setData({
+        userName: '',
+        userPhone: ''
+      });
+    }
   },
 
   logout:function(){

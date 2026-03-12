@@ -147,6 +147,7 @@ Page({
         // 存储登录凭证到本地
         wx.setStorageSync('token', saTokenInfo.tokenValue);
         wx.setStorageSync('userInfo', res.data.data);
+        wx.setStorageSync('isLogin', true); // 设置登录标志
         
         wx.showToast({ 
           title: '登录成功', 
