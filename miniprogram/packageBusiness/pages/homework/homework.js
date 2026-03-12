@@ -33,14 +33,16 @@ Page({
 
           // 回填到页面数据（供WXML渲染考核时间）
           this.setData({
-            currentProcess: currentProcess,
-            processList: processList
+            currentProcess: currentProcess || { id: '', startTime: '', endTime: '' },
+            processList: processList || []
           });
           console.log('setData后最新的currentProcess：', this.data.currentProcess);
-          // 也可以针对性打印关键字段
-          console.log('考核开始时间：', this.data.currentProcess.startTime);
-          console.log('考核结束时间：', this.data.currentProcess.endTime);
-          console.log('流程ID：', this.data.currentProcess.id);
+          // 也可以针对性打印关键字段（需要判断不为null）
+          if (this.data.currentProcess) {
+            console.log('考核开始时间：', this.data.currentProcess.startTime);
+            console.log('考核结束时间：', this.data.currentProcess.endTime);
+            console.log('流程ID：', this.data.currentProcess.id);
+          }
 
           // 流程数据获取成功后，调用查询预约日期的方法
           this.userAppointmentsDate();
@@ -67,7 +69,16 @@ Page({
    */
   userAppointmentsDate() {
     // 从当前流程中获取 processId
-    const processId = this.data.currentProcess.id;
+    const currentProcess = this.data.currentProcess;
+    if (!currentProcess || !currentProcess.id) {
+      console.log('当前流程信息不完整或为空');
+      wx.showToast({
+        title: '暂无考核流程',
+        icon: 'none'
+      });
+      return;
+    }
+    const processId = currentProcess.id;
     console.log('当前流程ID：', processId);
 
     if (!processId) {
