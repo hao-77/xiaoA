@@ -10,19 +10,19 @@ Page({
   // 跳转至申请表单页
   toApplication: function() {
     wx.navigateTo({
-      url: "/pages/application/application"
+      url: "/packageBusiness/pages/application/application"
     });
   },
 
   // 跳转至进度页
   toProgress: function() {
     wx.navigateTo({
-      url: "/pages/nowProgress/nowProgress"
+      url: "/packageDisplay/pages/nowProgress/nowProgress"
     });
   },
   toTeamIntro:function(){
     wx.navigateTo({
-      url: "/pages/teamIntro/teamIntro"
+      url: "/packageTeam/pages/teamIntro/teamIntro"
     });
   },
 
