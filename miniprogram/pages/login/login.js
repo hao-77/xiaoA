@@ -168,6 +168,15 @@ Page({
   // 统一处理请求失败
   handleLoginFail(err, type) {
     console.error(`${type}请求失败:`, err);
-    wx.showToast({ title: '网络错误，请稍后再试', icon: 'none' });
+    // 显示更详细的错误信息
+    let errorMsg = '网络错误，请稍后再试';
+    if (err.errMsg) {
+      if (err.errMsg.includes('request:fail')) {
+        errorMsg = '无法连接服务器，请检查网络';
+      } else if (err.errMsg.includes('timeout')) {
+        errorMsg = '请求超时，请重试';
+      }
+    }
+    wx.showToast({ title: errorMsg, icon: 'none' });
   }
 });
