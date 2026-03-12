@@ -10,4 +10,3 @@
 <image style="height: 205rpx; display: inline-block; box-sizing: border-box; position: relative; left: 9rpx; top: -170rpx; width: 412rpx" src="../../assets/fish.png" mode=""/>
 
 <button bindtap="logout" style="position: relative; left: 0rpx; top: -239rpx">登出</button>
-<custom-tabbar currentPage="mine"></custom-tabbar>

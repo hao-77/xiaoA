@@ -39,5 +39,3 @@
     <image style="width: 607rpx; display: inline-block; box-sizing: border-box; left: 0rpx; top: 0rpx"  src="../../packageTeam/assets/operation.png" mode=""/>
   </view>
 </view>
-
-<custom-tabbar currentPage="home"></custom-tabbar>

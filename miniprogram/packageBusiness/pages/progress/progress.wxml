@@ -40,5 +40,3 @@ bindtap="gotoRegisterPage"<!-- 顶部导航栏 -->
     <view class="process-text">二面</view>
   </view>
 </view>
-
-<custom-tabbar currentPage="home"></custom-tabbar>

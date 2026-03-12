@@ -53,5 +53,3 @@
 </view>
 
 
-<!-- 底部tab栏（已在app.json配置，这里仅展示页面内结构） -->
-<custom-tabbar currentPage="home"></custom-tabbar>

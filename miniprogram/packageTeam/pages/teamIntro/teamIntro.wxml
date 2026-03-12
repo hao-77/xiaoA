@@ -39,5 +39,3 @@
     </view>
   </view>
 </view>
-
-<custom-tabbar currentPage="home"></custom-tabbar>

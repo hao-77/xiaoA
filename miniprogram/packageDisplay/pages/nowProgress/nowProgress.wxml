@@ -31,4 +31,3 @@
     <image style="width: 381rpx; height: 328rpx; display: block; box-sizing: border-box; left: 307rpx; top: 652rpx; position: absolute" src="../../packageDisplay/assets/tree.png" class="tree" mode=""/>
     <image style="position: absolute; left: 0rpx; top: 864rpx" src="../../packageDisplay/assets/tu.png" class="tu" mode=""/>
   </view>
-<custom-tabbar currentPage="nowProgress"></custom-tabbar>
