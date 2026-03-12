@@ -43,10 +43,10 @@
 </view>
 
 <!-- 精选推文区域 -->
-<view class="post-area" style="height: 457rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx">
+<view class="post-area" style="height: 457rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx" bindtap="toTweets">
   <image class="post-title" src="../../assets/post-title.png" style="width: 313rpx; height: 91rpx; display: inline-block; box-sizing: border-box; position: relative; left: 28rpx; top: 20rpx"></image>
   <image style="position: relative; left: 191rpx; top: -16rpx; width: 138rpx; height: 130rpx; display: inline-block; box-sizing: border-box" src="../../assets/star1.png" mode=""/>
-  <view class="post-card" style="height: 227rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx" bindtap="toTweets">
+  <view class="post-card" style="height: 227rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx">
 <image style="height: 280rpx; display: block; box-sizing: border-box; position: absolute; left: 7rpx; top: -2rpx; width: 613rpx; z-index: 1" src="../../assets/border.png" mode=""/>
 <image style="height: 232rpx; display: block; box-sizing: border-box; position: absolute; left: 28rpx; top: 23rpx; width: 573rpx; z-index: 2" src="../../assets/tuiwen.png" mode=""/>
   </view>

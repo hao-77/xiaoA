@@ -93,23 +93,36 @@ Component({
       })
     },
     back() {
-      const data = this.data
-      if (data.delta) {
-        const pages = getCurrentPages()
-        if (pages.length > 1) {
-          wx.navigateBack({
-            delta: data.delta,
-            fail: (err) => {
-              console.error('返回失败:', err)
-              wx.switchTab({ url: '/pages/home/home' })
-            }
-          })
-        } else {
-          // 没有页面栈，直接返回首页
-          wx.switchTab({ url: '/pages/home/home' })
-        }
+      const data = this.data;
+      const pages = getCurrentPages();
+      
+      // 尝试返回上一页
+      if (pages.length > 1) {
+        wx.navigateBack({
+          delta: data.delta || 1,
+          fail: (err) => {
+            console.log(' navigateBack失败，尝试跳转首页');
+            this.goHome();
+          }
+        });
+      } else {
+        // 没有页面栈或只有1页，直接返回首页
+        this.goHome();
       }
-      this.triggerEvent('back', { delta: data.delta }, {})
+      this.triggerEvent('back', { delta: data.delta }, {});
+    },
+    
+    // 跳转首页
+    goHome() {
+      wx.switchTab({
+        url: '/pages/home/home',
+        fail: () => {
+          // 如果switchTab失败，尝试redirectTo
+          wx.redirectTo({
+            url: '/pages/home/home'
+          });
+        }
+      });
     }
   },
 })
