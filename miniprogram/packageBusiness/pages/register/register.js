@@ -1,3 +1,5 @@
+const api = require('../../../config/api.js');
+
 Page({
   data: {
     timeList: [], // 动态加载对应日期的时间段
@@ -91,7 +93,7 @@ Page({
 
     wx.showLoading({ title: '加载时间段...' });
     wx.request({
-      url: `https://smalla.cosh.fun/user/user-appointments/duration`,
+      url: api.API_BASE_URL + `/user/user-appointments/duration`,
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token'),
@@ -290,7 +292,7 @@ Page({
         if (res.confirm) {
           console.log(selectedItem.id )
           wx.request({
-            url: 'https://smalla.cosh.fun/user/user-appointments',
+            url: api.API_BASE_URL + '/user/user-appointments',
             method: 'POST',
             header: {
               'Authorization': wx.getStorageSync('token'),

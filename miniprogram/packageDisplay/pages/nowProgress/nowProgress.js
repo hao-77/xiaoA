@@ -1,3 +1,5 @@
+const api = require('../../../config/api.js');
+
 Page({
   /**
    * 页面的初始数据
@@ -20,7 +22,7 @@ Page({
   fetchUserProgress() {
     wx.showLoading({ title: '加载中...' });
     wx.request({
-      url: 'https://smalla.cosh.fun/user/process/progress',
+      url: api.API_BASE_URL + '/user/process/progress',
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token') // 带上登录token
@@ -73,7 +75,7 @@ Page({
 
     wx.showLoading({ title: '加载可预约日期...' });
     wx.request({
-      url: `https://smalla.cosh.fun/user/user-appointments/date?processId=${processId}`,
+      url: api.API_BASE_URL + `/user/user-appointments/date?processId=${processId}`,
       method: 'GET',
       header: {
         'Authorization': wx.getStorageSync('token')

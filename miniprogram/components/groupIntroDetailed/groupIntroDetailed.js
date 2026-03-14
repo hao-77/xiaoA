@@ -1,3 +1,5 @@
+const api = require('../../config/api.js');
+
 Component({
   properties: {
     // 背景相关图片（保留）
@@ -29,7 +31,7 @@ Component({
 
       wx.showLoading({ title: '加载中...' });
       wx.request({
-        url: 'https://smalla.cosh.fun/group/list',
+        url: api.API_BASE_URL + '/group/list',
         method: 'GET',
         header: { 'Authorization': token },
         success: (res) => {
