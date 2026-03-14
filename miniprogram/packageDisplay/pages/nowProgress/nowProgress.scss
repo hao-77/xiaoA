@@ -78,6 +78,13 @@
 .teamName{
   font-size: 28rpx; /* 新增：指定字号，避免样式丢失 */
   color: #666; /* 新增：灰色文字，区分层级 */
+  position: relative;
+
+  &::after {
+    content: ' ▼';
+    font-size: 20rpx;
+    color: #ff7a45;
+  }
 }
 
 .progressRight{
@@ -114,4 +121,72 @@
 }
 page{
   background:linear-gradient(#fff0e7,#ffe2de);
+}
+
+/* 报名弹窗样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 560rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 50rpx 40rpx;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+.modal-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.modal-message {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.modal-btn {
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 30rpx;
+  border: none;
+
+  &.cancel {
+    background: #f5f5f5;
+    color: #666;
+  }
+
+  &.confirm {
+    background: linear-gradient(135deg, #ff7a45, #ff6b6b);
+    color: #fff;
+  }
 }
