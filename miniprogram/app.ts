@@ -2,7 +2,8 @@
 
 // API 统一配置
 // 开发环境使用本地后端，生产环境使用线上后端
-const API_BASE_URL = 'https://smalla.cosh.fun';
+// 默认使用本地开发环境 http://localhost:8080
+const API_BASE_URL = 'http://localhost:8080';
 
 App<IAppOption>({
   globalData: {
@@ -10,9 +11,13 @@ App<IAppOption>({
   },
   onLaunch() {
     // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    try {
+      const logs = wx.getStorageSync('logs') || [];
+      logs.unshift(Date.now());
+      wx.setStorageSync('logs', logs);
+    } catch (e) {
+      console.warn('Failed to save logs:', e);
+    }
 
     // 登录
     wx.login({

@@ -1,4 +1,6 @@
 // pages/login/login.js
+const api = require('../../config/api.js');
+
 Page({
   /**
    * 页面的初始数据
@@ -84,7 +86,7 @@ Page({
 
     // 3. 发起账号密码登录请求
     wx.request({
-      url: 'https://smalla.cosh.fun/user/user/login',
+      url: api.API_BASE_URL + '/user/user/login',
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
       data: { phone, password },
@@ -112,7 +114,7 @@ Page({
           console.log(res.code)
           // 3. 用 code 调用后端微信登录接口
           wx.request({
-            url: 'https://smalla.cosh.fun/user/user/wechat-login',
+            url: api.API_BASE_URL + '/user/user/wechat-login',
             method: 'POST',
             header: { 'Content-Type': 'application/json' },
             data: { code: res.code },

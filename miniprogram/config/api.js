@@ -5,6 +5,7 @@
 // 开发环境: http://localhost:8080
 // 生产环境: https://smalla.cosh.fun
 
+// 默认使用本地开发环境 http://localhost:8080
 const API_BASE_URL = 'https://smalla.cosh.fun';
 
 // 导出供其他模块使用
