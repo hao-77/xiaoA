@@ -13,7 +13,8 @@
       "pages": [
         "pages/teamIntro/teamIntro",
         "pages/groupIntro/groupIntro",
-        "pages/groupDetailed/groupDetailed"
+        "pages/groupDetailed/groupDetailed",
+        "pages/tweets/tweets"
       ]
     },
     {

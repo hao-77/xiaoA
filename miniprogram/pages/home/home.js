@@ -26,10 +26,10 @@ Page({
     });
   },
 
-  // 跳转至精选推文/最新动态 - 跳转到团队介绍页面
+  // 跳转至精选推文/最新动态 - 跳转到推文列表页面
   toTweets: function() {
     wx.navigateTo({
-      url: "/packageTeam/pages/teamIntro/teamIntro"
+      url: "/packageTeam/pages/tweets/tweets"
     });
   },
 

@@ -1,0 +1,130 @@
+/* packageTeam/pages/tweets/tweets.wxss */
+
+.tweets-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 20rpx;
+}
+
+.tweet-list {
+  padding: 20rpx;
+}
+
+.tweet-card {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 推文头部 */
+.tweet-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.tweet-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #eee;
+}
+
+.tweet-info {
+  flex: 1;
+}
+
+.tweet-author {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.tweet-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 推文内容 */
+.tweet-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+/* 推文图片 */
+.tweet-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.tweet-img {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 10rpx;
+  background-color: #f0f0f0;
+}
+
+/* 推文底部 */
+.tweet-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.tweet-stats {
+  display: flex;
+  gap: 40rpx;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-icon {
+  font-size: 28rpx;
+}
+
+.stat-count {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 0;
+}
+
+.empty-icon {
+  width: 300rpx;
+  height: 300rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  padding: 30rpx;
+  font-size: 24rpx;
+  color: #999;
+}

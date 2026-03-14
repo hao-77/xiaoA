@@ -35,6 +35,9 @@ Page({
         userPhone: phone,
         avatarUrl: avatarUrl
       });
+
+      // 同时从后端获取最新用户信息
+      this.fetchUserInfoFromServer();
     } else {
       // 未登录
       this.setData({
@@ -43,6 +46,46 @@ Page({
         avatarUrl: ''
       });
     }
+  },
+
+  // 从后端获取用户信息
+  fetchUserInfoFromServer() {
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    wx.request({
+      url: apiBaseUrl + '/user/user',
+      method: 'GET',
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      },
+      success: (res) => {
+        if (res.data.code === 200 && res.data.data) {
+          const data = res.data.data;
+          // 更新本地缓存
+          const storedUserInfo = wx.getStorageSync('userInfo') || {};
+          storedUserInfo.realName = data.realName;
+          storedUserInfo.phone = data.phone;
+          storedUserInfo.avatarUrl = data.avatarUrl;
+          storedUserInfo.gender = data.gender;
+          storedUserInfo.studentId = data.studentId;
+          storedUserInfo.college = data.college;
+          storedUserInfo.grade = data.grade;
+          storedUserInfo.majorClass = data.majorClass;
+          storedUserInfo.groupId = data.groupId;
+          wx.setStorageSync('userInfo', storedUserInfo);
+
+          // 更新页面数据
+          const displayName = data.realName || data.phone || '用户';
+          this.setData({
+            userName: displayName,
+            userPhone: data.phone || '',
+            avatarUrl: data.avatarUrl || ''
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('获取用户信息失败:', err);
+      }
+    });
   },
 
   // 获取微信头像
