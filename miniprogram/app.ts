@@ -2,8 +2,8 @@
 
 // API 统一配置
 // 开发环境使用本地后端，生产环境使用线上后端
-// 统一使用本地开发环境 http://localhost:8080
-const API_BASE_URL = 'http://localhost:8080';
+
+const API_BASE_URL = 'https://smalla.cosh.fun';
 
 App<IAppOption>({
   globalData: {

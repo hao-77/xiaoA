@@ -1,0 +1,229 @@
+// 页面容器
+.detail-container {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff9f0 0%, #fff5f5 50%, #fff 100%);
+}
+
+// 顶部图片区域
+.header-image-container {
+  position: relative;
+  width: 100%;
+  height: 500rpx;
+  overflow: hidden;
+}
+
+.header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200rpx;
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+}
+
+// 装饰元素
+.header-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+}
+
+.decoration-circle-1 {
+  width: 200rpx;
+  height: 200rpx;
+  background: #ff6b6b;
+  top: 50rpx;
+  right: 30rpx;
+  animation: float 6s ease-in-out infinite;
+}
+
+.decoration-circle-2 {
+  width: 150rpx;
+  height: 150rpx;
+  background: #ffd93d;
+  top: 100rpx;
+  left: 30rpx;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.decoration-sparkle {
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top: 150rpx;
+  right: 100rpx;
+  background: radial-gradient(circle, #fff 0%, transparent 70%);
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20rpx); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+// 内容区域
+.content-area {
+  position: relative;
+  margin-top: -100rpx;
+  padding: 0 30rpx 60rpx;
+  z-index: 10;
+}
+
+// 组别标题
+.team-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title-badge {
+  padding: 16rpx 40rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  border-radius: 40rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 107, 0.3);
+}
+
+.title-line {
+  width: 100rpx;
+  height: 6rpx;
+  background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
+  border-radius: 3rpx;
+  margin-top: 16rpx;
+}
+
+// 通用区块样式
+.section {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-icon {
+  font-size: 36rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+// 描述区块
+.description-section {
+  .section-content {
+    padding: 10rpx 0;
+  }
+}
+
+.description-text {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #666;
+  text-align: justify;
+}
+
+// 职责标签
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.tag {
+  padding: 16rpx 24rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  display: inline-block;
+}
+
+.tag-responsibility {
+  background: linear-gradient(135deg, #fff5f5 0%, #fff9f0 100%);
+  border: 2rpx solid #ff6b6b;
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+// 要求列表
+.requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.requirement-bullet {
+  width: 12rpx;
+  height: 12rpx;
+  background: linear-gradient(135deg, #ffd93d 0%, #ff8e53 100%);
+  border-radius: 50%;
+  margin-top: 14rpx;
+  flex-shrink: 0;
+}
+
+.requirement-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #555;
+}
+
+// 底部装饰
+.footer-decoration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+  gap: 16rpx;
+}
+
+.footer-text {
+  font-size: 28rpx;
+  color: #999;
+  font-weight: 500;
+}
+
+.footer-line {
+  width: 120rpx;
+  height: 4rpx;
+  background: linear-gradient(90deg, transparent, #ffb6c1, transparent);
+  border-radius: 2rpx;
+}

@@ -14,6 +14,8 @@
         "pages/teamIntro/teamIntro",
         "pages/groupIntro/groupIntro",
         "pages/groupDetailed/groupDetailed",
+        "pages/groupCarousel/groupCarousel",
+        "pages/groupDetail/groupDetail",
         "pages/tweets/tweets",
         "pages/projectIntro/projectIntro"
       ]

@@ -7,6 +7,15 @@ Page({
   },
 
   /**
+   * 跳转到新的组别介绍轮播页面（梯形回环动画）
+   */
+  goToGroupCarousel() {
+    wx.navigateTo({
+      url: '/packageTeam/pages/groupCarousel/groupCarousel'
+    });
+  },
+
+  /**
    * 核心：跳转到对应组别页面
    */
   goToGroupPage(e) {

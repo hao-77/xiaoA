@@ -62,10 +62,57 @@
 <view class="success-modal" wx:if="{{showSuccessModal}}">
   <view class="success-overlay"></view>
   <view class="success-content">
-    <image class="success-dragon" src="/miniprogram/assets/dragon1.png" mode="aspectFit"></image>
-    <view class="success-title">报名成功</view>
-    <view class="success-desc">小恐龙已收到你的报名表~</view>
-    <view class="success-desc">期待与你的相遇</view>
-    <button class="success-btn" bindtap="closeSuccessModal">确定</button>
+    <!-- 装饰性背景元素 -->
+    <image class="success-bg-star1" src="https://raw.githubusercontent.com/lydiastep/alwaysbe-files/main/star1.png" mode="aspectFit"></image>
+    <image class="success-bg-star2" src="https://raw.githubusercontent.com/lydiastep/alwaysbe-files/main/star2.png" mode="aspectFit"></image>
+    <image class="success-bg-sparkle" src="https://raw.githubusercontent.com/lydiastep/alwaysbe-files/main/sparkle1.png" mode="aspectFit"></image>
+
+    <!-- 主视觉元素 -->
+    <view class="success-main-visual">
+      <image class="success-dragon" src="https://raw.githubusercontent.com/lydiastep/alwaysbe-files/main/dragon1.png" mode="aspectFit"></image>
+      <view class="success-confetti-container">
+        <view class="confetti confetti-1"></view>
+        <view class="confetti confetti-2"></view>
+        <view class="confetti confetti-3"></view>
+        <view class="confetti confetti-4"></view>
+        <view class="confetti confetti-5"></view>
+      </view>
+    </view>
+
+    <view class="success-title">
+      <text class="title-text">报名成功</text>
+      <view class="title-decoration"></view>
+    </view>
+
+    <view class="success-desc-container">
+      <view class="success-desc">小恐龙已收到你的报名表~</view>
+      <view class="success-desc highlight">期待与你的相遇</view>
+    </view>
+
+    <view class="success-info">
+      <view class="info-item">
+        <text class="info-icon">📅</text>
+        <text class="info-text">考核时间已通知</text>
+      </view>
+      <view class="info-item">
+        <text class="info-icon">📱</text>
+        <text class="info-text">请留意短信通知</text>
+      </view>
+    </view>
+
+    <button class="success-btn" bindtap="closeSuccessModal">
+      <text>收到啦</text>
+      <view class="btn-shine"></view>
+    </button>
+
+    <!-- 底部装饰 -->
+    <view class="success-footer-decoration">
+      <view class="footer-line"></view>
+      <view class="footer-dots">
+        <view class="dot"></view>
+        <view class="dot"></view>
+        <view class="dot"></view>
+      </view>
+    </view>
   </view>
 </view>

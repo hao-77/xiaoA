@@ -3,7 +3,8 @@
 <view class="groupsBackground" style="height: 0rpx; display: block; box-sizing: border-box">
   <image style="height: 457rpx; display: inline-block; box-sizing: border-box" src="../assets/teamCloud.png" mode=""/>
   <image style="position: relative; left: -43rpx; top: -370rpx; width: 323rpx; height: 299rpx; display: inline-block; box-sizing: border-box" src="../assets/star.png" mode=""/>
-  <image style="position: relative; left: -109rpx; top: -466rpx; width: 370rpx; height: 250rpx; display: inline-block; box-sizing: border-box" src="../assets/whichGroup.png" mode=""/>
+  <!-- 点击组别介绍图片直接进入轮播页面 -->
+  <image style="position: relative; left: -109rpx; top: -466rpx; width: 370rpx; height: 250rpx; display: inline-block; box-sizing: border-box" src="../assets/whichGroup.png" mode="" bindtap="goToGroupCarousel"/>
   <image style="position: relative; left: 545rpx; top: -1241rpx; width: 231rpx; height: 299rpx; display: inline-block; box-sizing: border-box" src="../assets/teamIntroductionLogo.png" mode=""/>
   <image style="width: 149rpx; height: 815rpx; display: inline-block; box-sizing: border-box; position: relative; left: -231rpx; top: -499rpx" src="../assets/left.png" mode=""/>
   <image style="position: relative; left: 224rpx; top: -450rpx; width: 149rpx; height: 864rpx; display: inline-block; box-sizing: border-box" src="../assets/right.png" mode=""/>

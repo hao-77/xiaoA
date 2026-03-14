@@ -1,0 +1,337 @@
+// 页面容器
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff9f0 0%, #fff5f5 50%, #fff 100%);
+}
+
+// 顶部装饰 - 右上角图片区域
+.header-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  width: 400rpx;
+  height: 300rpx;
+  padding: 20rpx;
+}
+
+.header-cloud {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 350rpx;
+  height: 250rpx;
+  z-index: 1;
+}
+
+.header-images {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8rpx;
+}
+
+.header-starsay {
+  width: 180rpx;
+  height: 50rpx;
+}
+
+.header-slogan {
+  width: 200rpx;
+  height: 40rpx;
+}
+
+.header-dragon {
+  width: 150rpx;
+  height: 100rpx;
+}
+
+// 背景装饰
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.bg-circle-1 {
+  width: 400rpx;
+  height: 400rpx;
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  top: -100rpx;
+  right: -100rpx;
+  animation: float 8s ease-in-out infinite;
+}
+
+.bg-circle-2 {
+  width: 300rpx;
+  height: 300rpx;
+  background: linear-gradient(135deg, #ffd93d, #ff8e53);
+  bottom: 20%;
+  left: -80rpx;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.bg-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300rpx;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(30rpx) rotate(10deg);
+  }
+}
+
+// 箭头按钮 - 放大3倍
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 240rpx;
+  height: 600rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: all 0.3s ease;
+
+  image {
+    width: 180rpx;
+    height: 480rpx;
+    transition: transform 0.3s ease;
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+
+    image {
+      transform: scale(0.9);
+    }
+  }
+}
+
+.arrow-left {
+  left: -60rpx;
+}
+
+.arrow-right {
+  right: -60rpx;
+}
+
+// 卡片堆叠区域
+.card-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 180rpx; // 为底部指示器留空间
+  padding-top: 100rpx;
+  box-sizing: border-box;
+}
+
+// 卡片容器 - 横版比例 1356x828
+.card-wrapper {
+  position: absolute;
+  width: 650rpx;
+  height: 400rpx;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+// 卡片阴影
+.card-shadow {
+  position: absolute;
+  bottom: -20rpx;
+  left: 10%;
+  width: 80%;
+  height: 40rpx;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  filter: blur(15rpx);
+  transform: scaleY(0.5);
+}
+
+// 卡片主体
+.card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow:
+    0 20rpx 60rpx rgba(0, 0, 0, 0.15),
+    0 0 0 2rpx rgba(255, 255, 255, 0.8),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+// 组别图片
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// 底部渐变遮罩
+.card-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180rpx;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+}
+
+// 组别名称容器
+.card-name-container {
+  position: absolute;
+  bottom: 30rpx;
+  left: 30rpx;
+  z-index: 10;
+}
+
+.card-name {
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.card-name-line {
+  width: 60rpx;
+  height: 6rpx;
+  background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+  border-radius: 4rpx;
+  margin-top: 8rpx;
+}
+
+// 点击提示
+.card-tip {
+  position: absolute;
+  bottom: 160rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12rpx 24rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  animation: tip-pulse 2s ease-in-out infinite;
+
+  text {
+    font-size: 24rpx;
+    color: #ff6b6b;
+    font-weight: 500;
+  }
+}
+
+@keyframes tip-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(0.95);
+  }
+}
+
+// 卡片装饰
+.card-decoration {
+  position: absolute;
+  top: 20rpx;
+  width: 6rpx;
+  height: 60rpx;
+  background: linear-gradient(180deg, #ff6b6b, #ffd93d);
+  border-radius: 3rpx;
+  opacity: 0.8;
+}
+
+.card-decoration-left {
+  left: 20rpx;
+}
+
+.card-decoration-right {
+  right: 20rpx;
+  background: linear-gradient(180deg, #4d96ff, #6bcb77);
+}
+
+// 底部指示器
+.indicator-container {
+  position: absolute;
+  bottom: 80rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.indicator {
+  display: flex;
+  gap: 12rpx;
+}
+
+.indicator-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #ddd;
+  transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+  width: 36rpx;
+  border-radius: 6rpx;
+  background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+}
+
+.indicator-text {
+  text {
+    font-size: 24rpx;
+    color: #999;
+  }
+}
+
+// 滑动提示
+.swipe-hint {
+  position: absolute;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+
+  text {
+    font-size: 24rpx;
+    color: #bbb;
+  }
+}
+
+// 安全区域适配
+.safe-area-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}

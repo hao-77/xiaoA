@@ -68,10 +68,10 @@ Page({
     });
   },
 
-  // 核心：跳转到组别介绍页面
+  // 核心：跳转到组别介绍页面（直接到轮播页面）
   toGroupIntro() {
     wx.navigateTo({
-      url: '/packageTeam/pages/groupIntro/groupIntro'
+      url: '/packageTeam/pages/groupCarousel/groupCarousel'
     });
   }
 });
