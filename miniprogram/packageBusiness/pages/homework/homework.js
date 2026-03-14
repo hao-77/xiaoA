@@ -189,36 +189,28 @@ Page({
   },
 
   /**
-   * 核心：将接口拉取的参数传递给register页面
+   * 查看考核详情 - 跳转到考核进度页面
    */
-  gotoRegisterPage() {
-    const { availableDates, currentProcess } = this.data;
-    
-    // 1. 校验参数完整性
-    if (!availableDates || availableDates.length === 0) {
+  viewAssessmentDetail() {
+    const { currentProcess } = this.data;
+
+    if (!currentProcess || !currentProcess.id) {
       wx.showToast({
-        title: '暂无可预约日期',
-        icon: 'none'
-      });
-      return;
-    }
-    if (!currentProcess.id) {
-      wx.showToast({
-        title: '流程信息缺失',
+        title: '暂无考核安排',
         icon: 'none'
       });
       return;
     }
 
-    // 2. 缓存processId供register页面使用
+    // 缓存processId供进度页面使用
     wx.setStorageSync('currentProcessId', currentProcess.id);
 
-    // 3. 跳转并传递可预约日期参数
+    // 跳转到考核进度页面
     wx.navigateTo({
-      url: `/packageBusiness/pages/register/register?availableDates=${encodeURIComponent(JSON.stringify(availableDates))}`,
+      url: '/packageBusiness/pages/progress/progress',
       fail: () => {
         wx.showToast({
-          title: '预约页面暂未开放',
+          title: '页面跳转失败',
           icon: 'none'
         });
       }

@@ -1,124 +1,79 @@
 <navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
 <view class="container">
-  <!-- 顶部：报名成功提示 - 全新设计 -->
+  <!-- 顶部：报名成功提示 -->
   <view class="success-card">
     <view class="success-icon-wrap">
-      <view class="success-circle">
-        <text class="check-icon">✓</text>
-      </view>
+      <text class="success-icon">✓</text>
     </view>
     <view class="success-title">报名成功</view>
-    <view class="success-subtitle">感谢您的加入，期待您的精彩表现</view>
   </view>
 
-  <!-- 中间：报名组别信息 - 卡片式设计 -->
+  <!-- 报名信息 -->
   <view class="info-card" wx:if="{{userSignUpInfo}}">
-    <view class="card-header">
-      <view class="card-icon">📋</view>
-      <view class="card-title">我的报名信息</view>
-    </view>
+    <view class="card-title">报名信息</view>
     <view class="info-list">
-      <view class="info-item">
-        <view class="info-label">姓名</view>
-        <view class="info-value">{{userSignUpInfo.realName || '-'}}</view>
+      <view class="info-row">
+        <text class="info-label">姓名</text>
+        <text class="info-value">{{userSignUpInfo.realName || '-'}}</text>
       </view>
-      <view class="info-item">
-        <view class="info-label">学号</view>
-        <view class="info-value">{{userSignUpInfo.studentId || '-'}}</view>
+      <view class="info-row">
+        <text class="info-label">学号</text>
+        <text class="info-value">{{userSignUpInfo.studentId || '-'}}</text>
       </view>
-      <view class="info-item highlight">
-        <view class="info-label">报名组别</view>
-        <view class="info-value group-badge">{{userSignUpInfo.groupName || '-'}}</view>
+      <view class="info-row">
+        <text class="info-label">组别</text>
+        <text class="info-value group">{{userSignUpInfo.groupName || '-'}}</text>
       </view>
-      <view class="info-item">
-        <view class="info-label">专业班级</view>
-        <view class="info-value">{{userSignUpInfo.majorClass || '-'}}</view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 下面：当前考核进度 - 全新设计 -->
-  <view class="progress-card">
-    <view class="card-header">
-      <view class="card-icon">📊</view>
-      <view class="card-title">考核进度</view>
-    </view>
-
-    <!-- 进度时间线 -->
-    <view class="timeline">
-      <view class="timeline-item {{userSignUpInfo ? 'completed' : ''}}">
-        <view class="timeline-dot"></view>
-        <view class="timeline-content">
-          <view class="timeline-title">提交报名</view>
-          <view class="timeline-desc">已完成</view>
-        </view>
-      </view>
-      <view class="timeline-line {{currentProcess.id ? 'active' : ''}}"></view>
-      <view class="timeline-item {{currentProcess.id ? 'active' : ''}}">
-        <view class="timeline-dot"></view>
-        <view class="timeline-content">
-          <view class="timeline-title">等待考核</view>
-          <view class="timeline-desc">{{currentProcess.id ? '进行中' : '待开始'}}</view>
-        </view>
-      </view>
-      <view class="timeline-line"></view>
-      <view class="timeline-item">
-        <view class="timeline-dot"></view>
-        <view class="timeline-content">
-          <view class="timeline-title">结果公布</view>
-          <view class="timeline-desc">待通知</view>
-        </view>
-      </view>
-    </view>
-
-    <!-- 考核时间 -->
-    <view class="duration-section" wx:if="{{currentProcess.id}}">
-      <view class="duration-icon">⏰</view>
-      <view class="duration-content">
-        <view class="duration-label">考核时间</view>
-        <view class="duration-time">{{currentProcess.startTime}} — {{currentProcess.endTime}}</view>
-      </view>
-    </view>
-    <view class="duration-section pending" wx:else>
-      <view class="duration-icon">📅</view>
-      <view class="duration-content">
-        <view class="duration-label">考核安排</view>
-        <view class="duration-time">暂无考核安排，敬请期待</view>
+      <view class="info-row">
+        <text class="info-label">专业班级</text>
+        <text class="info-value">{{userSignUpInfo.majorClass || '-'}}</text>
       </view>
     </view>
   </view>
 
-  <!-- 提交地址信息 -->
-  <view class="submit-card">
-    <view class="card-header">
-      <view class="card-icon">📧</view>
-      <view class="card-title">提交作品</view>
+  <!-- 考核进度 -->
+  <view class="progress-section">
+    <view class="section-title">考核进度</view>
+    <view class="progress-steps">
+      <view class="step-item {{userSignUpInfo ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <view class="step-text">已报名</view>
+      </view>
+      <view class="step-line {{currentProcess.id ? 'active' : ''}}"></view>
+      <view class="step-item {{currentProcess.id ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <view class="step-text">等待考核</view>
+      </view>
+      <view class="step-line"></view>
+      <view class="step-item">
+        <view class="step-dot"></view>
+        <view class="step-text">结果</view>
+      </view>
     </view>
-    <view class="submit-content">
-      <view class="submit-address">1111111@qq.com</view>
-      <button class="copy-btn" bindtap="copySubmitAddress">
-        <text class="copy-icon">📋</text>
-        <text>复制</text>
-      </button>
+
+    <!-- 考核时间/要求 -->
+    <view class="assessment-info" wx:if="{{currentProcess.id}}">
+      <view class="info-item">
+        <text class="label">考核名称</text>
+        <text class="value">{{currentProcess.name || '暂无'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">开始时间</text>
+        <text class="value">{{currentProcess.startTime || '待定'}}</text>
+      </view>
+    </view>
+    <view class="no-assessment" wx:else>
+      <text>暂无考核安排</text>
     </view>
   </view>
 
-  <!-- 按钮区域 -->
-  <view class="button-group">
-    <button
-      class="primary-btn"
-      type="primary"
-      bindtap="gotoRegisterPage"
-    >
-      <text class="btn-icon">📝</text>
+  <!-- 操作按钮 -->
+  <view class="btn-area">
+    <button class="primary-btn" bindtap="viewAssessmentDetail" wx:if="{{currentProcess.id}}">
       查看考核详情
     </button>
-    <button
-      class="secondary-btn"
-      bindtap="goToHome"
-    >
-      <text class="btn-icon">🏠</text>
+    <button class="home-btn" bindtap="goToHome">
       返回首页
     </button>
   </view>
