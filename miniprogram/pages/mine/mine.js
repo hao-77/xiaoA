@@ -5,7 +5,8 @@ Page({
   data: {
     loading: false, // 修复：新增 loading 变量，避免 setData 报错
     userName: '',   // 用户名
-    userPhone: ''   // 用户手机号
+    userPhone: '',  // 用户手机号
+    avatarUrl: ''   // 微信头像
   },
 
   /**
@@ -25,20 +26,49 @@ Page({
       // 从缓存中获取用户信息，兼容多种字段名
       const realName = userInfo.realName || userInfo.name || userInfo.nickname || '';
       const phone = userInfo.phone || userInfo.phoneNumber || '';
+      const avatarUrl = userInfo.avatarUrl || userInfo.avatar || '';
 
       // 优先显示真名，没有则显示手机号
       const displayName = realName || phone || '用户';
       this.setData({
         userName: displayName,
-        userPhone: phone
+        userPhone: phone,
+        avatarUrl: avatarUrl
       });
     } else {
       // 未登录
       this.setData({
         userName: '',
-        userPhone: ''
+        userPhone: '',
+        avatarUrl: ''
       });
     }
+  },
+
+  // 获取微信头像
+  getWechatAvatar() {
+    wx.getUserProfile({
+      desc: '用于完善用户资料',
+      success: (res) => {
+        const userInfo = res.userInfo;
+        this.setData({
+          avatarUrl: userInfo.avatarUrl,
+          userName: userInfo.nickName
+        });
+        // 保存到本地缓存
+        const storedUserInfo = wx.getStorageSync('userInfo') || {};
+        storedUserInfo.avatarUrl = userInfo.avatarUrl;
+        storedUserInfo.nickname = userInfo.nickName;
+        wx.setStorageSync('userInfo', storedUserInfo);
+      },
+      fail: (err) => {
+        console.log('获取用户头像失败:', err);
+        wx.showToast({
+          title: '获取头像失败',
+          icon: 'none'
+        });
+      }
+    });
   },
 
   logout:function(){

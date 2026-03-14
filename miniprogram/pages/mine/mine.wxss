@@ -1,10 +1,24 @@
 /* pages/mine/mine.wxss */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100rpx;
+}
+
+.avatar-tip {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
 .avatar{
   width: 200rpx;
   height: 200rpx;
   border: 1rpx solid #cacaca;
   border-radius: 200rpx;
   margin: 200rpx auto;
+  overflow: hidden;
 }
 image{
   width: 100%;

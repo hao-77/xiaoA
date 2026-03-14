@@ -1,40 +1,88 @@
 <navigation-bar title="详情页面" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
-<!-- 动态展示考核时间，兼容字段为空的情况 -->
-<view class="container" style="height: 1410rpx; display: flex; box-sizing: border-box"><view class="duration" style="position: relative; left: 0rpx; top: -152rpx">
-<view>
-  一期作业
-</view>
-<!-- 根据是否有考核时间显示不同内容 -->
-<block wx:if="{{currentProcess.id}}">
-  {{currentProcess.startTime}} —— {{currentProcess.endTime}}
-</block>
-<block wx:else>
-  <text style="color: #999; font-size: 28rpx;">暂无考核安排</text>
-</block>
-</view>
-<view class="request">
-  <view class="requestTitle">考核要求</view>
-  <view class="requestDetailed"></view>
-</view>
-<view class="submit">
-  <view class="submitLeft">
-    <view class="submitTitle">提交地址</view>
-    <view class="submitNumble">1111111@qq.com</view>
+
+<view class="container">
+  <!-- 顶部：报名成功提示 -->
+  <view class="success-card">
+    <view class="success-icon">✓</view>
+    <view class="success-text">报名成功</view>
   </view>
-  <button class="submitbutton" 
-          bindtap="copySubmitAddress"
-          style="width: 149rpx; display: block; box-sizing: border-box; left: 63rpx; top: 0rpx; position: relative">
-    复制
-  </button>
+
+  <!-- 中间：报名组别信息 -->
+  <view class="info-card" wx:if="{{userSignUpInfo}}">
+    <view class="card-title">我的报名信息</view>
+    <view class="info-row">
+      <text class="info-label">姓名：</text>
+      <text class="info-value">{{userSignUpInfo.realName || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">学号：</text>
+      <text class="info-value">{{userSignUpInfo.studentId || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">报名组别：</text>
+      <text class="info-value group-value">{{userSignUpInfo.groupName || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">专业班级：</text>
+      <text class="info-value">{{userSignUpInfo.majorClass || '-'}}</text>
+    </view>
+  </view>
+
+  <!-- 下面：当前考核进度 -->
+  <view class="progress-card">
+    <view class="card-title">当前考核进度</view>
+    <view class="progress-content">
+      <view class="progress-item active">
+        <view class="progress-number">1</view>
+        <view class="progress-label">已提交报名</view>
+      </view>
+      <view class="progress-line"></view>
+      <view class="progress-item {{currentProcess.id ? 'active' : ''}}">
+        <view class="progress-number">2</view>
+        <view class="progress-label">考核中</view>
+      </view>
+      <view class="progress-line"></view>
+      <view class="progress-item">
+        <view class="progress-number">3</view>
+        <view class="progress-label">等待结果</view>
+      </view>
+    </view>
+
+    <!-- 考核时间 -->
+    <view class="duration-section">
+      <view class="duration-label">考核时间：</view>
+      <block wx:if="{{currentProcess.id}}">
+        <view class="duration-time">{{currentProcess.startTime}} —— {{currentProcess.endTime}}</view>
+      </block>
+      <block wx:else>
+        <text class="no-schedule">暂无考核安排</text>
+      </block>
+    </view>
+  </view>
+
+  <!-- 提交地址信息 -->
+  <view class="submit-card">
+    <view class="card-title">提交地址</view>
+    <view class="submit-content">
+      <text class="submit-address">1111111@qq.com</text>
+      <button class="copy-btn" bindtap="copySubmitAddress">复制</button>
+    </view>
+  </view>
+
+  <!-- 按钮区域 -->
+  <view class="button-group">
+    <button
+      class="detail-btn"
+      type="primary"
+      bindtap="gotoRegisterPage"
+    >
+      查看最新考核详情
+    </button>
+    <button
+      class="home-btn"
+      bindtap="goToHome"
+    >
+      返回主界面
+    </button>
+  </view>
 </view>
-<view class="work">
-  作业附件
-  <!-- 跳转register页面的按钮，绑定新方法 -->
-  <button 
-    class="detail-btn" 
-    type="primary" 
-    bindtap="gotoRegisterPage"
-    style="height: 77rpx; width: 459rpx; margin-top: 20rpx; display: block; box-sizing: border-box; position: relative; left: 0rpx; top: 110rpx">
-    查看详情
-  </button>
-</view></view>

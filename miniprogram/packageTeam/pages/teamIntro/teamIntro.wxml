@@ -10,32 +10,94 @@
   </swiper-item>
 </swiper>
 
-<!-- 内容卡片区域（层叠式） -->
-<view class="card-stack">
-  <!-- 底层卡片 -->
-  <view class="content-card layer-back"></view>
-  <!-- 中间层卡片 -->
-  <view class="content-card layer-middle"></view>
-  <!-- 顶层卡片（内容） -->
-  <view class="content-card layer-front">
-    <!-- 团队介绍 -->
-    <view class="section-item0">
-      <view class="section-title">团队介绍</view>
-      <view class="section-content">
-        小A创新创业团队成立于2015年，涵盖机械制造、自动化、软件开发、AI等领域，于2019年入驻国家级创新创业教育实践基地—工大创谷，成为主要运营团队。团队与华为共建鲲鹏&昇腾开发者创享社，持续为鲲鹏昇腾及华为各产业链输送高质量实战型人才和拔尖创新人才。团队摘得国赛金奖等国家级以上奖项、省级奖项累计200+奖项、企业合作累计资金达300万元、发表SCI、EI论文11篇专利软著累计百余项、国内外交流机会超过30次、每年在项目上的流动资金至少20w+，成为工大创谷高水平创新创业团队。
+<!-- 团队名称标题 -->
+<view class="team-header">
+  <view class="team-title">小A创新创业团队</view>
+  <view class="team-subtitle">XiaoA Innovation & Entrepreneurship Team</view>
+</view>
+
+<!-- 内容卡片区域 -->
+<view class="content-wrapper">
+  <!-- 团队介绍卡片 -->
+  <view class="intro-card">
+    <view class="card-header">
+      <view class="card-icon">🏆</view>
+      <view class="card-title">团队介绍</view>
+    </view>
+    <view class="card-body">
+      <view class="intro-text">
+        小A创新创业团队成立于2015年，涵盖机械制造、自动化、软件开发、AI等领域，于2019年入驻国家级创新创业教育实践基地—工大创谷，成为主要运营团队。
+      </view>
+      <view class="intro-stats">
+        <view class="stat-item">
+          <view class="stat-number">200+</view>
+          <view class="stat-label">获得奖项</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">300万</view>
+          <view class="stat-label">企业合作</view>
+        </view>
+        <view class="stat-item">
+          <view class="stat-number">11篇</view>
+          <view class="stat-label">论文专利</view>
+        </view>
       </view>
     </view>
+  </view>
 
-    <!-- 项目介绍 -->
-    <view class="section-item clickable" bindtap="toProjectIntro">
-      <view class="section-title">项目介绍</view>
-      <view class="section-arrow">点击查看 →</view>
+  <!-- 合作伙伴卡片 -->
+  <view class="partner-card">
+    <view class="card-header">
+      <view class="card-icon">🤝</view>
+      <view class="card-title">合作伙伴</view>
     </view>
+    <view class="card-body">
+      <view class="partner-text">
+        团队与华为共建鲲鹏&昇腾开发者创享社，持续为鲲鹏昇腾及华为各产业链输送高质量实战型人才和拔尖创新人才。
+      </view>
+    </view>
+  </view>
 
-    <!-- 组别介绍（绑定跳转到groupIntro页面的方法） -->
-    <view class="section-item clickable" bindtap="toGroupIntro">
-      <view class="section-title">组别介绍</view>
-      <view class="section-arrow">点击查看 →</view>
+  <!-- 快捷入口卡片 -->
+  <view class="menu-card">
+    <view class="menu-item clickable" bindtap="toProjectIntro">
+      <view class="menu-left">
+        <view class="menu-icon">📋</view>
+        <view class="menu-text">项目介绍</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item clickable" bindtap="toGroupIntro">
+      <view class="menu-left">
+        <view class="menu-icon">👥</view>
+        <view class="menu-text">组别介绍</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 团队荣誉卡片 -->
+  <view class="honor-card">
+    <view class="card-header">
+      <view class="card-icon">🌟</view>
+      <view class="card-title">团队荣誉</view>
+    </view>
+    <view class="card-body">
+      <view class="honor-list">
+        <view class="honor-item">
+          <view class="honor-badge">国赛金奖</view>
+          <view class="honor-desc">国家级以上奖项</view>
+        </view>
+        <view class="honor-item">
+          <view class="honor-badge">省级奖项</view>
+          <view class="honor-desc">累计200+项</view>
+        </view>
+        <view class="honor-item">
+          <view class="honor-badge">交流机会</view>
+          <view class="honor-desc">国内外30+次</view>
+        </view>
+      </view>
     </view>
   </view>
 </view>

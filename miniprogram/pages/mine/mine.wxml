@@ -3,12 +3,21 @@
 <image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 239rpx; top: 41rpx; width: 137rpx" src="../../assets/star2.png" mode=""/>
 <image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: -77rpx; top: 271rpx; width: 156rpx" src="../../assets/star3.png" mode=""/>
 <image style="height: 157rpx; display: inline-block; box-sizing: border-box; position: relative; left: 245rpx; top: 149rpx; width: 137rpx" src="../../assets/star1.png" mode=""/>
-<view class="avatar" style="width: 250rpx; height: 250rpx; display: block; box-sizing: border-box">
-<image style="position: relative; left: -2rpx; top: -58rpx" src="../../assets/touxiang2.png" alt="1"/>
+<!-- 头像区域 -->
+<view class="avatar-container" bindtap="getWechatAvatar">
+  <view class="avatar" style="width: 250rpx; height: 250rpx; display: block; box-sizing: border-box">
+    <image wx:if="{{avatarUrl}}" style="position: relative; left: -2rpx; top: -58rpx" src="{{avatarUrl}}" mode="aspectFill" alt="头像"/>
+    <image wx:else style="position: relative; left: -2rpx; top: -58rpx" src="../../assets/touxiang2.png" alt="默认头像"/>
+  </view>
+  <view class="avatar-tip" wx:if="{{!avatarUrl}}">点击获取微信头像</view>
 </view>
 <!-- 用户名显示 -->
-<view style="text-align: center; margin-top: 20rpx; font-size: 32rpx; color: #333;">
+<view style="text-align: center; margin-top: 20rpx; font-size: 36rpx; color: #333; font-weight: bold;">
   {{userName ? userName : '未登录'}}
+</view>
+<!-- 手机号显示 -->
+<view style="text-align: center; margin-top: 16rpx; font-size: 28rpx; color: #666;" wx:if="{{userPhone}}">
+  手机号：{{userPhone}}
 </view>
 <image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 281rpx; top: -344rpx; width: 95rpx" src="../../assets/zhi.png" mode=""/>
 <image style="height: 137rpx; display: inline-block; box-sizing: border-box; position: relative; left: 304rpx; top: -344rpx; width: 67rpx" src="../../assets/zhi2.png" mode=""/>

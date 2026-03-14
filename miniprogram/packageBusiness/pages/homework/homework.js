@@ -2,7 +2,9 @@ Page({
   data: {
     availableDates: [], // 可预约日期列表
     currentProcess: { id: '', startTime: '', endTime: '' }, // 流程信息（含时间字段）
-    processList: [] // 流程列表（备用）
+    processList: [], // 流程列表（备用）
+    userSignUpInfo: null, // 用户报名信息
+    groupList: ['AI组', '电控组', '机械组', '前端组', '后台组', '运营组']
   },
 
   /**
@@ -10,8 +12,40 @@ Page({
    * 页面加载时直接调用接口拉取数据，不再解析URL参数
    */
   onLoad(options) {
-    // 1. 先拉取流程进度（含startTime/endTime）
+    // 1. 先拉取用户报名信息
+    this.fetchUserSignUpInfo();
+    // 2. 再拉取流程进度（含startTime/endTime）
     this.fetchUserProgress();
+  },
+
+  /**
+   * 获取用户报名信息
+   */
+  fetchUserSignUpInfo() {
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    wx.request({
+      url: apiBaseUrl + '/user/user/sign-up',
+      method: 'GET',
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      },
+      success: (res) => {
+        if (res.data.code === 200 && res.data.data) {
+          const data = res.data.data;
+          // 计算组别名称
+          const groupName = data.groupId ? this.data.groupList[data.groupId - 1] : '未选择';
+          this.setData({
+            userSignUpInfo: {
+              ...data,
+              groupName: groupName
+            }
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('获取报名信息失败:', err);
+      }
+    });
   },
 
   /**
@@ -188,6 +222,15 @@ Page({
           icon: 'none'
         });
       }
+    });
+  },
+
+  /**
+   * 返回主界面
+   */
+  goToHome() {
+    wx.switchTab({
+      url: '/pages/index/index'
     });
   }
 });
