@@ -287,6 +287,22 @@ button{
   color: #fff;
 
 }
+/* 手动注册链接按钮 */
+.register-link {
+  margin-top: 30rpx;
+}
+
+.register-link .link-text {
+  font-size: 26rpx;
+  color: #666;
+  text-decoration: underline;
+  padding: 10rpx 20rpx;
+}
+
+.register-link .link-text:active {
+  color: #165dff;
+}
+
 page {
   background: linear-gradient(to bottom, #b3d5f6 1%, #e6e8f0, #fedfdc);
   min-height: 100vh; /* 确保渐变铺满全屏 */

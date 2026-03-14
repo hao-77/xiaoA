@@ -10,8 +10,38 @@ Page({
     userSignupGroup: ''   // 用户报名的组别
   },
 
-  // 跳转至申请表单页
+  // 跳转至申请表单页 - 先检查是否已登录
   toApplication: function() {
+    const that = this;
+    const token = wx.getStorageSync('token');
+    const isLogin = wx.getStorageSync('isLogin');
+
+    // 检查是否已登录
+    if (!token || !isLogin) {
+      // 未登录，跳转到登录页，并传递报名意图
+      wx.showModal({
+        title: '提示',
+        content: '请先登录后再报名',
+        confirmText: '去登录',
+        cancelText: '取消',
+        success: (res) => {
+          if (res.confirm) {
+            // 跳转到登录页，登录成功后返回并跳转到报名页
+            wx.navigateTo({
+              url: '/pages/login/login',
+              success: () => {
+                // 可以通过事件通道或全局变量传递报名意图
+                // 这里使用简单的方式：登录页检测到已报名意图会自动处理
+                wx.setStorageSync('pendingAction', 'toApplication');
+              }
+            });
+          }
+        }
+      });
+      return;
+    }
+
+    // 已登录，直接跳转到报名页
     wx.navigateTo({
       url: "/packageBusiness/pages/application/application"
     });
@@ -89,14 +119,15 @@ Page({
     });
   },
 
-  // 核心：登录超级管理员获取 superToken（适配后端返回格式）
+  // 保留超级管理员登录功能，但不再自动调用
+  // 现在需要通过"我的"页面的管理员登录按钮手动触发
   superAdmin: function() {
     // 1. 开始请求前显示加载状态
     this.setData({ onLoading: true });
 
     // 获取全局API地址
     const apiBaseUrl = getApp().globalData.apiBaseUrl;
-    
+
     wx.request({
       url: apiBaseUrl + '/admin/user/login',
       method: "POST",
@@ -180,22 +211,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // 页面加载时自动调用超级管理员登录接口
-    this.superAdmin();
+    // 移除自动调用超级管理员登录 - 这会导致所有用户都尝试登录管理员
+    // 管理员登录功能现在通过"我的"页面的管理员入口手动触发
+    console.log('Home page loaded');
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    // 可选：页面显示时，校验缓存中的 superToken 是否存在
-    const superToken = wx.getStorageSync('superToken');
-    if (superToken) {
-      console.log('缓存中已存在 superToken：', superToken);
+    // 移除超级管理员自动登录检查 - 不再自动登录管理员
+    // 管理员如需登录，应通过"我的"页面的管理员入口手动操作
+    const token = wx.getStorageSync('token');
+    if (token) {
+      console.log('User is logged in');
     } else {
-      console.log('缓存中无 superToken，可重新登录');
-      // 可选：无 token 时自动重新登录
-      // this.superAdmin();
+      console.log('User is not logged in');
     }
   },
 

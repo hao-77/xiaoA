@@ -1,5 +1,6 @@
 // pages/login/login.js
 const api = require('../../config/api.js');
+const app = getApp();
 
 Page({
   /**
@@ -85,8 +86,9 @@ Page({
     this.setData({ accountLoadingBtn: true });
 
     // 3. 发起账号密码登录请求
+    const apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
     wx.request({
-      url: api.API_BASE_URL + '/user/user/login',
+      url: apiBaseUrl + '/user/user/login',
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
       data: { phone, password },
@@ -113,8 +115,9 @@ Page({
         if (res.code) {
           console.log(res.code)
           // 3. 用 code 调用后端微信登录接口
+          const apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
           wx.request({
-            url: api.API_BASE_URL + '/user/user/wechat-login',
+            url: apiBaseUrl + '/user/user/wechat-login',
             method: 'POST',
             header: { 'Content-Type': 'application/json' },
             data: { code: res.code },
@@ -151,19 +154,51 @@ Page({
         // 存储用户信息（去除saTokenInfo，保留其他用户数据）
         wx.setStorageSync('userInfo', userData);
         wx.setStorageSync('isLogin', true); // 设置登录标志
-        
-        wx.showToast({ 
-          title: '登录成功', 
-          icon: 'success', 
+
+        // 检查是否有待处理的操作（如从报名页跳转过来需要登录）
+        const pendingAction = wx.getStorageSync('pendingAction');
+
+        wx.showToast({
+          title: '登录成功',
+          icon: 'success',
           duration: 1500,
           // 新增：确保toast显示完成后再跳转
           success: () => {
-            setTimeout(() => this.navigateToHome(), 1000);
+            setTimeout(() => {
+              // 如果有待处理的操作，执行它
+              if (pendingAction === 'toApplication') {
+                // 清除待处理操作
+                wx.removeStorageSync('pendingAction');
+                // 跳转到报名页
+                wx.navigateTo({
+                  url: "/packageBusiness/pages/application/application"
+                });
+              } else {
+                // 默认跳转首页
+                this.navigateToHome();
+              }
+            }, 1000);
           }
         });
       } else {
         wx.showToast({ title: '登录失败，未获取到有效凭证', icon: 'none' });
       }
+    } else if (res.data.code === 500) {
+      // 用户不存在或未注册，提示用户前往注册
+      wx.showModal({
+        title: '提示',
+        content: res.data.msg || '该手机号尚未注册，是否前往注册？',
+        confirmText: '前往注册',
+        cancelText: '返回',
+        success: (modalRes) => {
+          if (modalRes.confirm) {
+            // 跳转到注册页面，并传递手机号
+            wx.redirectTo({
+              url: `/pages/registerPassword/registerPassword?phone=${this.data.phone}`
+            });
+          }
+        }
+      });
     } else {
       wx.showToast({ title: res.data.msg || '登录失败，请重试', icon: 'none' });
     }
@@ -182,5 +217,21 @@ Page({
       }
     }
     wx.showToast({ title: errorMsg, icon: 'none' });
+  },
+
+  // 跳转至手动注册页面
+  goToRegister() {
+    // 如果已输入手机号，则传递手机号到注册页面
+    const phone = this.data.phone;
+    if (phone && /^1[3-9]\d{9}$/.test(phone)) {
+      wx.redirectTo({
+        url: `/pages/registerPassword/registerPassword?phone=${phone}`
+      });
+    } else {
+      // 未输入手机号，直接跳转注册页面
+      wx.redirectTo({
+        url: '/pages/registerPassword/registerPassword'
+      });
+    }
   }
 });

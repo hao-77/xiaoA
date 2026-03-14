@@ -7,7 +7,7 @@
       <image src="../../assets/touxiang2.png" alt=""/>
 
     </view>
-    
+
     <!-- 提示文本 -->
     <view class="login-tip" style="position: relative; left: -2rpx; top: 140rpx; text-align: center; color: #666; font-size: 28rpx">
       选择以下方式完成登录
@@ -15,9 +15,9 @@
 
     <!-- 手机号输入框 -->
     <view style="position: relative; left: 30rpx; top: 215rpx; width: 630rpx; height: 80rpx; border: 1px solid #eee; border-radius: 40rpx; padding: 0 30rpx; box-sizing: border-box">
-      <input 
-        type="number" 
-        placeholder="请输入手机号" 
+      <input
+        type="number"
+        placeholder="请输入手机号"
         bindinput="onPhoneInput"
         style="width: 100%; height: 100%; font-size: 28rpx; line-height: 80rpx;"
       />
@@ -25,9 +25,9 @@
 
     <!-- 密码输入框 -->
     <view style="position: relative; left: 30rpx; top: 227rpx; width: 630rpx; height: 80rpx; border: 1px solid #eee; border-radius: 40rpx; padding: 0 30rpx; box-sizing: border-box; margin-top: 20rpx">
-      <input 
-        type="password" 
-        placeholder="请输入密码" 
+      <input
+        type="password"
+        placeholder="请输入密码"
         bindinput="onPasswordInput"
         style="width: 100%; height: 100%; font-size: 28rpx; line-height: 80rpx;"
       />
@@ -35,8 +35,8 @@
   </view>
 
   <!-- 账号密码登录按钮 -->
-  <button 
-    bindtap="onAccountLogin" 
+  <button
+    bindtap="onAccountLogin"
     loading="{{accountLoadingBtn}}"
     disabled="{{accountLoadingBtn || wechatLoadingBtn}}"
     style="height: 83rpx; display: block; box-sizing: border-box; left: 0rpx; top: 300rpx; position: relative; width: 630rpx; border-radius: 40rpx; background: #ff7a45; color: #fff; font-size: 30rpx"
@@ -45,14 +45,23 @@
   </button>
 
   <!-- 微信一键登录按钮 -->
-  <button 
-    bindtap="onWechatLogin" 
+  <button
+    bindtap="onWechatLogin"
     loading="{{wechatLoadingBtn}}"
     disabled="{{wechatLoadingBtn || accountLoadingBtn}}"
     style="height: 83rpx; display: block; box-sizing: border-box; left: 0rpx; top: 330rpx; position: relative; width: 630rpx; border-radius: 40rpx; background: #09bb07; color: #fff; font-size: 30rpx; margin-top: 20rpx"
   >
     {{wechatLoadingBtn ? '登录中...' : '微信一键登录'}}
   </button>
+
+  <!-- 无法登录？点击手动注册按钮 -->
+  <view
+    class="register-link"
+    bindtap="goToRegister"
+    style="position: relative; left: 0rpx; top: 360rpx; width: 630rpx; margin: 0 auto; display: block; text-align: center"
+  >
+    <text class="link-text">无法登录？点击手动注册</text>
+  </view>
 
   <!-- 加载中弹窗 -->
   <view class="loading-modal" wx:if="{{loading && !accountLoadingBtn && !wechatLoadingBtn}}">
