@@ -14,41 +14,42 @@
   right: 0;
   z-index: 50;
   width: 400rpx;
-  height: 300rpx;
+  height: 600rpx;
   padding: 20rpx;
 }
 
 .header-cloud {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 350rpx;
-  height: 250rpx;
+  top: 100rpx;
+  right: 0rpx;
+  width: 750rpx;
+  height: 550rpx;
   z-index: 1;
 }
 
 .header-images {
-  position: relative;
+  position: absolute;
+  top: 280rpx;
+  right: 50rpx;
   z-index: 2;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8rpx;
+  align-items: center;
+  gap: 10rpx;
 }
 
 .header-starsay {
   width: 180rpx;
-  height: 50rpx;
+  height: 60rpx;
 }
 
 .header-slogan {
   width: 200rpx;
-  height: 40rpx;
+  height: 50rpx;
 }
 
 .header-dragon {
-  width: 150rpx;
-  height: 100rpx;
+  width: 140rpx;
+  height: 90rpx;
 }
 
 // 背景装饰
