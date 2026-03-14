@@ -29,7 +29,7 @@
 
 .header-images {
   position: absolute;
-  top: 300rpx;
+  top: 200rpx;
   right: 80rpx;
   z-index: 2;
   display: flex;
@@ -37,21 +37,25 @@
 }
 
 .header-starsay {
-  width: 280rpx;
-  height: 100rpx;
-  margin-right: -30rpx;
+
+  left: 50rpx;
+  width: 480rpx;
+  height: 240rpx;
+  margin-right: -140rpx;
 }
 
 .header-slogan {
   width: 300rpx;
-  height: 90rpx;
-  margin-right: -30rpx;
+  height: 260rpx;
+  margin-right: -70rpx;
   z-index: 3;
 }
 
 .header-dragon {
-  width: 220rpx;
-  height: 140rpx;
+  width: 200rpx;
+  height: 190rpx;
+  margin-left: 60rpx;
+  margin-right: -70rpx;
   z-index: 4;
 }
 
@@ -137,11 +141,17 @@
 }
 
 .arrow-left {
-  left: -60rpx;
+  left: -40rpx;
+  transform: scale(1.5);
+  top: 550rpx;
+  z-index: 999;
 }
 
 .arrow-right {
-  right: -60rpx;
+  right: -40rpx;
+  transform: scale(1.5);
+  top: 550rpx;
+  z-index: 999;
 }
 
 // 卡片堆叠区域
