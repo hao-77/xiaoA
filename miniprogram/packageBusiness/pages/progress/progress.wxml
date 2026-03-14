@@ -1,42 +1,93 @@
-bindtap="gotoRegisterPage"<!-- 顶部导航栏 -->
-<navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<!-- 顶部导航栏 -->
+<view class="page-container">
+  <!-- 装饰性背景元素 -->
+  <image class="bg-cloud-left" src="/miniprogram/assets/blueCloud.png" mode="aspectFit"></image>
+  <image class="bg-cloud-right" src="/miniprogram/assets/pinkCloud1.png" mode="aspectFit"></image>
+  <image class="bg-star-top" src="/miniprogram/assets/star1.png" mode="aspectFit"></image>
+  <image class="bg-star-bottom" src="/miniprogram/assets/star2.png" mode="aspectFit"></image>
 
-<view class="title">考核进度</view>
+  <navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
-<!-- 流程卡片：动态绑定接口数据 -->
-<view class="progressCard">
-  <view class="progressCardTop">
-    {{currentProcess.name || '寒假训练营'}}
-  </view>
-  <view class="progressCardMiddle">
-    <view class="MiddleLeft">报名组别：{{currentProcess.groupName || '前端组'}}</view>
-    <button class="workDetail" bindtap="viewWorkDetail">作业详情</button>
-  </view>
-  <view class="progressCardBottom">
-    当前流程开始时间：{{currentProcess.startTime || '2024-05-26'}}
-  </view>
-</view>
+  <view class="title">考核进度</view>
 
-<!-- 流程步骤：根据接口返回的 currentProcess 状态动态渲染 -->
-<view class="process-container">
-  <view class="process-item {{currentProcess.userStatus >= 0 ? 'active' : ''}}">
-    <view class="process-number">1</view>
-    <view class="process-text">已提交报名</view>
-    <button class="detail-btn" bindtap="gotoRegisterPage">报名详情</button>
+  <!-- 流程卡片：动态绑定接口数据 -->
+  <view class="progressCard">
+    <!-- 卡片装饰角 -->
+    <view class="card-corner card-corner-tl"></view>
+    <view class="card-corner card-corner-tr"></view>
+    <view class="card-corner card-corner-bl"></view>
+    <view class="card-corner card-corner-br"></view>
+
+    <view class="progressCardTop">
+      <image class="card-icon" src="/miniprogram/assets/star3.png" mode="aspectFit"></image>
+      {{currentProcess.name || '寒假训练营'}}
+    </view>
+    <view class="progressCardMiddle">
+      <view class="MiddleLeft">
+        <text class="label">报名组别：</text>
+        <text class="value">{{currentProcess.groupName || '前端组'}}</text>
+      </view>
+      <button class="workDetail" bindtap="viewWorkDetail">作业详情</button>
+    </view>
+    <view class="progressCardBottom">
+      <text class="label">当前流程开始时间：</text>
+      <text class="value">{{currentProcess.startTime || '2024-05-26'}}</text>
+    </view>
   </view>
-  <view class="process-line"></view>
-  <view class="process-item {{currentProcess.id === 7 ? 'active' : ''}}">
-    <view class="process-number">2</view>
-    <view class="process-text">{{currentProcess.name || '寒假训练营'}}</view>
+
+  <!-- 流程步骤：根据接口返回的 currentProcess 状态动态渲染 -->
+  <view class="process-container">
+    <!-- 装饰星星 -->
+    <image class="process-decor-star process-decor-star-1" src="/miniprogram/assets/star1.png" mode="aspectFit"></image>
+    <image class="process-decor-star process-decor-star-2" src="/miniprogram/assets/star2.png" mode="aspectFit"></image>
+
+    <view class="process-item {{currentProcess.userStatus >= 0 ? 'active' : ''}}">
+      <view class="process-number {{currentProcess.userStatus >= 0 ? 'active' : ''}}">1</view>
+      <view class="process-content">
+        <view class="process-text">已提交报名</view>
+        <view class="process-desc">等待审核中</view>
+      </view>
+      <button class="detail-btn" bindtap="gotoRegisterPage">预约面试</button>
+    </view>
+
+    <view class="process-line {{currentProcess.userStatus >= 0 ? 'active' : ''}}"></view>
+
+    <view class="process-item {{currentProcess.id === 7 ? 'active' : ''}}">
+      <view class="process-number {{currentProcess.id === 7 ? 'active' : 'inactive'}}">2</view>
+      <view class="process-content">
+        <view class="process-text">{{currentProcess.name || '寒假训练营'}}</view>
+        <view class="process-desc">准备考核中</view>
+      </view>
+    </view>
+
+    <view class="process-line {{currentProcess.id === 7 ? 'active' : ''}}"></view>
+
+    <view class="process-item {{currentProcess.id >= 8 ? 'active' : ''}}">
+      <view class="process-number {{currentProcess.id >= 8 ? 'active' : 'inactive'}}">3</view>
+      <view class="process-content">
+        <view class="process-text">一面</view>
+        <view class="process-desc {{currentProcess.id >= 8 ? 'done' : ''}}">{{currentProcess.id >= 8 ? '已完成' : '待考核'}}</view>
+      </view>
+    </view>
+
+    <view class="process-line {{currentProcess.id >= 8 ? 'active' : ''}}"></view>
+
+    <view class="process-item {{currentProcess.id >= 9 ? 'active' : ''}}">
+      <view class="process-number {{currentProcess.id >= 9 ? 'active' : 'inactive'}}">4</view>
+      <view class="process-content">
+        <view class="process-text">二面</view>
+        <view class="process-desc {{currentProcess.id >= 9 ? 'done' : ''}}">{{currentProcess.id >= 9 ? '已完成' : '待考核'}}</view>
+      </view>
+    </view>
   </view>
-  <view class="process-line"></view>
-  <view class="process-item {{currentProcess.id >= 8 ? 'active' : ''}}">
-    <view class="process-number {{currentProcess.id >= 8 ? '' : 'inactive'}}">3</view>
-    <view class="process-text">一面</view>
-  </view>
-  <view class="process-line"></view>
-  <view class="process-item {{currentProcess.id >= 9 ? 'active' : ''}}">
-    <view class="process-number {{currentProcess.id >= 9 ? '' : 'inactive'}}">4</view>
-    <view class="process-text">二面</view>
+
+  <!-- 底部装饰 -->
+  <view class="footer-decoration">
+    <view class="footer-line"></view>
+    <view class="footer-dots">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
   </view>
 </view>

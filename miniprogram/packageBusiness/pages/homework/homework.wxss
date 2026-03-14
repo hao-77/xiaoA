@@ -60,18 +60,22 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12rpx 0;
+  padding: 16rpx 0;
+  min-width: 500rpx; /* 加宽信息栏宽度 */
 }
 
 .info-label {
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: #666;
+  flex: 0 0 160rpx; /* 固定标签宽度，使值区域更宽 */
 }
 
 .info-value {
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: #333;
   font-weight: 500;
+  flex: 1; /* 值区域自动扩展 */
+  text-align: right; /* 右对齐使布局更美观 */
 }
 
 .group-value {
