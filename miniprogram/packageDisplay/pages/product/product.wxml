@@ -1,6 +1,7 @@
-<!-- 运营组 -->
-<groupIntroDetailed 
+<!-- 后台组 -->
+<groupIntroDetailed
+  groupId="5"
+  groupName="backStage"
   groupMainImg="../../packageDisplay/assets/product.png"
-  introList="{{operationIntro}}"
 ></groupIntroDetailed>
 

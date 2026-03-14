@@ -14,7 +14,9 @@ Component({
       value: '../../assets/operation.png' // 默认值
     },
     // 组别ID（保留）
-    groupId: { type: Number, value: 1 }
+    groupId: { type: Number, value: 1 },
+    // 组别名称（用于报名跳转）
+    groupName: { type: String, value: '' }
   },
 
   data: { introList: [], recruitment: [] },
@@ -22,6 +24,33 @@ Component({
   lifetimes: { attached() { this.fetchGroupData(); } },
 
   methods: {
+    // 跳转到报名页面
+    goToRegister() {
+      const groupName = this.properties.groupName;
+      // 组别名称映射到中文组名和groupId
+      const groupMap = {
+        'AI': { name: 'AI组', id: 1 },
+        'EC': { name: '电控组', id: 2 },
+        'mechanical': { name: '机械组', id: 3 },
+        'frontEnd': { name: '前端组', id: 4 },
+        'product': { name: '后台组', id: 5 },
+        'backStage': { name: '后台组', id: 5 },
+        'operation': { name: '运营组', id: 6 }
+      };
+      
+      const groupInfo = groupMap[groupName] || { name: 'AI组', id: 1 };
+      
+      wx.navigateTo({
+        url: `/packageBusiness/pages/application/application?groupId=${groupInfo.id}&groupName=${encodeURIComponent(groupInfo.name)}`,
+        fail: () => {
+          wx.showToast({
+            title: '无法跳转报名页面',
+            icon: 'none'
+          });
+        }
+      });
+    },
+
     fetchGroupData() {
       const token = wx.getStorageSync('superToken');
       if (!token) {

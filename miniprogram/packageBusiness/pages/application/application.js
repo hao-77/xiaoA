@@ -37,10 +37,11 @@ Page({
     wordCount: 0,
     hasSubmitted: false, // 控制按钮文字：提交/修改
     formData: {}, // 保存从接口拉取的表单数据
-    isPhoneExist: false // 标记手机号是否已被占用
+    isPhoneExist: false, // 标记手机号是否已被占用
+    preGroupIndex: -1 // 预填组别索引（从组别介绍页面跳转时使用）
   },
 
-  onLoad() {
+  onLoad(options) {
     // 先获取登录用户的手机号（从缓存的userInfo中取）
     const userInfo = wx.getStorageSync('userInfo');
     if (userInfo && userInfo.phone) {
@@ -48,7 +49,21 @@ Page({
         'formData.phone': userInfo.phone // 自动回填登录手机号
       });
     }
-    // 再拉取报名信息
+
+    // 保存预填组别（如果有）
+    let preGroupIndex = -1;
+    if (options.groupId) {
+      const groupId = parseInt(options.groupId);
+      if (groupId >= 1 && groupId <= 6) {
+        // 后端groupId(1-6) → 前端index(0-5)
+        preGroupIndex = groupId - 1;
+      }
+    }
+
+    // 存储预填组别到data中，在fetchSignUpInfo后使用
+    this.setData({ preGroupIndex: preGroupIndex });
+
+    // 拉取报名信息
     this.fetchSignUpInfo();
   },
 
@@ -105,8 +120,11 @@ Page({
             // 重置所有picker索引
             collegeIndex: 0,
             gradeIndex: 0,
-            groupIndex: 0
+            groupIndex: this.data.preGroupIndex >= 0 ? this.data.preGroupIndex : 0
           });
+          if (this.data.preGroupIndex >= 0) {
+            wx.showToast({ title: '已自动选择对应组别', icon: 'none' });
+          }
         }
       },
       fail: (err) => {
