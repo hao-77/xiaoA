@@ -128,3 +128,121 @@ form {
 .page{
   background-color: #fff3ea;
 }
+
+/* 成功弹窗样式 */
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-content {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  animation: scaleIn 0.3s ease;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
+}
+
+.success-icon {
+  width: 140rpx;
+  height: 140rpx;
+  margin: 0 auto 30rpx;
+  background: linear-gradient(135deg, #52c41a, #73d13d);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: successPop 0.4s ease 0.1s both;
+}
+
+.checkmark {
+  width: 50rpx;
+  height: 90rpx;
+  border-right: 6rpx solid #fff;
+  border-bottom: 6rpx solid #fff;
+  transform: rotate(45deg) translateY(-10rpx);
+  animation: checkDraw 0.3s ease 0.3s both;
+}
+
+.success-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.success-message {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+  line-height: 1.6;
+}
+
+.success-btn {
+  display: inline-block;
+  padding: 24rpx 60rpx;
+  background: linear-gradient(135deg, #f77078, #f77078);
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 50rpx;
+  border: none;
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+/* 动画定义 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes checkDraw {
+  from {
+    opacity: 0;
+    transform: rotate(45deg) translateY(-20rpx) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(45deg) translateY(-10rpx) scale(1);
+  }
+}

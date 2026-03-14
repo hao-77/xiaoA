@@ -128,19 +128,28 @@
     </view>
 
     <!-- 提交/修改按钮 -->
-    <button 
-      class="submit-btn" 
-      form-type="submit" 
+    <button
+      class="submit-btn"
+      form-type="submit"
       type="primary"
-      disabled="{{!hasSubmitted && isPhoneExist}}" 
     >
-      {{hasSubmitted ? '修改' : '提交'}}
+      {{hasSubmitted ? '修改信息' : '立即报名'}}
     </button>
 
-    <!-- 手机号已占用提示 -->
-    <view class="hint-text" wx:if="!hasSubmitted && isPhoneExist">
-      ⚠️ 您的手机号已用于报名，无法重复提交！
-    </view>
-
   </form>
+</view>
+
+<!-- 报名成功弹窗 -->
+<view class="success-modal" wx:if="{{showSuccessModal}}" bindtap="closeSuccessModal">
+  <view class="success-content" catchtap="preventClose">
+    <!-- 成功图标 -->
+    <view class="success-icon">
+      <view class="checkmark"></view>
+    </view>
+    <view class="success-title">{{isFirstSubmit ? '报名成功' : '修改成功'}}</view>
+    <view class="success-message">
+      {{isFirstSubmit ? '恭喜您已完成报名，请耐心等待审核' : '信息已成功更新'}}
+    </view>
+    <view class="success-btn" bindtap="goToHomework">查看报名详情</view>
+  </view>
 </view>

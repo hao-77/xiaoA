@@ -1,5 +1,7 @@
 Page({
   data: {
+    showSuccessModal: false, // 控制成功弹窗显示
+    isFirstSubmit: false,   // 标记是否为首次提交
     collegeList: [
       '机电工程学院',
       '自动化学院',
@@ -182,17 +184,6 @@ Page({
       return
     }
 
-    // 如果是首次提交但手机号已被占用，直接提示
-    if (!this.data.hasSubmitted && this.data.isPhoneExist) {
-      wx.showModal({
-        title: '提示',
-        content: '您的手机号已用于报名，无法重复提交！如需修改信息，请联系管理员。',
-        showCancel: false,
-        confirmText: '知道了'
-      });
-      return;
-    }
-
     wx.showLoading({ title: this.data.hasSubmitted ? '修改中...' : '提交中...' })
 
     // 构造提交给后端的数据（确保groupId从1开始）
@@ -224,25 +215,18 @@ Page({
       success: (res) => {
         wx.hideLoading()
         if (res.data.code === 200) {
+          // 记录是否为首次提交（用于弹窗显示不同文案）
+          const isFirstSubmit = !this.data.hasSubmitted;
+
           // 提交/修改成功后，再次拉取最新数据
           this.fetchSignUpInfo();
 
-          wx.showToast({
-            title: this.data.hasSubmitted ? '修改成功' : '提交成功',
-            icon: 'success'
+          // 显示成功弹窗
+          this.setData({
+            showSuccessModal: true,
+            isFirstSubmit: isFirstSubmit
           });
-          setTimeout(() => {
-            wx.navigateTo({
-              url: '/packageBusiness/pages/homework/homework', // 替换为你实际的homework页面路径
-              fail: () => {
-                // 兜底：如果navigateTo失败（如页面层级问题），用redirectTo
-                wx.redirectTo({
-                  url: '/packageBusiness/pages/homework/homework'
-                });
-              }
-            });
-          }, 1500);
-        
+
         } else {
           // 特殊处理手机号已被使用的错误
           if (res.data.msg && res.data.msg.includes('手机号已被使用')) {
@@ -269,5 +253,32 @@ Page({
         console.error('请求失败:', err);
       }
     })
+  },
+
+  // 关闭成功弹窗
+  closeSuccessModal() {
+    this.setData({
+      showSuccessModal: false
+    });
+  },
+
+  // 防止点击弹窗内容时关闭
+  preventClose() {
+    return;
+  },
+
+  // 跳转到报名详情页
+  goToHomework() {
+    this.setData({
+      showSuccessModal: false
+    });
+    wx.navigateTo({
+      url: '/packageBusiness/pages/homework/homework',
+      fail: () => {
+        wx.redirectTo({
+          url: '/packageBusiness/pages/homework/homework'
+        });
+      }
+    });
   }
 });
