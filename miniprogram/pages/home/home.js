@@ -4,7 +4,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    onLoading: false // 加载状态，避免用户重复点击
+    onLoading: false, // 加载状态，避免用户重复点击
+    showSignupModal: false, // 报名弹窗显示
+    hasSignup: false,      // 是否已报名
+    userSignupGroup: ''   // 用户报名的组别
   },
 
   // 跳转至申请表单页
@@ -14,12 +17,65 @@ Page({
     });
   },
 
-  // 跳转至进度页
+  // 跳转至进度页 - 先检查是否已报名
   toProgress: function() {
-    wx.navigateTo({
-      url: "/packageDisplay/pages/nowProgress/nowProgress"
+    const that = this;
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+
+    // 检查用户是否已报名
+    wx.request({
+      url: apiBaseUrl + '/user/user/sign-up',
+      method: 'GET',
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      },
+      success: (res) => {
+        if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
+          // 已报名 - 直接跳转到进度页
+          wx.navigateTo({
+            url: "/packageDisplay/pages/nowProgress/nowProgress"
+          });
+        } else {
+          // 未报名 - 显示弹窗
+          that.setData({
+            showSignupModal: true,
+            hasSignup: false,
+            userSignupGroup: ''
+          });
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '获取报名信息失败',
+          icon: 'none'
+        });
+      }
     });
   },
+
+  // 关闭弹窗
+  closeModal: function() {
+    this.setData({
+      showSignupModal: false
+    });
+  },
+
+  // 跳转报名
+  goToSignup: function() {
+    this.setData({
+      showSignupModal: false
+    });
+    wx.navigateTo({
+      url: '/packageBusiness/pages/application/application',
+      fail: () => {
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
   toTeamIntro:function(){
     wx.navigateTo({
       url: "/packageTeam/pages/teamIntro/teamIntro"

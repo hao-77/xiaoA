@@ -52,4 +52,16 @@
   </view>
 </view>
 
+<!-- 报名弹窗 -->
+<view class="modal-mask" wx:if="{{showSignupModal}}" bindtap="closeModal"></view>
+<view class="modal-content" wx:if="{{showSignupModal}}">
+  <view class="modal-icon">{{hasSignup ? '🎉' : '🤔'}}</view>
+  <view class="modal-title">{{hasSignup ? '您已报名' : '暂未报名'}}</view>
+  <view class="modal-message">{{hasSignup ? '您已报名 ' + userSignupGroup + '，祝您考核顺利！' : '是否现在报名加入小A？'}}</view>
+  <view class="modal-buttons">
+    <button class="modal-btn cancel" bindtap="closeModal">{{hasSignup ? '我知道啦~' : '暂时不用，谢谢'}}</button>
+    <button class="modal-btn confirm" bindtap="goToSignup" wx:if="{{!hasSignup}}">点我报名！</button>
+  </view>
+</view>
+
 

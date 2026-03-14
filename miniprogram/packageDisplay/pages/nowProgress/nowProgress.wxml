@@ -11,7 +11,7 @@
       <view class="progressTop">
         <view class="progressLeft" style="height: 161rpx; display: block; box-sizing: border-box"> 
           <view class="progressTitle">{{currentProcess.name}}</view>
-          <view class="teamName" bindtap="onGroupNameTap">报名组别：{{currentProcess.groupName || '点击查看'}}</view>
+          <view class="teamName">报名组别：{{currentProcess.groupName}}</view>
         </view>
         <view class="progressRight">
           <button bindtap="gotoHomework">查看详情</button>
@@ -30,16 +30,4 @@
     <image style="position: absolute; left: 98rpx; top: 689rpx; height: 253rpx; display: block; box-sizing: border-box; width: 248rpx" src="../assets/long.png" mode=""/>
     <image style="width: 381rpx; height: 328rpx; display: block; box-sizing: border-box; left: 307rpx; top: 652rpx; position: absolute" src="../assets/tree.png" class="tree" mode=""/>
     <image style="position: absolute; left: 0rpx; top: 864rpx" src="../assets/tu.png" class="tu" mode=""/>
-  </view>
-
-  <!-- 报名弹窗 -->
-  <view class="modal-mask" wx:if="{{showSignupModal}}" bindtap="closeModal"></view>
-  <view class="modal-content" wx:if="{{showSignupModal}}">
-    <view class="modal-icon">{{hasSignup ? '🎉' : '🤔'}}</view>
-    <view class="modal-title">{{hasSignup ? '您已报名' : '暂未报名'}}</view>
-    <view class="modal-message">{{hasSignup ? '您已报名 ' + userSignupGroup + '，祝您考核顺利！' : '是否现在报名加入小A？'}}</view>
-    <view class="modal-buttons">
-      <button class="modal-btn cancel" bindtap="closeModal">暂时不用，谢谢</button>
-      <button class="modal-btn confirm" bindtap="goToSignup" wx:if="{{!hasSignup}}">点我报名！</button>
-    </view>
   </view>

@@ -5,10 +5,7 @@ Page({
   data: {
     currentProcess: {}, // 保存当前流程信息
     processList: [],    // 保存所有流程列表
-    availableDates: [],  // 存储可预约日期
-    showSignupModal: false, // 报名弹窗显示
-    hasSignup: false,      // 是否已报名
-    userSignupGroup: ''   // 用户报名的组别
+    availableDates: []  // 存储可预约日期
   },
 
   /**
@@ -136,69 +133,6 @@ gotoHomework() {
   goToMy() {
     wx.switchTab({
       url: '/pages/my/my'
-    });
-  },
-
-  // 点击报名组别
-  onGroupNameTap() {
-    const that = this;
-    const apiBaseUrl = getApp().globalData.apiBaseUrl;
-
-    // 先检查用户是否已报名
-    wx.request({
-      url: apiBaseUrl + '/user/user/sign-up',
-      method: 'GET',
-      header: {
-        'Authorization': wx.getStorageSync('token')
-      },
-      success: (res) => {
-        if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
-          // 已报名
-          const groupList = ['AI组', '电控组', '机械组', '前端组', '后台组', '运营组'];
-          const groupName = groupList[res.data.data.groupId - 1] || '未知组别';
-          that.setData({
-            showSignupModal: true,
-            hasSignup: true,
-            userSignupGroup: groupName
-          });
-        } else {
-          // 未报名
-          that.setData({
-            showSignupModal: true,
-            hasSignup: false,
-            userSignupGroup: ''
-          });
-        }
-      },
-      fail: () => {
-        wx.showToast({
-          title: '获取报名信息失败',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
-  // 关闭弹窗
-  closeModal() {
-    this.setData({
-      showSignupModal: false
-    });
-  },
-
-  // 跳转报名
-  goToSignup() {
-    this.setData({
-      showSignupModal: false
-    });
-    wx.navigateTo({
-      url: '/packageBusiness/pages/application/application',
-      fail: () => {
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
     });
   }
 });
