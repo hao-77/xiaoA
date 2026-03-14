@@ -29,27 +29,30 @@
 
 .header-images {
   position: absolute;
-  top: 280rpx;
-  right: 50rpx;
+  top: 300rpx;
+  right: 80rpx;
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10rpx;
 }
 
 .header-starsay {
-  width: 180rpx;
-  height: 60rpx;
+  width: 280rpx;
+  height: 100rpx;
+  margin-right: -30rpx;
 }
 
 .header-slogan {
-  width: 200rpx;
-  height: 50rpx;
+  width: 300rpx;
+  height: 90rpx;
+  margin-right: -30rpx;
+  z-index: 3;
 }
 
 .header-dragon {
-  width: 140rpx;
-  height: 90rpx;
+  width: 220rpx;
+  height: 140rpx;
+  z-index: 4;
 }
 
 // 背景装饰
