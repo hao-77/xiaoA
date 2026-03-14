@@ -1,23 +1,32 @@
 <!-- 顶部导航栏 -->
 <navigation-bar title="团队介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
-<!-- 轮播图区域（单张图，去掉指示器） -->
-<swiper class="banner-swiper" indicator-dots="{{false}}" circular="{{false}}">
-  <swiper-item>
-    <view class="banner-item">
-      <image src="../assets/tu2.png" mode="aspectFill"></image>
-    </view>
-  </swiper-item>
-</swiper>
-
-<!-- 团队名称标题 -->
-<view class="team-header">
-  <view class="team-title">小A创新创业团队</view>
-  <view class="team-subtitle">XiaoA Innovation & Entrepreneurship Team</view>
+<!-- 顶部封面图 -->
+<view class="header-image">
+  <image src="../assets/teamHeader.jpg" mode="aspectFill"></image>
 </view>
 
 <!-- 内容卡片区域 -->
 <view class="content-wrapper">
+  <!-- 快捷入口卡片 - 放在最前面更显眼 -->
+  <view class="menu-card">
+    <view class="menu-item clickable" bindtap="toProjectIntro">
+      <view class="menu-left">
+        <view class="menu-icon">📋</view>
+        <view class="menu-text">项目介绍</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item clickable" bindtap="toGroupIntro">
+      <view class="menu-left">
+        <view class="menu-icon">👥</view>
+        <view class="menu-text">组别介绍</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
   <!-- 团队介绍卡片 -->
   <view class="intro-card">
     <view class="card-header">
@@ -55,25 +64,6 @@
       <view class="partner-text">
         团队与华为共建鲲鹏&昇腾开发者创享社，持续为鲲鹏昇腾及华为各产业链输送高质量实战型人才和拔尖创新人才。
       </view>
-    </view>
-  </view>
-
-  <!-- 快捷入口卡片 -->
-  <view class="menu-card">
-    <view class="menu-item clickable" bindtap="toProjectIntro">
-      <view class="menu-left">
-        <view class="menu-icon">📋</view>
-        <view class="menu-text">项目介绍</view>
-      </view>
-      <view class="menu-arrow">›</view>
-    </view>
-    <view class="menu-divider"></view>
-    <view class="menu-item clickable" bindtap="toGroupIntro">
-      <view class="menu-left">
-        <view class="menu-icon">👥</view>
-        <view class="menu-text">组别介绍</view>
-      </view>
-      <view class="menu-arrow">›</view>
     </view>
   </view>
 
