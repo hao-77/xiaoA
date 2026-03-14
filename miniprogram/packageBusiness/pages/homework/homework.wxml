@@ -73,6 +73,13 @@
     <button class="primary-btn" bindtap="viewAssessmentDetail" wx:if="{{currentProcess.id}}">
       查看考核详情
     </button>
+
+    <!-- 修改报名提示 -->
+    <view class="modify-hint" bindtap="goToSignup">
+      <text>信息有误？</text>
+      <text class="link-text">点此重新修改报名信息</text>
+    </view>
+
     <button class="home-btn" bindtap="goToHome">
       返回首页
     </button>

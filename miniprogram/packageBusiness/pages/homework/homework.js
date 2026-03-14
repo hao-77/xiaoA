@@ -218,11 +218,39 @@ Page({
   },
 
   /**
-   * 返回主界面
+   * 返回主界面 - 使用 navigateBack 更稳定
    */
   goToHome() {
+    // 尝试使用 switchTab，如果失败则用 navigateBack
     wx.switchTab({
-      url: '/pages/index/index'
+      url: '/pages/index/index',
+      fail: () => {
+        // 如果 switchTab 失败，尝试使用 navigateBack
+        wx.navigateBack({
+          delta: 1,
+          fail: () => {
+            // 最后尝试使用 redirectTo
+            wx.redirectTo({
+              url: '/pages/index/index'
+            });
+          }
+        });
+      }
+    });
+  },
+
+  /**
+   * 跳转报名页面修改信息
+   */
+  goToSignup() {
+    wx.navigateTo({
+      url: '/packageBusiness/pages/application/application',
+      fail: () => {
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
     });
   }
 });
