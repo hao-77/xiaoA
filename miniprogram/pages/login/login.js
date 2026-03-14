@@ -149,11 +149,22 @@ Page({
     if (res.statusCode === 200 && res.data.code === 200) {
       const { saTokenInfo, ...userData } = res.data.data;
       if (saTokenInfo && saTokenInfo.tokenValue) {
+        // 存储登录凭证到本地 - 先清除旧数据确保干净
+        wx.removeStorageSync('token');
+        wx.removeStorageSync('isLogin');
+        wx.removeStorageSync('userInfo');
+        
         // 存储登录凭证到本地
         wx.setStorageSync('token', saTokenInfo.tokenValue);
         // 存储用户信息（去除saTokenInfo，保留其他用户数据）
         wx.setStorageSync('userInfo', userData);
-        wx.setStorageSync('isLogin', true); // 设置登录标志
+        // 设置登录标志 - 最后设置确保同步
+        wx.setStorageSync('isLogin', true);
+
+        // 强制同步确保数据写入
+        const token = wx.getStorageSync('token');
+        const isLogin = wx.getStorageSync('isLogin');
+        console.log('Login stored - Token:', !!token, 'isLogin:', isLogin);
 
         // 检查是否有待处理的操作（如从报名页跳转过来需要登录）
         const pendingAction = wx.getStorageSync('pendingAction');

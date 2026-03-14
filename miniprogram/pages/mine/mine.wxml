@@ -1,22 +1,23 @@
 <!--pages/mine/mine.wxml-->
-<navigation-bar title="我的" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<navigation-bar title="我的" back="{{true}}" color="#000" background="#ffede5"></navigation-bar>
 
-<!-- 背景装饰 -->
+<!-- 背景装饰 - 粉色云朵 -->
 <view class="bg-decoration">
-  <view class="bg-circle circle-1"></view>
-  <view class="bg-circle circle-2"></view>
-  <view class="bg-circle circle-3"></view>
+  <image class="bg-cloud cloud-1" src="../assets/pinkCloud1.png" mode="aspectFit"/>
+  <image class="bg-cloud cloud-2" src="../assets/pinkCloud2.png" mode="aspectFit"/>
+  <image class="bg-star star-1" src="../assets/star1.png" mode="aspectFit"/>
+  <image class="bg-star star-2" src="../assets/star1.png" mode="aspectFit"/>
 </view>
 
 <!-- 已登录状态 - 显示个人信息 -->
-<block wx:if="{{isLogin && userName}}">
+<block wx:if="{{isLogin && (userName || userPhone)}}">
   <!-- 个人信息卡片 -->
   <view class="profile-card">
     <!-- 头像区域 -->
     <view class="avatar-section" bindtap="getWechatAvatar">
       <view class="avatar-wrapper">
         <image wx:if="{{avatarUrl}}" class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" alt="头像"/>
-        <image wx:else class="avatar-img" src="../../assets/touxiang2.png" alt="默认头像"/>
+        <image wx:else class="avatar-img" src="../assets/touxiang2.png" alt="默认头像"/>
         <view class="avatar-edit-icon">
           <text class="icon">✎</text>
         </view>
@@ -27,7 +28,7 @@
     <!-- 用户名显示 - 可编辑 -->
     <view class="name-section">
       <view class="name-display" wx:if="{{!isEditingName}}" bindtap="startEditName">
-        <text class="user-name">{{displayName}}</text>
+        <text class="user-name">{{displayName || '未设置昵称'}}</text>
         <text class="edit-icon">✎</text>
       </view>
       <!-- 编辑名字输入框 -->
@@ -55,16 +56,28 @@
       <text class="phone-value">{{userPhone}}</text>
     </view>
 
-    <!-- 个人信息的期 -->
-    <view class="info-tags" wx:if="{{realName || college || majorClass}}">
-      <view class="tag" wx:if="{{realName}}">
-        <text class="tag-icon">✓</text>
-        <text class="tag-text">已报名</text>
+    <!-- 分割线 -->
+    <view class="divider"></view>
+
+    <!-- 报名信息展示 -->
+    <view class="signup-info" wx:if="{{realName}}">
+      <view class="info-item">
+        <text class="info-icon">✓</text>
+        <text class="info-label">已报名</text>
       </view>
-      <view class="tag" wx:if="{{college}}">
-        <text class="tag-icon">🎓</text>
-        <text class="tag-text">{{college}}</text>
+      <view class="info-item" wx:if="{{collegeText}}">
+        <text class="info-icon">🏫</text>
+        <text class="info-value">{{collegeText}}</text>
       </view>
+      <view class="info-item" wx:if="{{majorClass}}">
+        <text class="info-icon">📖</text>
+        <text class="info-value">{{majorClass}}</text>
+      </view>
+    </view>
+
+    <!-- 未报名提示 -->
+    <view class="not-signup" wx:else>
+      <text class="not-signup-text">您还未报名</text>
     </view>
   </view>
 
@@ -81,7 +94,7 @@
 <block wx:else>
   <view class="not-login-card">
     <view class="not-login-avatar">
-      <image class="avatar-img" src="../../assets/touxiang2.png" alt="默认头像"/>
+      <image class="avatar-img" src="../assets/touxiang2.png" alt="默认头像"/>
     </view>
     <view class="not-login-text">
       <text class="welcome-text">欢迎来到小A</text>

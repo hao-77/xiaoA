@@ -2,6 +2,70 @@
 const api = require('../../config/api.js');
 const app = getApp();
 
+// 学院映射表 - 与后端对应
+const COLLEGE_MAP = {
+  1: '计算机学院',
+  2: '软件学院',
+  3: '信息工程学院',
+  4: '电子工程学院',
+  5: '机械工程学院',
+  6: '电气工程学院',
+  7: '土木工程学院',
+  8: '化工学院',
+  9: '材料学院',
+  10: '能源学院',
+  11: '环境学院',
+  12: '数学学院',
+  13: '物理学院',
+  14: '化学学院',
+  15: '生物学院',
+  16: '医学院',
+  17: '药学院',
+  18: '护理学院',
+  19: '口腔医学院',
+  20: '公共卫生学院',
+  21: '经济学院',
+  22: '管理学院',
+  23: '会计学院',
+  24: '金融学院',
+  25: '法学院',
+  26: '人文学院',
+  27: '外国语学院',
+  28: '新闻与传播学院',
+  29: '艺术学院',
+  30: '音乐学院',
+  31: '体育学院',
+  32: '马克思主义学院',
+  33: '教育学院',
+  34: '心理学院',
+  35: '国际学院',
+  36: '海洋学院',
+  37: '航空航天学院',
+  38: '自动化学院',
+  39: '通信工程学院',
+  40: '光电信息学院',
+  41: '仪器科学与光电工程学院',
+  42: '机电工程学院',
+  43: '汽车工程学院',
+  44: '交通与物流学院',
+  45: '建筑工程学院',
+  46: '水利与环境学院',
+  47: '矿业与安全工程学院',
+  48: '材料科学与工程学院',
+  49: '化学与化工学院',
+  50: '生命科学学院',
+  51: '药学院',
+  52: '临床医学院',
+  53: '基础医学院',
+  54: '公共卫生学院',
+  55: '口腔医学院',
+  56: '护理学院',
+  57: '管理与经济学院',
+  58: '人文与社会科学学院',
+  59: '马克思主义学院',
+  60: '其他'
+};
+
 Page({
   /**
    * 页面的初始数据
@@ -18,7 +82,8 @@ Page({
     isEditingName: false, // 是否正在编辑名字
     
     // 额外信息
-    college: '',    // 学院
+    college: '',    // 学院ID
+    collegeText: '', // 学院名称
     majorClass: '', // 专业班级
     
     // 提示信息
@@ -55,20 +120,30 @@ Page({
 
   // 获取用户信息
   fetchUserInfo() {
+    // 双重检查：先从本地存储，再从服务器
     const userInfo = wx.getStorageSync('userInfo');
     const token = wx.getStorageSync('token');
+    const isLogin = wx.getStorageSync('isLogin');
 
-    if (token && userInfo) {
+    // 优先使用 token 判断登录状态（更可靠）
+    if (token) {
       // 标记已登录
+      if (!isLogin) {
+        wx.setStorageSync('isLogin', true);
+      }
+      
       this.setData({ isLogin: true });
       
       // 从缓存中获取用户信息
-      const nickname = userInfo.nickname || userInfo.name || '';
-      const realName = userInfo.realName || '';
-      const phone = userInfo.phone || userInfo.phoneNumber || '';
-      const avatarUrl = userInfo.avatarUrl || userInfo.avatar || '';
-      const college = userInfo.college || '';
-      const majorClass = userInfo.majorClass || '';
+      const nickname = userInfo?.nickname || userInfo?.name || '';
+      const realName = userInfo?.realName || '';
+      const phone = userInfo?.phone || userInfo?.phoneNumber || '';
+      const avatarUrl = userInfo?.avatarUrl || userInfo?.avatar || '';
+      const college = userInfo?.college || '';
+      const majorClass = userInfo?.majorClass || '';
+
+      // 学院ID转名称
+      const collegeText = this.getCollegeText(college);
 
       // 构建显示名称：如果已报名（realName存在），显示"昵称（真名）"
       let displayName = nickname || phone || '用户';
@@ -87,6 +162,7 @@ Page({
         avatarUrl: avatarUrl,
         displayName: displayName,
         college: college,
+        collegeText: collegeText,
         majorClass: majorClass
       });
 
@@ -102,9 +178,16 @@ Page({
         avatarUrl: '',
         displayName: '',
         college: '',
+        collegeText: '',
         majorClass: ''
       });
     }
+  },
+
+  // 学院ID转学院名称
+  getCollegeText(collegeId) {
+    if (!collegeId) return '';
+    return COLLEGE_MAP[collegeId] || `学院${collegeId}`;
   },
 
   // 从后端获取用户信息
@@ -122,10 +205,10 @@ Page({
           
           // 更新本地缓存
           const storedUserInfo = wx.getStorageSync('userInfo') || {};
-          storedUserInfo.nickname = data.nickname || storedUserInfo.nickname;
-          storedUserInfo.realName = data.realName;
-          storedUserInfo.phone = data.phone;
-          storedUserInfo.avatarUrl = data.avatarUrl;
+          storedUserInfo.nickname = data.realName ? (storedUserInfo.nickname || '') : storedUserInfo.nickname;
+          storedUserInfo.realName = data.realName || storedUserInfo.realName;
+          storedUserInfo.phone = data.phone || storedUserInfo.phone;
+          storedUserInfo.avatarUrl = data.avatarUrl || storedUserInfo.avatarUrl;
           storedUserInfo.gender = data.gender;
           storedUserInfo.studentId = data.studentId;
           storedUserInfo.college = data.college;
@@ -134,10 +217,13 @@ Page({
           storedUserInfo.groupId = data.groupId;
           wx.setStorageSync('userInfo', storedUserInfo);
 
+          // 获取学院名称
+          const collegeText = this.getCollegeText(data.college);
+
           // 重新计算显示名称
-          const nickname = data.nickname || storedUserInfo.nickname || '';
-          const realName = data.realName || '';
-          const phone = data.phone || '';
+          const nickname = storedUserInfo.nickname || '';
+          const realName = data.realName || storedUserInfo.realName || '';
+          const phone = data.phone || storedUserInfo.phone || '';
           
           let displayName = phone || '用户';
           if (realName) {
@@ -156,12 +242,14 @@ Page({
             avatarUrl: data.avatarUrl || '',
             displayName: displayName,
             college: data.college || '',
+            collegeText: collegeText,
             majorClass: data.majorClass || ''
           });
         }
       },
       fail: (err) => {
         console.error('获取用户信息失败:', err);
+        // 即使失败也不清除本地数据，保持页面显示
       }
     });
   },
@@ -269,9 +357,8 @@ Page({
   logout: function() {
     const that = this;
     const token = wx.getStorageSync('token');
-    const isLogin = wx.getStorageSync('isLogin');
 
-    if (!token || !isLogin) {
+    if (!token) {
       this.showToast('未登录，无需退出');
       this.clearLoginCache();
       return;
@@ -333,6 +420,7 @@ Page({
     wx.removeStorageSync('token');
     wx.removeStorageSync('isLogin');
     wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('pendingAction');
 
     // 重置页面数据
     this.setData({
@@ -343,10 +431,11 @@ Page({
       avatarUrl: '',
       displayName: '',
       college: '',
+      collegeText: '',
       majorClass: ''
     });
 
-    // 跳转到登录页
+    // 延迟跳转，让用户看到提示
     setTimeout(() => {
       wx.reLaunch({
         url: '/pages/login/login'
