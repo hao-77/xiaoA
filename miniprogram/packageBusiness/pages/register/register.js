@@ -10,7 +10,9 @@ Page({
     // 新增：自定义下拉框相关
     showDatePicker: false, // 是否显示下拉日期列表
     // 格式化后的可预约日期列表（带中文日期和星期）
-    formatAvailableDates: []
+    formatAvailableDates: [],
+    // 自定义成功弹窗
+    showSuccessModal: false // 是否显示成功弹窗
   },
 
   onLoad(options) {
@@ -301,8 +303,8 @@ Page({
             success: (res) => {
               console.log(res)
               if (res.data.code === 200) {
-                wx.showToast({ title: '预约成功', icon: 'success' });
-                setTimeout(() => wx.navigateBack(), 1500);
+                // 显示自定义成功弹窗
+                this.setData({ showSuccessModal: true });
               } else {
                 wx.showToast({ title: res.data.msg || '预约失败', icon: 'none' });
               }
@@ -315,5 +317,11 @@ Page({
         }
       }
     });
+  },
+
+  // 关闭成功弹窗并返回上一页
+  closeSuccessModal() {
+    this.setData({ showSuccessModal: false });
+    setTimeout(() => wx.navigateBack(), 300);
   }
 });

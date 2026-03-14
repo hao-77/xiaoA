@@ -57,3 +57,15 @@
   <view class="registerTime">已选时间：{{formatDate(currentDate)}} {{selectedTime}}</view>
   <view>剩余名额：{{selectedCount || 0}}人</view>
 </view>
+
+<!-- 自定义报名成功弹窗 -->
+<view class="success-modal" wx:if="{{showSuccessModal}}">
+  <view class="success-overlay"></view>
+  <view class="success-content">
+    <image class="success-dragon" src="/miniprogram/assets/dragon1.png" mode="aspectFit"></image>
+    <view class="success-title">报名成功</view>
+    <view class="success-desc">小恐龙已收到你的报名表~</view>
+    <view class="success-desc">期待与你的相遇</view>
+    <button class="success-btn" bindtap="closeSuccessModal">确定</button>
+  </view>
+</view>

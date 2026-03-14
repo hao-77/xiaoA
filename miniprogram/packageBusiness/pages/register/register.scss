@@ -208,3 +208,78 @@
   font-size: 26rpx;
   color: #666;
 }
+
+/* 自定义报名成功弹窗样式 */
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.success-content {
+  position: relative;
+  width: 600rpx;
+  background: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #fff9f0 100%);
+  border-radius: 32rpx;
+  padding: 60rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 16rpx 48rpx rgba(255, 107, 107, 0.2);
+}
+
+.success-dragon {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 30rpx;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15rpx);
+  }
+}
+
+.success-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-bottom: 20rpx;
+}
+
+.success-desc {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.success-btn {
+  margin-top: 30rpx;
+  width: 300rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-radius: 40rpx;
+  border: none;
+}
