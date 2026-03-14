@@ -1,0 +1,19 @@
+<navigation-bar title="项目介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="container">
+  <view class="project-list">
+    <block wx:for="{{projects}}" wx:key="id">
+      <view class="project-card">
+        <!-- 项目图片 -->
+        <view class="project-image">
+          <image src="{{item.image}}" mode="aspectFill"></image>
+        </view>
+        <!-- 项目信息 -->
+        <view class="project-info">
+          <view class="project-name">{{item.name}}</view>
+          <button class="detail-btn" bindtap="viewProjectDetail" data-id="{{item.id}}">查看详情</button>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

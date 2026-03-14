@@ -61,16 +61,11 @@ Page({
     });
   },
 
-  // 跳转到项目介绍页面（可根据实际路径调整）
+  // 跳转到项目介绍页面
   toProjectIntro() {
-    wx.showToast({
-      title: '暂未开放项目介绍',
-      icon: 'none'
+    wx.navigateTo({
+      url: '/packageTeam/pages/projectIntro/projectIntro'
     });
-    // 若有项目介绍页面，取消注释并修改路径
-    // wx.navigateTo({
-    //   url: '/pages/projectIntro/projectIntro'
-    // });
   },
 
   // 核心：跳转到组别介绍页面
