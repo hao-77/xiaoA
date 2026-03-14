@@ -135,12 +135,12 @@ Page({
       this.setData({ isLogin: true });
       
       // 从缓存中获取用户信息
-      const nickname = userInfo?.nickname || userInfo?.name || '';
-      const realName = userInfo?.realName || '';
-      const phone = userInfo?.phone || userInfo?.phoneNumber || '';
-      const avatarUrl = userInfo?.avatarUrl || userInfo?.avatar || '';
-      const college = userInfo?.college || '';
-      const majorClass = userInfo?.majorClass || '';
+      const nickname = (userInfo && userInfo.nickname) || (userInfo && userInfo.name) || '';
+      const realName = (userInfo && userInfo.realName) || '';
+      const phone = (userInfo && userInfo.phone) || (userInfo && userInfo.phoneNumber) || '';
+      const avatarUrl = (userInfo && userInfo.avatarUrl) || (userInfo && userInfo.avatar) || '';
+      const college = (userInfo && userInfo.college) || '';
+      const majorClass = (userInfo && userInfo.majorClass) || '';
 
       // 学院ID转名称
       const collegeText = this.getCollegeText(college);

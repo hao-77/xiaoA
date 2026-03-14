@@ -60,8 +60,8 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16rpx 0;
-  min-width: 500rpx; /* 加宽信息栏宽度 */
+  padding: 2rpx 0;
+  min-width: 1000rpx; /* 加宽信息栏宽度 */
 }
 
 .info-label {

@@ -43,16 +43,16 @@
       </view>
       <view class="intro-stats">
         <view class="stat-item">
-          <view class="stat-number">200+</view>
-          <view class="stat-label">获得奖项</view>
+          <view class="stat-number">100+</view>
+          <view class="stat-label">软著专利</view>
         </view>
         <view class="stat-item">
           <view class="stat-number">300万</view>
-          <view class="stat-label">企业合作</view>
+          <view class="stat-label">企业合作资金</view>
         </view>
         <view class="stat-item">
-          <view class="stat-number">11篇</view>
-          <view class="stat-label">论文专利</view>
+          <view class="stat-number">11+篇</view>
+          <view class="stat-label">论文</view>
         </view>
       </view>
     </view>
@@ -80,11 +80,11 @@
     <view class="card-body">
       <view class="honor-list">
         <view class="honor-item">
-          <view class="honor-badge">国赛金奖</view>
-          <view class="honor-desc">国家级以上奖项</view>
+          <view class="honor-badge">逾百位</view>
+          <view class="honor-desc">师兄师姐 保研就业创业</view>
         </view>
         <view class="honor-item">
-          <view class="honor-badge">省级奖项</view>
+          <view class="honor-badge">国、省级奖项</view>
           <view class="honor-desc">累计200+项</view>
         </view>
         <view class="honor-item">
