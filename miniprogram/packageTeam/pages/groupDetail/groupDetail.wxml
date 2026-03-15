@@ -1,0 +1,77 @@
+<navigation-bar title="{{team.name}}" back="{{true}}" color="#fff" background="transparent"></navigation-bar>
+
+<!-- 页面容器 -->
+<view class="detail-container">
+  <!-- 顶部图片区域 -->
+  <view class="header-image-container">
+    <image class="header-image"
+           src="{{team.image}}"
+           mode="aspectFill"></image>
+    <!-- 渐变遮罩 -->
+    <view class="header-gradient"></view>
+
+    <!-- 装饰元素 -->
+    <view class="header-decoration">
+      <view class="decoration-circle decoration-circle-1"></view>
+      <view class="decoration-circle decoration-circle-2"></view>
+      <view class="decoration-sparkle"></view>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-area">
+    <!-- 组别标题 -->
+    <view class="team-title">
+      <view class="title-badge">{{team.name}}</view>
+      <view class="title-line"></view>
+    </view>
+
+    <!-- 组别描述 -->
+    <view class="section description-section">
+      <view class="section-header">
+        <view class="section-icon">📝</view>
+        <text class="section-title">组别介绍</text>
+      </view>
+      <view class="section-content">
+        <text class="description-text">{{team.description}}</text>
+      </view>
+    </view>
+
+    <!-- 工作职责 -->
+    <view class="section responsibilities-section">
+      <view class="section-header">
+        <view class="section-icon">🎯</view>
+        <text class="section-title">工作职责</text>
+      </view>
+      <view class="tags-container">
+        <block wx:for="{{team.responsibilities}}" wx:key="index">
+          <view class="tag tag-responsibility">
+            <text>{{item}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 招新要求 -->
+    <view class="section requirements-section">
+      <view class="section-header">
+        <view class="section-icon">✨</view>
+        <text class="section-title">招新要求</text>
+      </view>
+      <view class="requirements-list">
+        <block wx:for="{{team.requirements}}" wx:key="index">
+          <view class="requirement-item">
+            <view class="requirement-bullet"></view>
+            <text class="requirement-text">{{item}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 底部装饰 -->
+    <view class="footer-decoration">
+      <view class="footer-text">期待你的加入</view>
+      <view class="footer-line"></view>
+    </view>
+  </view>
+</view>

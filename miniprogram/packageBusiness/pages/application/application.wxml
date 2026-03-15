@@ -1,0 +1,155 @@
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<view class="container">
+  <form bindsubmit="formSubmit">
+    
+    <!-- 姓名 -->
+    <view class="form-item">
+      <text class="label">*姓名</text>
+      <input 
+        class="input" 
+        name="realName" 
+        placeholder="请输入姓名" 
+        placeholder-class="placeholder"
+        maxlength="10"
+        value="{{formData.realName}}"
+      />
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-item">
+      <text class="label">*性别</text>
+      <radio-group name="gender" value="{{formData.gender}}">
+        <label class="radio-label">
+          <radio value="1" checked="{{formData.gender === 1}}"/> 女
+        </label>
+        <label class="radio-label">
+          <radio value="2" checked="{{formData.gender === 2}}"/> 男
+        </label>
+      </radio-group>
+    </view>
+
+    <!-- 联系方式（只读，显示登录手机号） -->
+    <view class="form-item">
+      <text class="label">*联系方式</text>
+      <input 
+        class="input" 
+        name="phone" 
+        placeholder="请输入联系方式" 
+        placeholder-class="placeholder"
+        type="number"
+        maxlength="11"
+        value="{{formData.phone}}"
+        disabled="{{true}}" 
+      />
+      <text class="tips">该手机号为您的登录账号，不可修改</text>
+    </view>
+
+    <!-- 学号 -->
+    <view class="form-item">
+      <text class="label">*学号</text>
+      <input 
+        class="input" 
+        name="studentId" 
+        placeholder="请输入学号" 
+        placeholder-class="placeholder"
+        maxlength="12"
+        value="{{formData.studentId}}"
+      />
+    </view>
+
+    <!-- 学院 -->
+    <view class="form-item">
+      <text class="label">*学院</text>
+      <picker 
+        class="picker" 
+        name="college" 
+        range="{{collegeList}}" 
+        value="{{collegeIndex}}" 
+        bindchange="bindCollegeChange"
+      >
+        <view class="picker-text">{{collegeList[collegeIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 年级 -->
+    <view class="form-item">
+      <text class="label">*年级</text>
+      <picker 
+        class="picker" 
+        name="grade" 
+        range="{{gradeList}}" 
+        value="{{gradeIndex}}" 
+        bindchange="bindGradeChange"
+      >
+        <view class="picker-text">{{gradeList[gradeIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 专业班级 -->
+    <view class="form-item">
+      <text class="label">*专业班级</text>
+      <input 
+        class="input" 
+        name="majorClass" 
+        placeholder="请输入专业班级，例X专业X班" 
+        placeholder-class="placeholder"
+        maxlength="30"
+        value="{{formData.majorClass}}"
+      />
+    </view>
+
+    <!-- 选择组别 -->
+    <view class="form-item">
+      <text class="label">*选择组别</text>
+      <picker 
+        class="picker" 
+        name="groupId" 
+        range="{{groupList}}" 
+        value="{{groupIndex}}" 
+        bindchange="bindGroupChange"
+      >
+        <view class="picker-text">{{groupList[groupIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 个人简介 -->
+    <view class="form-item textarea-item">
+      <text class="label">*个人简介</text>
+      <textarea 
+        class="textarea" 
+        name="personalIntroduction" 
+        placeholder="请输入个人简介（500字内）" 
+        placeholder-class="placeholder"
+        maxlength="500"
+        bindinput="countWords"
+        value="{{formData.personalIntroduction}}"
+      />
+      <text class="word-count">{{wordCount}}/500</text>
+    </view>
+
+    <!-- 提交/修改按钮 -->
+    <button
+      class="submit-btn"
+      form-type="submit"
+      type="primary"
+    >
+      {{hasSubmitted ? '修改信息' : '立即报名'}}
+    </button>
+
+  </form>
+</view>
+
+<!-- 报名成功弹窗 -->
+<view class="success-modal" wx:if="{{showSuccessModal}}" bindtap="closeSuccessModal">
+  <view class="success-content" catchtap="preventClose">
+    <!-- 成功图标 -->
+    <view class="success-icon">
+      <view class="checkmark"></view>
+    </view>
+    <view class="success-title">{{isFirstSubmit ? '报名成功' : '修改成功'}}</view>
+    <view class="success-message">
+      {{isFirstSubmit ? '恭喜您已完成报名，请耐心等待审核' : '信息已成功更新'}}
+    </view>
+    <view class="success-btn" bindtap="goToHomework">查看报名详情</view>
+  </view>
+</view>

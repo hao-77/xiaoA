@@ -1,0 +1,13 @@
+node_modules/
+miniprogram/miniprogram_npm/
+*.log
+.DS_Store
+.project.config.json
+.private.config.json
+typings/
+
+# Test coverage
+coverage/
+
+# Package lock
+package-lock.json

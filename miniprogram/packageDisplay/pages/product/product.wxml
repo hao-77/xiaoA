@@ -1,0 +1,7 @@
+<!-- 后台组 -->
+<groupIntroDetailed
+  groupId="5"
+  groupName="backStage"
+  groupMainImg="../../packageDisplay/assets/product.png"
+></groupIntroDetailed>
+

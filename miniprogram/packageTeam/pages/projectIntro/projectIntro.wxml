@@ -1,0 +1,42 @@
+<navigation-bar title="项目介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="container">
+  <!-- 项目列表 -->
+  <view class="project-list" wx:if="{{!selectedProject}}">
+    <block wx:for="{{projects}}" wx:key="id">
+      <view class="project-card" bindtap="viewProjectDetail" data-id="{{item.id}}">
+        <!-- 项目图片 -->
+        <view class="project-image">
+          <image src="{{item.image}}" mode="aspectFill"></image>
+        </view>
+        <!-- 项目信息 -->
+        <view class="project-info">
+          <view class="project-name">{{item.shortName}}</view>
+          <button class="detail-btn" catchtap="viewProjectDetail" data-id="{{item.id}}">查看详情</button>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 项目详情 -->
+  <view class="project-detail" wx:if="{{selectedProject}}">
+    <view class="detail-header">
+      <image src="{{selectedProject.image}}" mode="aspectFill"></image>
+    </view>
+    <view class="detail-content">
+      <view class="detail-title">{{selectedProject.fullName}}</view>
+      <view class="detail-desc">{{selectedProject.detail}}</view>
+
+      <!-- 奖项 -->
+      <view class="awards-section" wx:if="{{selectedProject.awards && selectedProject.awards.length > 0}}">
+        <view class="awards-title">🏆 获奖记录</view>
+        <view class="awards-list">
+          <block wx:for="{{selectedProject.awards}}" wx:key="index">
+            <view class="award-item">{{item}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+    <button class="back-btn" bindtap="closeDetail">返回列表</button>
+  </view>
+</view>

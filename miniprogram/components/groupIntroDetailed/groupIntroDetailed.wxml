@@ -1,0 +1,44 @@
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="Background">
+  <!-- 背景图片区域（保留） -->
+  <view class="groupsBackground" style="position: relative;">
+    <image class="cloud-img" src="{{cloudImg}}" mode="widthFix" style="height: 431rpx; display: inline-block; box-sizing: border-box;"></image>
+    <image class="star-img" src="{{starImg}}" mode="widthFix" style="position: absolute; left: 53rpx; top: 98rpx;"></image>
+    <image class="which-group-img" src="{{whichGroupImg}}" mode="widthFix" style="position: absolute; left: 314rpx; top: 62rpx;"></image>
+    <image class="left-img" src="{{leftImg}}" mode="widthFix" style="height: 571rpx; display: block; box-sizing: border-box; left: 0rpx; top: 360rpx; position: absolute; width: 157rpx;"></image>
+    <image class="right-img" src="{{rightImg}}" mode="widthFix" style="position: absolute; left: 578rpx; top: 375rpx; width: 157rpx; height: 658rpx; display: block; box-sizing: border-box;"></image>
+  </view>
+
+  <!-- 组别核心内容 -->
+  <view class="group" style="height: 777rpx; display: block; box-sizing: border-box; left: 55rpx; top: 372rpx; position: absolute;">
+    <!-- 🔥 匹配新属性名 groupMainImg + 新增图片样式 -->
+    <image 
+      class="group-main-img" 
+      src="{{groupMainImg}}" 
+      mode="widthFix"
+      style="width: 600rpx; margin-bottom: 20rpx;"
+    ></image>
+    
+    <!-- 组别介绍 -->
+    <view class="detailedItems" style="margin-bottom: 30rpx;">
+      <view class="detailed" wx:for="{{introList}}" wx:key="index">
+        <view class="detailedTitle" style="font-size: 32rpx; font-weight: bold; color: #0066ff; margin-bottom: 10rpx;">{{item.title}}</view>
+        <view class="detailedInfo" style="font-size: 28rpx; color: #666; line-height: 1.6;">{{item.content}}</view>
+      </view>
+    </view>
+
+    <!-- 招新需求 -->
+    <view class="recruitmentRequirements">
+      <view class="recruitment" wx:for="{{recruitment}}" wx:key="index">
+        <view class="recruitmentTitle" style="font-size: 32rpx; font-weight: bold; color: #ff7a45; margin-bottom: 10rpx;">{{item.title}}</view>
+        <view class="recruitmentInfo" style="font-size: 28rpx; color: #666; line-height: 1.6;">{{item.content}}</view>
+      </view>
+    </view>
+
+    <!-- 立刻报名按钮 -->
+    <view class="register-btn-container">
+      <button class="register-btn" bindtap="goToRegister">立刻报名</button>
+    </view>
+  </view>
+</view>

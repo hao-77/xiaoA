@@ -1,0 +1,112 @@
+<!--pages/mine/mine.wxml-->
+<navigation-bar title="我的" back="{{true}}" color="#000" background="#ffede5"></navigation-bar>
+
+<!-- 背景装饰 - 粉色云朵 -->
+<view class="bg-decoration">
+  <image class="bg-cloud cloud-1" src="../assets/pinkCloud1.png" mode="aspectFit"/>
+  <image class="bg-cloud cloud-2" src="../assets/pinkCloud2.png" mode="aspectFit"/>
+  <image class="bg-star star-1" src="../assets/star1.png" mode="aspectFit"/>
+  <image class="bg-star star-2" src="../assets/star1.png" mode="aspectFit"/>
+</view>
+
+<!-- 已登录状态 - 显示个人信息 -->
+<block wx:if="{{isLogin && (userName || userPhone)}}">
+  <!-- 个人信息卡片 -->
+  <view class="profile-card" style="position: relative; left: 0rpx; top: 82rpx">
+    <!-- 头像区域 -->
+    <view class="avatar-section" bindtap="getWechatAvatar">
+      <view class="avatar-wrapper">
+        <image wx:if="{{avatarUrl}}" class="avatar-img" src="{{avatarUrl}}" mode="aspectFill" alt="头像"/>
+        <image wx:else class="avatar-img" src="../../assets/touxiang2.png" alt="默认头像"/>
+        <view class="avatar-edit-icon">
+          <text class="icon">✎</text>
+        </view>
+      </view>
+      <view class="avatar-tip" wx:if="{{!avatarUrl}}">点击更换头像</view>
+    </view>
+
+    <!-- 用户名显示 - 可编辑 -->
+    <view class="name-section">
+      <view class="name-display" wx:if="{{!isEditingName}}" bindtap="startEditName">
+        <text class="user-name">{{displayName || '未设置昵称'}}</text>
+        <text class="edit-icon">✎</text>
+      </view>
+      <!-- 编辑名字输入框 -->
+      <view class="name-edit" wx:else>
+        <input
+          class="name-input"
+          value="{{editedName}}"
+          placeholder="请输入昵称"
+          maxlength="20"
+          focus="{{isEditingName}}"
+          bindinput="onNameInput"
+          bindblur="confirmEditName"
+          bindconfirm="confirmEditName"
+        />
+        <view class="edit-buttons">
+          <text class="btn-cancel" bindtap="cancelEditName">取消</text>
+          <text class="btn-confirm" bindtap="confirmEditName">确定</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 手机号显示 -->
+    <view class="phone-section" wx:if="{{userPhone}}">
+      <text class="phone-label">手机号：</text>
+      <text class="phone-value">{{userPhone}}</text>
+    </view>
+
+    <!-- 分割线 -->
+    <view class="divider"></view>
+
+    <!-- 报名信息展示 -->
+    <view class="signup-info" wx:if="{{realName}}">
+      <view class="info-item">
+        <text class="info-icon">✓</text>
+        <text class="info-label">已报名</text>
+      </view>
+      <view class="info-item" wx:if="{{collegeText}}">
+        <text class="info-icon">🏫</text>
+        <text class="info-value">{{collegeText}}</text>
+      </view>
+      <view class="info-item" wx:if="{{majorClass}}">
+        <text class="info-icon">📖</text>
+        <text class="info-value">{{majorClass}}</text>
+      </view>
+    </view>
+
+    <!-- 未报名提示 -->
+    <view class="not-signup" wx:else>
+      <text class="not-signup-text">您还未报名</text>
+    </view>
+  </view>
+
+  <!-- 功能按钮区域 -->
+  <view class="action-buttons">
+    <button class="action-btn logout-btn" bindtap="logout" loading="{{loading}}" style="position: relative; left: 0rpx; top: 127rpx">
+      <text class="btn-icon">↪</text>
+      <text class="btn-text">退出登录</text>
+    </button>
+  </view>
+</block>
+
+<!-- 未登录状态 -->
+<block wx:else>
+  <view class="not-login-card">
+    <view class="not-login-avatar">
+      <image class="avatar-img" src="../assets/touxiang2.png" alt="默认头像"/>
+    </view>
+    <view class="not-login-text">
+      <text class="welcome-text">欢迎来到小A</text>
+      <text class="sub-text">登录后可查看报名信息</text>
+    </view>
+    <button class="login-btn" bindtap="goToLogin">
+      <text class="btn-text">立即登录</text>
+    </button>
+  </view>
+</block>
+
+<!-- 提示信息 -->
+<view class="toast" wx:if="{{toast.show}}" style="opacity: {{toast.show ? 1 : 0}}">
+  <text>{{toast.message}}</text>
+</view>

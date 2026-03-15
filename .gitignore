@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# WeChat miniprogram specific
+miniprogram/app.js
+miniprogram/app.json
+miniprogram/app.wxss
+miniprogram/project.config.json
+miniprogram/project.private.config.json
+miniprogram/sitemap.json
+miniprogram/lib/
+miniprogram/miniprogram_npm/
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test
+test/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output
+dist/
+build/

@@ -1,0 +1,142 @@
+/* 页面容器 */
+page {
+  background-color: #f5f5f5;
+}
+
+.container {
+  padding: 20rpx;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+/* 项目卡片 */
+.project-card {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 项目图片 */
+.project-image {
+  width: 100%;
+  height: 300rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* 项目信息 */
+.project-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 30rpx;
+}
+
+.project-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-btn {
+  padding: 14rpx 32rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  color: #fff;
+  font-size: 26rpx;
+  border-radius: 30rpx;
+  border: none;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.96);
+  }
+}
+
+/* 项目详情 */
+.project-detail {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.detail-header {
+  width: 100%;
+  height: 300rpx;
+
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.detail-content {
+  padding: 30rpx;
+}
+
+.detail-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.detail-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 30rpx;
+}
+
+/* 奖项区域 */
+.awards-section {
+  margin-top: 20rpx;
+  padding: 24rpx;
+  background: #fff9f0;
+  border-radius: 12rpx;
+}
+
+.awards-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.awards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.award-item {
+  font-size: 26rpx;
+  color: #666;
+  padding-left: 20rpx;
+  position: relative;
+
+  &::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #ff6b6b;
+  }
+}
+
+.back-btn {
+  margin: 30rpx;
+  height: 88rpx;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 44rpx;
+  border: none;
+}

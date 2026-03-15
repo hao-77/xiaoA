@@ -1,0 +1,42 @@
+<!--pages/groupDetailed/groupDetailed.wxml-->
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>>
+<!-- 轮播图区域 -->
+<swiper class="banner-swiper" indicator-dots circular>
+  <swiper-item >
+    <view class="banner-item">
+      <!-- 轮播图占位，实际替换为图片路径 -->
+      <image src="/images/team-banner1.png" mode="widthFix"></image>
+    </view>
+  </swiper-item>
+  <swiper-item>
+    <view class="banner-item">
+      <image src="/images/team-banner2.png" mode="widthFix"></image>
+    </view>
+  </swiper-item>
+</swiper>
+<view class="groupTab" style="height: 66rpx; display: block; box-sizing: border-box">
+<view class="tabName" style="height: 81rpx; display: block; box-sizing: border-box">组别介绍</view>
+<view class="tabInput">
+  <textarea 
+    placeholder="请输入组别详细介绍（支持换行）" 
+    value="{{groupIntro}}" 
+    bindinput="onIntroInput"
+    maxlength="500"  
+    auto-height  
+    show-confirm-bar  
+  ></textarea>
+</view>
+</view>
+<view class="groupTab" style="height: 66rpx; display: block; box-sizing: border-box">
+<view class="tabName" style="height: 81rpx; display: block; box-sizing: border-box; position: relative; left: -12rpx; top: 339rpx">招新需求</view>
+<view class="tabInput" style="position: relative; left: 0rpx; top: 325rpx">
+  <textarea 
+    placeholder="请输入组别详细介绍（支持换行）" 
+    value="{{groupIntro}}" 
+    bindinput="onIntroInput"
+    maxlength="500"  
+    auto-height  
+    show-confirm-bar  
+  ></textarea>
+</view>
+</view>

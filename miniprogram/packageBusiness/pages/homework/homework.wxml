@@ -1,0 +1,87 @@
+<navigation-bar title="报名详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<view class="container" style="width: 756rpx; display: flex; box-sizing: border-box">
+  <!-- 顶部：报名成功提示 -->
+  <view class="success-card" style="width: 610rpx; display: block; box-sizing: border-box; height: 222rpx">
+    <view class="success-icon-wrap">
+      <text class="success-icon">✓</text>
+    </view>
+    <view class="success-title">报名成功</view>
+  </view>
+
+  <!-- 报名信息 -->
+  <view class="info-card" wx:if="{{userSignUpInfo}}" style="width: 610rpx; display: block; box-sizing: border-box">
+    <view class="card-title">报名信息</view>
+    <view class="info-list">
+      <view class="info-row">
+        <text class="info-label">姓名</text>
+        <text class="info-value">{{userSignUpInfo.realName || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">学号</text>
+        <text class="info-value">{{userSignUpInfo.studentId || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">组别</text>
+        <text class="info-value group">{{userSignUpInfo.groupName || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">专业班级</text>
+        <text class="info-value">{{userSignUpInfo.majorClass || '-'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 考核进度 -->
+  <view class="progress-section" style="width: 610rpx; display: block; box-sizing: border-box">
+    <view class="section-title">考核进度</view>
+    <view class="progress-steps">
+      <view class="step-item {{userSignUpInfo ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <view class="step-text">已报名</view>
+      </view>
+      <view class="step-line {{currentProcess.id ? 'active' : ''}}"></view>
+      <view class="step-item {{currentProcess.id ? 'active' : ''}}">
+        <view class="step-dot"></view>
+        <view class="step-text">等待考核</view>
+      </view>
+      <view class="step-line"></view>
+      <view class="step-item">
+        <view class="step-dot"></view>
+        <view class="step-text">结果</view>
+      </view>
+    </view>
+
+    <!-- 考核时间/要求 -->
+    <view class="assessment-info" wx:if="{{currentProcess.id}}">
+      <view class="info-item">
+        <text class="label">考核名称</text>
+        <text class="value">{{currentProcess.name || '暂无'}}</text>
+      </view>
+      <view class="info-item">
+        <text class="label">开始时间</text>
+        <text class="value">{{currentProcess.startTime || '待定'}}</text>
+      </view>
+    </view>
+    <view class="no-assessment" wx:else>
+      <text>暂无考核安排</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-area">
+    <button class="primary-btn" bindtap="viewAssessmentDetail" wx:if="{{currentProcess.id}}">
+      查看考核详情
+    </button>
+
+    <!-- 修改报名提示 -->
+    <view class="modify-hint" bindtap="goToSignup">
+      <text>信息有误？</text>
+      <text class="link-text">点此重新修改报名信息</text>
+    </view>
+
+    <button class="home-btn" bindtap="goToHome">
+      返回首页
+    </button>
+  </view>
+</view>

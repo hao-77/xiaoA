@@ -1,0 +1,124 @@
+/* 清除默认样式 */
+page, view, image, text {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Background {
+  width: 100%;
+  position: relative;
+}
+
+/* 背景图片容器 */
+.groupsBackground {
+  height: 600rpx;
+  display: block;
+  position: relative;
+}
+
+.cloud-img {
+  height: 428rpx;
+  display: inline-block;
+}
+
+.star-img {
+  position: absolute;
+  left: 21rpx;
+  top: calc(428rpx - 355rpx);
+  width: 323rpx;
+  height: 299rpx;
+}
+
+.which-group-img {
+  position: absolute;
+  left: -46rpx;
+  top: calc(428rpx - 464rpx);
+  width: 370rpx;
+  height: 250rpx;
+}
+
+.left-img {
+  position: absolute;
+  left: 0rpx;
+  top: calc(428rpx - 475rpx);
+  width: 149rpx;
+  height: 815rpx;
+}
+
+.right-img {
+  position: absolute;
+  left: 454rpx;
+  top: calc(428rpx - 450rpx);
+  width: 149rpx;
+  height: 864rpx;
+}
+
+/* 组别内容容器 */
+.group {
+  height: 740rpx;
+  display: block;
+  position: absolute;
+  left: 55rpx;
+  top: 515rpx;
+}
+
+.operation-img {
+  height: 381rpx;
+  width: 642rpx;
+  display: inline-block;
+}
+
+/* 介绍内容 */
+.detailedItems, .recruitmentRequirements {
+  width: 642rpx;
+  display: block;
+}
+
+.detailed,.recruitment {
+  margin: 20rpx 0;
+}
+
+.detailedTitle,.recruitmentTitle {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+  letter-spacing: 1rpx; /* 你之前问的字间距，这里加个示例 */
+}
+
+.detailedInfo,.recruitmentInfo{
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6; /* 行间距优化 */
+  letter-spacing: 0.5rpx;
+}
+.Background{
+  background:linear-gradient(to bottom,#fff2e8,#fedad9);height: 1500rpx;
+}
+
+/* 立刻报名按钮容器 */
+.register-btn-container {
+  width: 642rpx;
+  margin-top: 40rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 立刻报名按钮样式 */
+.register-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: bold;
+  border-radius: 48rpx;
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 53, 0.4);
+}
+
+.register-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 53, 0.3);
+}

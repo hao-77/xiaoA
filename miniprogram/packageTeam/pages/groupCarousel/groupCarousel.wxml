@@ -1,0 +1,89 @@
+<navigation-bar title="组别介绍" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+
+<!-- 主容器 -->
+<view class="carousel-container">
+  <!-- 顶部装饰 - 右上角图片区域 -->
+  <view class="header-decoration">
+    <image class="header-cloud" src="../../assets/cloud.png" mode="aspectFit" style="position: absolute; left: -312rpx; top: -49rpx"></image>
+    <view class="header-images">
+      <image class="header-starsay" src="../../assets/starsay.png" mode="aspectFit"></image>
+      <image class="header-slogan" src="../../assets/slogan.png" mode="aspectFit" style="position: relative; left: -10rpx; top: -95rpx"></image>
+      <image class="header-dragon" src="../../assets/happy_dragon.png" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <!-- 背景装饰 -->
+  <view class="bg-decoration">
+    <view class="bg-circle bg-circle-1"></view>
+    <view class="bg-circle bg-circle-2"></view>
+    <view class="bg-gradient"></view>
+  </view>
+
+  <!-- 左侧箭头 -->
+  <view class="arrow arrow-left" catchtap="onLeftArrowTap">
+    <view class="arrow-hit-area">
+      <image src="../../assets/left.png" mode="aspectFill"></image>
+    </view>
+  </view>
+
+  <!-- 右侧箭头 -->
+  <view class="arrow arrow-right" catchtap="onRightArrowTap">
+    <view class="arrow-hit-area">
+      <image src="../../assets/right.png" mode="aspectFill"></image>
+    </view>
+  </view>
+
+  <!-- 卡片堆叠区域 -->
+  <view class="card-stack"
+        bindtouchstart="onTouchStart"
+        bindtouchmove="onTouchMove"
+        bindtouchend="onTouchEnd">
+
+    <block wx:for="{{teams}}" wx:key="id">
+      <view class="card-wrapper"
+            style="z-index: {{cardStyles[index].zIndex}}; opacity: {{cardStyles[index].opacity}}; transform: translateY({{cardStyles[index].translateY}}rpx) scale({{cardStyles[index].scale}}); transition: {{isAnimating ? 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)' : 'none'}};"
+            wx:if="{{cardStyles[index].visible}}"
+            data-index="{{index}}"
+            bindtap="onCardTap">
+
+        <!-- 卡片阴影 -->
+        <view class="card-shadow"></view>
+
+        <!-- 卡片主体 - 横版 -->
+        <view class="card-content">
+
+          <!-- 组别图片（带流动动画） -->
+          <image class="card-image"
+                 src="{{item.image}}"
+                 mode="aspectFill"
+                 lazy-load="{{true}}"></image>
+
+          <!-- 底部渐变遮罩（带反向流动动画） -->
+          <view class="card-gradient"></view>
+
+          <!-- 组别名称 -->
+          <view class="card-name-container">
+            <text class="card-name">{{item.name}}</text>
+            <view class="card-name-line"></view>
+          </view>
+        </view>
+
+        <!-- 卡片装饰 -->
+        <view class="card-decoration card-decoration-left"></view>
+        <view class="card-decoration card-decoration-right"></view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部指示器 -->
+  <view class="indicator-container">
+    <view class="indicator">
+      <block wx:for="{{teams}}" wx:key="id">
+        <view class="indicator-dot {{index === currentIndex ? 'active' : ''}}"></view>
+      </block>
+    </view>
+    <view class="indicator-text">
+      <text>{{currentIndex + 1}} / {{teams.length}}</text>
+    </view>
+  </view>
+</view>
