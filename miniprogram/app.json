@@ -1,0 +1,85 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/registerPassword/registerPassword",
+    "pages/index/index",
+    "pages/home/home",
+    "pages/mine/mine",
+    "pages/backStage/backStage"
+  ],
+  "subPackages": [
+    {
+      "root": "packageTeam",
+      "name": "team",
+      "pages": [
+        "pages/teamIntro/teamIntro",
+        "pages/groupIntro/groupIntro",
+        "pages/groupDetailed/groupDetailed",
+        "pages/groupCarousel/groupCarousel",
+        "pages/groupDetail/groupDetail",
+        "pages/tweets/tweets",
+        "pages/projectIntro/projectIntro"
+      ]
+    },
+    {
+      "root": "packageBusiness",
+      "name": "business",
+      "pages": [
+        "pages/application/application",
+        "pages/progress/progress",
+        "pages/homework/homework",
+        "pages/register/register"
+      ]
+    },
+    {
+      "root": "packageDisplay",
+      "name": "display",
+      "pages": [
+        "pages/AI/AI",
+        "pages/EC/EC",
+        "pages/frontEnd0/frontEnd",
+        "pages/mechanical/mechanical",
+        "pages/product/product",
+        "pages/operation/operation",
+        "pages/nowProgress/nowProgress"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "assets/HOME.png",
+        "selectedIconPath": "assets/HOME_off.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "assets/my.png",
+        "selectedIconPath": "assets/my_OFF.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "tagNameStyleIsolation": "legacy",
+      "disableABTest": true,
+      "sdkVersionBegin": "3.0.0",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
