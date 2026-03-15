@@ -10,7 +10,7 @@
 </view>
 
 <!-- 已登录状态 - 显示个人信息 -->
-<block wx:if="{{isLogin && (userName || userPhone)}}">
+<block wx:if="{{isLogin }}">
   <!-- 个人信息卡片 -->
   <view class="profile-card" style="position: relative; left: 0rpx; top: 82rpx">
     <!-- 头像区域 -->

@@ -55,6 +55,7 @@ Page({
     const userInfo = wx.getStorageSync('userInfo');
     const token = wx.getStorageSync('token');
     const isLogin = wx.getStorageSync('isLogin');
+    console.log(token,userInfo,isLogin,"我的")
 
     if (token) {
       if (!isLogin) wx.setStorageSync('isLogin', true);

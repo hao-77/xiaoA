@@ -18,7 +18,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad: function(options) { // 兼容写法：不用箭头函数
     // 新增：页面加载时检查本地是否有token，有则直接跳首页
     this.checkLocalStorage();
   },
@@ -26,47 +26,49 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload() {
+  onUnload: function() { // 兼容写法：不用箭头函数
     // 新增：清理可能存在的定时器（防止内存泄漏）
     if (this.timeInterval) clearInterval(this.timeInterval);
   },
 
   // 新增：检查本地缓存的token，有则直接跳转首页
-  checkLocalStorage() {
-    const token = wx.getStorageSync('token');
+  checkLocalStorage: function() { // 兼容写法
+    var token = wx.getStorageSync('token'); // 不用const，改用var兼容低版本
     if (token) {
       this.navigateToHome();
     }
   },
 
   // 新增：统一的跳转首页方法（核心修改）
-  navigateToHome() {
+  navigateToHome: function() { // 兼容写法
     wx.switchTab({
       url: '/pages/home/home',
       // 降级方案：switchTab失败（非tabBar页面）则用redirectTo
-      fail: () => {
+      fail: function() { // 不用箭头函数
         wx.redirectTo({ url: '/pages/home/home' });
       }
     });
   },
 
   // 手机号输入事件
-  onPhoneInput(e) {
+  onPhoneInput: function(e) { // 兼容写法
     this.setData({
       phone: e.detail.value.trim()
     });
   },
 
   // 密码输入事件
-  onPasswordInput(e) {
+  onPasswordInput: function(e) { // 兼容写法
     this.setData({
       password: e.detail.value.trim()
     });
   },
 
   // 账号密码登录逻辑
-  onAccountLogin() {
-    const { phone, password } = this.data;
+  onAccountLogin: function() { // 兼容写法
+    var that = this; // 保存this指向（兼容低版本）
+    var phone = this.data.phone;
+    var password = this.data.password;
 
     // 1. 前端校验
     if (!phone) {
@@ -86,126 +88,140 @@ Page({
     this.setData({ accountLoadingBtn: true });
 
     // 3. 发起账号密码登录请求
-    const apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
+    var apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
     wx.request({
       url: apiBaseUrl + '/user/user/login',
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
-      data: { phone, password },
-      success: (res) => {
-        this.handleLoginResponse(res); // 统一处理登录响应
+      data: { phone: phone, password: password }, // 兼容写法：不用对象简写
+      success: function(res) { // 不用箭头函数
+        that.handleLoginResponse(res); // 统一处理登录响应
       },
-      fail: (err) => {
-        this.handleLoginFail(err, '账号登录'); // 统一处理请求失败
+      fail: function(err) { // 不用箭头函数
+        that.handleLoginFail(err, '账号登录'); // 统一处理请求失败
       },
-      complete: () => {
-        this.setData({ accountLoadingBtn: false }); // 关闭加载状态
+      complete: function() { // 不用箭头函数
+        that.setData({ accountLoadingBtn: false }); // 关闭加载状态
       }
     });
   },
 
   // 微信一键登录逻辑
-  onWechatLogin() {
+  onWechatLogin: function() { // 兼容写法
+    var that = this; // 保存this指向
     // 1. 显示微信登录按钮加载状态，禁用所有按钮
     this.setData({ wechatLoadingBtn: true });
 
     // 2. 调用微信登录获取 code
     wx.login({
-      success: (res) => {
+      success: function(res) { // 不用箭头函数
         if (res.code) {
           console.log(res.code)
           // 3. 用 code 调用后端微信登录接口
-          const apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
+          var apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
           wx.request({
             url: apiBaseUrl + '/user/user/wechat-login',
             method: 'POST',
             header: { 'Content-Type': 'application/json' },
             data: { code: res.code },
-            success: (res) => {
-              this.handleLoginResponse(res); // 统一处理登录响应
+            success: function(res) { // 不用箭头函数
+              that.handleLoginResponse(res); // 统一处理登录响应
               console.log(res)
             },
-            fail: (err) => {
-              this.handleLoginFail(err, '微信登录'); // 统一处理请求失败
+            fail: function(err) { // 不用箭头函数
+              that.handleLoginFail(err, '微信登录'); // 统一处理请求失败
             },
-            complete: () => {
-              this.setData({ wechatLoadingBtn: false }); // 关闭加载状态
+            complete: function() { // 不用箭头函数
+              that.setData({ wechatLoadingBtn: false }); // 关闭加载状态
             }
           });
         } else {
           wx.showToast({ title: '微信登录失败，未获取到code', icon: 'none' });
-          this.setData({ wechatLoadingBtn: false });
+          that.setData({ wechatLoadingBtn: false });
         }
       },
-      fail: (err) => {
+      fail: function(err) { // 不用箭头函数
         wx.showToast({ title: '微信登录授权失败，请重试', icon: 'none' });
-        this.setData({ wechatLoadingBtn: false });
+        that.setData({ wechatLoadingBtn: false });
       }
     });
   },
 
-  // 统一处理登录接口响应（修改跳转逻辑）
-  handleLoginResponse(res) {
+  // 统一处理登录接口响应（兼容ES5写法，移除可选链）
+  handleLoginResponse: function(res) { // 兼容写法
+    // 【关键】打印完整返回数据，排查问题
+    console.log('=== handleLoginResponse 接收到的完整数据 ===');
+    console.log('res:', res);
+    console.log('res.data.data:', res.data.data);
+
     if (res.statusCode === 200 && res.data.code === 200) {
-      const { saTokenInfo, ...userData } = res.data.data;
-      if (saTokenInfo && saTokenInfo.tokenValue) {
-        // 存储登录凭证到本地 - 先清除旧数据确保干净
+      var loginData = res.data.data;
+      
+      // 【核心修复】用ES5写法替代可选链，兼容所有环境
+      var tokenValue = null;
+      // 先判断saTokenInfo是否存在，再取tokenValue
+      if (loginData.saTokenInfo && loginData.saTokenInfo.tokenValue) {
+        tokenValue = loginData.saTokenInfo.tokenValue;
+      }
+
+      console.log('提取到的 tokenValue：', tokenValue);
+
+      if (tokenValue) {
+        // 1. 清理旧数据
         wx.removeStorageSync('token');
         wx.removeStorageSync('isLogin');
         wx.removeStorageSync('userInfo');
         
-        // 存储登录凭证到本地
-        wx.setStorageSync('token', saTokenInfo.tokenValue);
-        // 存储用户信息（去除saTokenInfo，保留其他用户数据）
-        wx.setStorageSync('userInfo', userData);
-        // 设置登录标志 - 最后设置确保同步
+        // 2. 存储 token
+        wx.setStorageSync('token', tokenValue);
         wx.setStorageSync('isLogin', true);
 
-        // 强制同步确保数据写入
-        const token = wx.getStorageSync('token');
-        const isLogin = wx.getStorageSync('isLogin');
-        console.log('Login stored - Token:', !!token, 'isLogin:', isLogin);
+        // 3. 存储用户信息（ES5写法，不用解构赋值）
+        var userInfo = {};
+        // 遍历loginData，排除saTokenInfo字段
+        for (var key in loginData) {
+          if (loginData.hasOwnProperty(key) && key !== 'saTokenInfo') {
+            userInfo[key] = loginData[key];
+          }
+        }
+        wx.setStorageSync('userInfo', userInfo);
 
-        // 检查是否有待处理的操作（如从报名页跳转过来需要登录）
-        const pendingAction = wx.getStorageSync('pendingAction');
+        // 验证存储结果
+        console.log('=== 存储验证 ===');
+        console.log('本地token:', wx.getStorageSync('token'));
+        console.log('登录状态:', wx.getStorageSync('isLogin'));
 
+        // 4. 跳转逻辑
+        var pendingAction = wx.getStorageSync('pendingAction');
         wx.showToast({
           title: '登录成功',
           icon: 'success',
           duration: 1500,
-          // 新增：确保toast显示完成后再跳转
-          success: () => {
-            setTimeout(() => {
-              // 如果有待处理的操作，执行它
+          success: function() { // 不用箭头函数
+            setTimeout(function() { // 不用箭头函数
               if (pendingAction === 'toApplication') {
-                // 清除待处理操作
                 wx.removeStorageSync('pendingAction');
-                // 跳转到报名页
-                wx.navigateTo({
-                  url: "/packageBusiness/pages/application/application"
-                });
+                wx.navigateTo({ url: "/packageBusiness/pages/application/application" });
               } else {
-                // 默认跳转首页
-                this.navigateToHome();
+                that.navigateToHome(); // 用保存的that指向
               }
             }, 1000);
           }
         });
       } else {
-        wx.showToast({ title: '登录失败，未获取到有效凭证', icon: 'none' });
+        wx.showToast({ title: '登录失败：未获取到有效Token', icon: 'none' });
       }
     } else if (res.data.code === 500) {
-      // 用户不存在或未注册，提示用户前往注册
+      // 用户未注册的逻辑
       wx.showModal({
         title: '提示',
         content: res.data.msg || '该手机号尚未注册，是否前往注册？',
         confirmText: '前往注册',
         cancelText: '返回',
-        success: (modalRes) => {
+        success: function(modalRes) { // 不用箭头函数
           if (modalRes.confirm) {
-            // 跳转到注册页面，并传递手机号
             wx.redirectTo({
-              url: `/pages/registerPassword/registerPassword?phone=${this.data.phone}`
+              url: '/pages/registerPassword/registerPassword?phone=' + that.data.phone // 拼接参数，不用模板字符串
             });
           }
         }
@@ -216,14 +232,14 @@ Page({
   },
 
   // 统一处理请求失败
-  handleLoginFail(err, type) {
-    console.error(`${type}请求失败:`, err);
+  handleLoginFail: function(err, type) { // 兼容写法
+    console.error(type + '请求失败:', err); // 不用模板字符串
     // 显示更详细的错误信息
-    let errorMsg = '网络错误，请稍后再试';
+    var errorMsg = '网络错误，请稍后再试';
     if (err.errMsg) {
-      if (err.errMsg.includes('request:fail')) {
+      if (err.errMsg.indexOf('request:fail') !== -1) { // 不用includes，用indexOf兼容
         errorMsg = '无法连接服务器，请检查网络';
-      } else if (err.errMsg.includes('timeout')) {
+      } else if (err.errMsg.indexOf('timeout') !== -1) {
         errorMsg = '请求超时，请重试';
       }
     }
@@ -231,15 +247,13 @@ Page({
   },
 
   // 跳转至手动注册页面
-  goToRegister() {
-    // 如果已输入手机号，则传递手机号到注册页面
-    const phone = this.data.phone;
+  goToRegister: function() { // 兼容写法
+    var phone = this.data.phone;
     if (phone && /^1[3-9]\d{9}$/.test(phone)) {
       wx.redirectTo({
-        url: `/pages/registerPassword/registerPassword?phone=${phone}`
+        url: '/pages/registerPassword/registerPassword?phone=' + phone // 拼接参数
       });
     } else {
-      // 未输入手机号，直接跳转注册页面
       wx.redirectTo({
         url: '/pages/registerPassword/registerPassword'
       });

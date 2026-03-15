@@ -57,14 +57,14 @@
       {
         "pagePath": "pages/home/home",
         "text": "首页",
-        "iconPath": "assets/HOME.png",
-        "selectedIconPath": "assets/HOME_off.png"
+        "iconPath": "assets/HOME_off.png",
+        "selectedIconPath": "assets/HOME.png"
       },
       {
         "pagePath": "pages/mine/mine",
         "text": "我的",
-        "iconPath": "assets/my.png",
-        "selectedIconPath": "assets/my_OFF.png"
+        "iconPath": "assets/my_OFF.png",
+        "selectedIconPath": "assets/my.png"
       }
     ]
   },
