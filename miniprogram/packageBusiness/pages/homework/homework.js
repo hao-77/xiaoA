@@ -225,7 +225,7 @@ Page({
   goToHome() {
     // 尝试使用 switchTab，如果失败则用 navigateBack
     wx.switchTab({
-      url: '/pages/index/index',
+      url: '/pages/home/home',
       fail: () => {
         // 如果 switchTab 失败，尝试使用 navigateBack
         wx.navigateBack({

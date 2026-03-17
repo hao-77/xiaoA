@@ -8,6 +8,7 @@ page {
 }
 
 .project-list {
+  margin-top: 20rpx;
   display: flex;
   flex-direction: column;
   gap: 30rpx;
@@ -54,6 +55,7 @@ page {
   font-size: 26rpx;
   border-radius: 30rpx;
   border: none;
+  flex: 0.8;
 
   &:active {
     opacity: 0.9;
@@ -140,3 +142,9 @@ page {
   border-radius: 44rpx;
   border: none;
 }
+page{
+  background-color: rgb(255, 228, 232);
+}
+.project-detail{
+width: 90%;
+height: auto;}

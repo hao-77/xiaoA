@@ -25,7 +25,7 @@
   </view>
   <view class="btn-item" bindtap="toProgress">
   <view class="img" style="width: 96rpx; height: 86rpx; display: block; box-sizing: border-box">
-    <image style="width: 88rpx; height: 77rpx; display: inline-block; box-sizing: border-box; left: 0rpx; top: 9rpx; position: relative" src="../../assets/Progress2.png" mode=""/>
+    <image style="width: 88rpx; height: 77rpx; display: inline-block; box-sizing: border-box; left: 4rpx; top: 14rpx; position: relative" src="../../assets/Progress2.png" mode=""/>
 
   </view>
 
@@ -34,7 +34,7 @@
   </view>
   <view class="btn-item" bindtap="toTeamIntro">
   <view class="img" style="width: 96rpx; height: 89rpx; display: block; box-sizing: border-box">
-    <image style="position: relative; left: 2rpx; top: 7rpx" src="../../assets/TeamIntro.png" mode=""/>
+    <image style="position: relative; left: 2rpx; top: 6rpx; height: 93rpx; display: inline-block; box-sizing: border-box" src="../../assets/TeamIntro.png" mode=""/>
   </view>
 
     <text>团队介绍</text>

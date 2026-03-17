@@ -147,89 +147,90 @@ Page({
     });
   },
 
-  // 统一处理登录接口响应（兼容ES5写法，移除可选链）
-  handleLoginResponse: function(res) { // 兼容写法
-    // 【关键】打印完整返回数据，排查问题
-    console.log('=== handleLoginResponse 接收到的完整数据 ===');
-    console.log('res:', res);
-    console.log('res.data.data:', res.data.data);
+// 统一处理登录接口响应（兼容ES5写法，修复that未定义）
+handleLoginResponse: function(res) {
+  var that = this; // 关键：定义that指向当前Page实例
+  // 【关键】打印完整返回数据，排查问题
+  console.log('=== handleLoginResponse 接收到的完整数据 ===');
+  console.log('res:', res);
+  console.log('res.data.data:', res.data.data);
 
-    if (res.statusCode === 200 && res.data.code === 200) {
-      var loginData = res.data.data;
+  if (res.statusCode === 200 && res.data.code === 200) {
+    var loginData = res.data.data;
+    
+    // 【核心修复】用ES5写法替代可选链，兼容所有环境
+    var tokenValue = null;
+    // 先判断saTokenInfo是否存在，再取tokenValue
+    if (loginData.saTokenInfo && loginData.saTokenInfo.tokenValue) {
+      tokenValue = loginData.saTokenInfo.tokenValue;
+    }
+
+    console.log('提取到的 tokenValue：', tokenValue);
+
+    if (tokenValue) {
+      // 1. 清理旧数据
+      wx.removeStorageSync('token');
+      wx.removeStorageSync('isLogin');
+      wx.removeStorageSync('userInfo');
       
-      // 【核心修复】用ES5写法替代可选链，兼容所有环境
-      var tokenValue = null;
-      // 先判断saTokenInfo是否存在，再取tokenValue
-      if (loginData.saTokenInfo && loginData.saTokenInfo.tokenValue) {
-        tokenValue = loginData.saTokenInfo.tokenValue;
-      }
+      // 2. 存储 token
+      wx.setStorageSync('token', tokenValue);
+      wx.setStorageSync('isLogin', true);
 
-      console.log('提取到的 tokenValue：', tokenValue);
-
-      if (tokenValue) {
-        // 1. 清理旧数据
-        wx.removeStorageSync('token');
-        wx.removeStorageSync('isLogin');
-        wx.removeStorageSync('userInfo');
-        
-        // 2. 存储 token
-        wx.setStorageSync('token', tokenValue);
-        wx.setStorageSync('isLogin', true);
-
-        // 3. 存储用户信息（ES5写法，不用解构赋值）
-        var userInfo = {};
-        // 遍历loginData，排除saTokenInfo字段
-        for (var key in loginData) {
-          if (loginData.hasOwnProperty(key) && key !== 'saTokenInfo') {
-            userInfo[key] = loginData[key];
-          }
+      // 3. 存储用户信息（ES5写法，不用解构赋值）
+      var userInfo = {};
+      // 遍历loginData，排除saTokenInfo字段
+      for (var key in loginData) {
+        if (loginData.hasOwnProperty(key) && key !== 'saTokenInfo') {
+          userInfo[key] = loginData[key];
         }
-        wx.setStorageSync('userInfo', userInfo);
-
-        // 验证存储结果
-        console.log('=== 存储验证 ===');
-        console.log('本地token:', wx.getStorageSync('token'));
-        console.log('登录状态:', wx.getStorageSync('isLogin'));
-
-        // 4. 跳转逻辑
-        var pendingAction = wx.getStorageSync('pendingAction');
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success',
-          duration: 1500,
-          success: function() { // 不用箭头函数
-            setTimeout(function() { // 不用箭头函数
-              if (pendingAction === 'toApplication') {
-                wx.removeStorageSync('pendingAction');
-                wx.navigateTo({ url: "/packageBusiness/pages/application/application" });
-              } else {
-                that.navigateToHome(); // 用保存的that指向
-              }
-            }, 1000);
-          }
-        });
-      } else {
-        wx.showToast({ title: '登录失败：未获取到有效Token', icon: 'none' });
       }
-    } else if (res.data.code === 500) {
-      // 用户未注册的逻辑
-      wx.showModal({
-        title: '提示',
-        content: res.data.msg || '该手机号尚未注册，是否前往注册？',
-        confirmText: '前往注册',
-        cancelText: '返回',
-        success: function(modalRes) { // 不用箭头函数
-          if (modalRes.confirm) {
-            wx.redirectTo({
-              url: '/pages/registerPassword/registerPassword?phone=' + that.data.phone // 拼接参数，不用模板字符串
-            });
-          }
+      wx.setStorageSync('userInfo', userInfo);
+
+      // 验证存储结果
+      console.log('=== 存储验证 ===');
+      console.log('本地token:', wx.getStorageSync('token'));
+      console.log('登录状态:', wx.getStorageSync('isLogin'));
+
+      // 4. 跳转逻辑
+      var pendingAction = wx.getStorageSync('pendingAction');
+      wx.showToast({
+        title: '登录成功',
+        icon: 'success',
+        duration: 1500,
+        success: function() { 
+          setTimeout(function() { 
+            if (pendingAction === 'toApplication') {
+              wx.removeStorageSync('pendingAction');
+              wx.navigateTo({ url: "/packageBusiness/pages/application/application" });
+            } else {
+              that.navigateToHome(); // 现在that已定义，可正常调用
+            }
+          }, 1000);
         }
       });
     } else {
-      wx.showToast({ title: res.data.msg || '登录失败，请重试', icon: 'none' });
+      wx.showToast({ title: '登录失败：未获取到有效Token', icon: 'none' });
     }
-  },
+  } else if (res.data.code === 500) {
+    // 用户未注册的逻辑
+    wx.showModal({
+      title: '提示',
+      content: res.data.msg || '该手机号尚未注册，是否前往注册？',
+      confirmText: '前往注册',
+      cancelText: '返回',
+      success: function(modalRes) { 
+        if (modalRes.confirm) {
+          wx.redirectTo({
+            url: '/pages/registerPassword/registerPassword?phone=' + that.data.phone 
+          });
+        }
+      }
+    });
+  } else {
+    wx.showToast({ title: res.data.msg || '登录失败，请重试', icon: 'none' });
+  }
+},
 
   // 统一处理请求失败
   handleLoginFail: function(err, type) { // 兼容写法

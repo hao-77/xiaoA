@@ -31,14 +31,16 @@ Page({
       '先进制造学院',
       '其他（请在下面专业班级前注明）'
     ],
-    gradeList: ['未选择', '大一', '大二', '大三', '大四', '研究生'], // 新增默认选项
+    gradeList: ['未选择', '大一', '大二', '大三', '大四'], // 新增默认选项
     groupList: ['未选择', 'AI组', '电控组', '机械组', '前端组', '后台组', '运营组'], // 新增默认选项
     collegeIndex: 0, // 默认选中「未选择」
     gradeIndex: 0,   // 默认选中「未选择」
     groupIndex: 0,   // 默认选中「未选择」
     wordCount: 0,
     hasSubmitted: false, // 控制按钮文字：提交/修改
-    formData: {}, // 保存从接口拉取的表单数据
+    formData: {
+      phoneOld: '' // 标记已绑定的手机号，避免重复绑定
+    },
     isPhoneExist: false, // 标记手机号是否已被占用
     preGroupIndex: -1 // 预填组别索引（从组别介绍页面跳转时使用）
   },
@@ -50,6 +52,8 @@ Page({
       this.setData({
         'formData.phone': userInfo.phone // 自动回填登录手机号
       });
+    }else{
+
     }
 
     // 保存预填组别（如果有）
@@ -96,7 +100,7 @@ Page({
             hasSubmitted = true;
             isPhoneExist = true; // 已报名用户的手机号当然是被占用的
           }
-
+      
           // 核心优化：组别索引转换（新增「未选择」后，索引+1）
           let groupIndex = 0; // 默认未选择
           if(data.groupId && data.groupId >= 1 && data.groupId <= 6){
@@ -108,7 +112,7 @@ Page({
           if(data.college && data.college >= 1 && data.college <= this.data.collegeList.length - 1){
             collegeIndex = data.college; // 后端college(1-n) → 前端index(1-n)
           }
-
+      
           // 年级索引转换（新增「未选择」后，索引+1）
           let gradeIndex = 0;
           if(data.grade && data.grade >= 1 && data.grade <= this.data.gradeList.length - 1){
@@ -116,7 +120,10 @@ Page({
           }
           
           this.setData({
-            formData: data,
+            formData: {
+              ...data,
+              phoneOld: data.phone // 标记已绑定的手机号
+            },
             collegeIndex: collegeIndex,
             gradeIndex: gradeIndex,
             groupIndex: groupIndex,
@@ -129,7 +136,9 @@ Page({
           this.setData({
             hasSubmitted: false,
             isPhoneExist: false,
-            formData: {},
+            formData: {
+              phoneOld: '' // 初始化为空，标记未绑定
+            },
             wordCount: 0,
             // 重置所有picker索引为「未选择」
             collegeIndex: 0,
@@ -182,124 +191,165 @@ Page({
   },
 
   // 表单提交/修改
-  formSubmit(e) {
-    // 获取全局API地址
-    const apiBaseUrl = getApp().globalData.apiBaseUrl;
-    
-    const formData = e.detail.value
-    console.log('表单提交数据：', formData)
+// 表单提交/修改
+formSubmit(e) {
+  // 获取全局API地址
+  const apiBaseUrl = getApp().globalData.apiBaseUrl;
+  const token = wx.getStorageSync('token'); // 从缓存取token
+  
+  const formData = e.detail.value
+  console.log('表单提交数据：', formData)
 
-    // 补充性别校验
-    if (!formData.gender) {
-      wx.showToast({
-        title: '请选择性别',
-        icon: 'none'
-      });
-      return;
-    }
+  // 补充性别校验
+  if (!formData.gender) {
+    wx.showToast({
+      title: '请选择性别',
+      icon: 'none'
+    });
+    return;
+  }
 
-    // 2. 新增：检查学院/年级/组别是否选择（索引为0表示未选择）
-    if (this.data.collegeIndex == 0) {
-      wx.showToast({ title: '请选择学院', icon: 'none' });
-      return;
-    }
-    if (this.data.gradeIndex == 0) {
-      wx.showToast({ title: '请选择年级', icon: 'none' });
-      return;
-    }
-    if (this.data.groupIndex == 0) {
-      wx.showToast({ title: '请选择组别', icon: 'none' });
-      return;
-    }
+  // 2. 新增：检查学院/年级/组别是否选择（索引为0表示未选择）
+  if (this.data.collegeIndex == 0) {
+    wx.showToast({ title: '请选择学院', icon: 'none' });
+    return;
+  }
+  if (this.data.gradeIndex == 0) {
+    wx.showToast({ title: '请选择年级', icon: 'none' });
+    return;
+  }
+  if (this.data.groupIndex == 0) {
+    wx.showToast({ title: '请选择组别', icon: 'none' });
+    return;
+  }
 
-    // 简单校验
-    if (!formData.realName || !formData.phone || !formData.studentId || !formData.majorClass || !formData.personalIntroduction) {
-      wx.showToast({
-        title: '请填写完整信息',
-        icon: 'none'
-      })
-      return
-    }
+  // 手机号单独校验（核心修改）
+  const phone = this.data.formData.phone.trim();
+  if (!phone) {
+    wx.showToast({ title: '请输入手机号', icon: 'none' });
+    return;
+  }
+  if (!/^1[3-9]\d{9}$/.test(phone)) {
+    wx.showToast({ title: '手机号格式不正确', icon: 'none' });
+    return;
+  }
 
-    // 手机号格式校验
-    if (!/^1[3-9]\d{9}$/.test(formData.phone)) {
-      wx.showToast({
-        title: '手机号格式不正确',
-        icon: 'none'
-      })
-      return
-    }
+  // 其他必填项校验
+  if (!formData.realName || !formData.studentId || !formData.majorClass || !formData.personalIntroduction) {
+    wx.showToast({
+      title: '请填写完整信息',
+      icon: 'none'
+    })
+    return
+  }
 
-    wx.showLoading({ title: this.data.hasSubmitted ? '修改中...' : '提交中...' })
-
-    // 构造提交给后端的数据（3. 索引转换：前端index(1-n) → 后端(1-(n-1))）
-    const submitData = {
-      realName: formData.realName,
-      gender: Number(formData.gender), // 1=女，2=男
-      phone: formData.phone,
-      studentId: formData.studentId,
-      college: Number(this.data.collegeIndex), // 前端index(1-n) → 后端1-(n-1)（和原逻辑一致）
-      grade: Number(this.data.gradeIndex), // 前端index(1-5) → 后端1-5
-      majorClass: formData.majorClass,
-      groupId: Number(this.data.groupIndex), // 前端index(1-6) → 后端1-6
-      personalIntroduction: formData.personalIntroduction
-    };
-
-    console.log("提交给后端的最终数据：", submitData);
-
-    // 根据是否已提交，选择POST或PUT
-    const requestMethod = this.data.hasSubmitted ? 'PUT' : 'POST';
-
+  // 先调用绑定手机号接口（如果是首次填写手机号）
+  const isBindPhone = !this.data.formData.phoneOld; // 标记是否需要绑定
+  if (isBindPhone) {
+    wx.showLoading({ title: '绑定手机号中...' });
+    // 调用绑定手机号接口
     wx.request({
-      url: apiBaseUrl + '/user/user/sign-up',
-      method: requestMethod,
+      url: apiBaseUrl + '/user/user/bind-phone', // 绑定接口地址
+      method: 'POST',
       header: {
         'Content-Type': 'application/json',
-        'Authorization': wx.getStorageSync('token')
+        'Authorization': token // 从缓存取token
       },
-      data: submitData,
+      data: { phone: phone }, // 提交手机号
       success: (res) => {
-        wx.hideLoading()
         if (res.data.code === 200) {
-          // 记录是否为首次提交（用于弹窗显示不同文案）
-          const isFirstSubmit = !this.data.hasSubmitted;
-
-          // 提交/修改成功后，再次拉取最新数据
-          this.fetchSignUpInfo();
-
-          // 显示成功弹窗
-          this.setData({
-            showSuccessModal: true,
-            isFirstSubmit: isFirstSubmit
-          });
-
+          // 手机号绑定成功，继续提交报名信息
+          this.submitSignUpForm(apiBaseUrl, formData, phone);
         } else {
-          // 特殊处理手机号已被使用的错误
-          if (res.data.msg && res.data.msg.includes('手机号已被使用')) {
-            wx.showModal({
-              title: '提示',
-              content: '该手机号已用于报名，无法重复提交！如需修改信息，请联系管理员。',
-              showCancel: false,
-              confirmText: '知道了'
-            });
-          } else {
-            wx.showToast({
-              title: res.data.msg || (this.data.hasSubmitted ? '修改失败' : '提交失败'),
-              icon: 'none'
-            });
-          }
+          wx.hideLoading();
+          wx.showToast({ title: res.data.msg || '手机号绑定失败', icon: 'none' });
         }
       },
       fail: (err) => {
         wx.hideLoading();
-        wx.showToast({
-          title: '网络错误，请重试',
-          icon: 'none'
-        })
-        console.error('请求失败:', err);
+        wx.showToast({ title: '网络错误，绑定失败', icon: 'none' });
+        console.error('绑定手机号失败:', err);
       }
-    })
-  },
+    });
+  } else {
+    // 已有手机号，直接提交报名信息
+    this.submitSignUpForm(apiBaseUrl, formData, phone);
+  }
+},
+
+// 新增：抽离报名信息提交逻辑（复用）
+submitSignUpForm(apiBaseUrl, formData, phone) {
+  wx.showLoading({ title: this.data.hasSubmitted ? '修改中...' : '提交中...' });
+
+  // 构造提交给后端的数据
+  const submitData = {
+    realName: formData.realName,
+    gender: Number(formData.gender), // 1=女，2=男
+    phone: phone, // 使用绑定/已有的手机号
+    studentId: formData.studentId,
+    college: Number(this.data.collegeIndex),
+    grade: Number(this.data.gradeIndex),
+    majorClass: formData.majorClass,
+    groupId: Number(this.data.groupIndex),
+    personalIntroduction: formData.personalIntroduction
+  };
+
+  console.log("提交给后端的最终数据：", submitData);
+
+  // 根据是否已提交，选择POST或PUT
+  const requestMethod = this.data.hasSubmitted ? 'PUT' : 'POST';
+
+  wx.request({
+    url: apiBaseUrl + '/user/user/sign-up',
+    method: requestMethod,
+    header: {
+      'Content-Type': 'application/json',
+      'Authorization': wx.getStorageSync('token')
+    },
+    data: submitData,
+    success: (res) => {
+      wx.hideLoading();
+      if (res.data.code === 200) {
+        // 记录是否为首次提交（用于弹窗显示不同文案）
+        const isFirstSubmit = !this.data.hasSubmitted;
+
+        // 提交/修改成功后，再次拉取最新数据
+        this.fetchSignUpInfo();
+
+        // 显示成功弹窗
+        this.setData({
+          showSuccessModal: true,
+          isFirstSubmit: isFirstSubmit,
+          'formData.phoneOld': phone // 标记已绑定手机号
+        });
+
+      } else {
+        // 特殊处理手机号已被使用的错误
+        if (res.data.msg && res.data.msg.includes('手机号已被使用')) {
+          wx.showModal({
+            title: '提示',
+            content: '该手机号已用于报名，无法重复提交！如需修改信息，请联系管理员。',
+            showCancel: false,
+            confirmText: '知道了'
+          });
+        } else {
+          wx.showToast({
+            title: res.data.msg || (this.data.hasSubmitted ? '修改失败' : '提交失败'),
+            icon: 'none'
+          });
+        }
+      }
+    },
+    fail: (err) => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '网络错误，请重试',
+        icon: 'none'
+      })
+      console.error('请求失败:', err);
+    }
+  });
+},
 
   // 关闭成功弹窗
   closeSuccessModal() {
@@ -311,7 +361,11 @@ Page({
   // 防止点击弹窗内容时关闭
   preventClose() {
     return;
-  },
+  },onPhoneInput(e) {
+  this.setData({
+    'formData.phone': e.detail.value.trim()
+  });
+},
 
   // 跳转到报名详情页
   goToHomework() {

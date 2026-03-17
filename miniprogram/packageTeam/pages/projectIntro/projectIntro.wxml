@@ -2,7 +2,7 @@
 
 <view class="container">
   <!-- 项目列表 -->
-  <view class="project-list" wx:if="{{!selectedProject}}">
+  <view class="project-list" wx:if="{{!selectedProject}}" style="width: 583rpx; display: flex; box-sizing: border-box">
     <block wx:for="{{projects}}" wx:key="id">
       <view class="project-card" bindtap="viewProjectDetail" data-id="{{item.id}}">
         <!-- 项目图片 -->

@@ -193,7 +193,7 @@ Page({
       // 结束动画状态
       setTimeout(() => {
         this.setData({ isAnimating: false });
-      }, 400);
+      }, 700);
     } else {
       // 未达到阈值，复位样式
       this.updateCardStyles(0);
@@ -208,12 +208,13 @@ Page({
     // 切换到上一个索引
     const newIndex = (this.data.currentIndex - 1 + this.data.teams.length) % this.data.teams.length;
     this.setData({ currentIndex: newIndex });
+
     this.updateCardStyles(0);
 
     // 结束动画状态
     setTimeout(() => {
       this.setData({ isAnimating: false });
-    }, 400);
+    }, 700);
   },
 
   // 点击右侧箭头 - 切换下一个（丝滑动画）
@@ -229,7 +230,7 @@ Page({
     // 结束动画状态
     setTimeout(() => {
       this.setData({ isAnimating: false });
-    }, 400);
+    }, 700);
   },
 
   // 点击卡片查看详情

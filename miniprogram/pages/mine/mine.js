@@ -205,52 +205,80 @@ getWechatAvatar() {
   });
 },
 
-// 统一更新头像（缓存+页面显示）
-updateAvatar(avatarUrl) {
-  // 1. 更新本地缓存
-  const storedUserInfo = wx.getStorageSync('userInfo') || {};
-  storedUserInfo.avatarUrl = avatarUrl;
-  storedUserInfo.nickname = storedUserInfo.nickname || ''; // 保留原有昵称逻辑
-  wx.setStorageSync('userInfo', storedUserInfo);
-
-  // 2. 更新页面显示
-  const nickname = storedUserInfo.nickname || this.data.userName;
-  const realName = this.data.realName;
-  let displayName = nickname || '用户';
-  if (realName) {
-    displayName = `${nickname}（${realName}）`;
-  }
-
-  this.setData({
-    avatarUrl: avatarUrl,
-    userName: nickname,
-    displayName: displayName
-  });
-
-  this.showToast('头像更新成功');
-},
-  // 上传头像到后端（可选，根据你的API调整）
-  uploadAvatarToServer(avatarUrl) {
-    const apiBaseUrl = app.globalData ? app.globalData.apiBaseUrl : api.API_BASE_URL;
-    wx.uploadFile({
-      url: apiBaseUrl + '/user/avatar/upload', // 替换为你的后端上传接口
-      filePath: avatarUrl,
-      name: 'avatar',
-      header: { 'Authorization': wx.getStorageSync('token') },
-      success: (res) => {
-        const data = JSON.parse(res.data);
-        if (data.code === 200) {
-          console.log('头像上传到后端成功');
-        } else {
-          this.showToast('头像同步到服务器失败');
+// 获取微信头像（简化版，不上传后端）
+getWechatAvatar() {
+  const that = this;
+  
+  // 使用 getUserProfile（新版API）
+  wx.getUserProfile({
+    desc: '用于更换头像',
+    success: (res) => {
+      const userInfo = res.userInfo;
+      if (userInfo && userInfo.avatarUrl) {
+        // 微信头像URL可以直接使用
+        const avatarUrl = userInfo.avatarUrl;
+        
+        // 1. 更新页面显示
+        that.setData({ avatarUrl: avatarUrl });
+        
+        // 2. 更新缓存（让下次打开还能看到）
+        const storedUserInfo = wx.getStorageSync('userInfo') || {};
+        storedUserInfo.avatarUrl = avatarUrl;
+        wx.setStorageSync('userInfo', storedUserInfo);
+        
+        // 3. 如果需要，同步更新displayName（可选）
+        const nickname = storedUserInfo.nickname || userInfo.nickName || that.data.userName;
+        const realName = that.data.realName;
+        let displayName = nickname || '用户';
+        if (realName) {
+          displayName = `${nickname}（${realName}）`;
         }
-      },
-      fail: (err) => {
-        console.error('上传头像失败:', err);
-        this.showToast('头像同步到服务器失败');
+        
+        that.setData({
+          userName: nickname,
+          displayName: displayName
+        });
+        
+        that.showToast('头像更新成功');
       }
-    });
-  },
+    },
+    fail: (err) => {
+      console.error('获取头像失败:', err);
+      // 如果 getUserProfile 失败，可以用 chooseImage 让用户选本地图片
+      if (err.errMsg.includes('fail')) {
+        that.chooseLocalImage();
+      }
+    }
+  });
+},
+
+// 从相册选择图片（备用方案）
+chooseLocalImage() {
+  const that = this;
+  wx.chooseImage({
+    count: 1,
+    sizeType: ['compressed'],
+    sourceType: ['album', 'camera'],
+    success: (res) => {
+      const tempFilePath = res.tempFilePaths[0];
+      
+      // 显示选中的图片
+      that.setData({ avatarUrl: tempFilePath });
+      
+      // 保存到缓存
+      const storedUserInfo = wx.getStorageSync('userInfo') || {};
+      storedUserInfo.avatarUrl = tempFilePath;
+      wx.setStorageSync('userInfo', storedUserInfo);
+      
+      that.showToast('头像更新成功');
+    },
+    fail: (err) => {
+      that.showToast('选择图片失败');
+    }
+  });
+},
+
+// 移除原来的 updateAvatar 和 uploadAvatarToServer 函数中的上传相关代码
 
   // 开始编辑名字
   startEditName() {

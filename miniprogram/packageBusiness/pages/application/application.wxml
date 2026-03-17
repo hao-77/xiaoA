@@ -28,21 +28,21 @@
       </radio-group>
     </view>
 
-    <!-- 联系方式（只读，显示登录手机号） -->
-    <view class="form-item">
-      <text class="label">*联系方式</text>
-      <input 
-        class="input" 
-        name="phone" 
-        placeholder="请输入联系方式" 
-        placeholder-class="placeholder"
-        type="number"
-        maxlength="11"
-        value="{{formData.phone}}"
-        disabled="{{true}}" 
-      />
-      <text class="tips">该手机号为您的登录账号，不可修改</text>
-    </view>
+<!-- 联系方式（可编辑，为空时输入绑定） -->
+<view class="form-item">
+  <text class="label">*联系方式</text>
+  <input 
+    class="input" 
+    name="phone" 
+    placeholder="请输入11位手机号" 
+    placeholder-class="placeholder"
+    type="number"
+    maxlength="11"
+    value="{{formData.phone}}"
+    bindinput="onPhoneInput"  
+  />
+  <text class="tips">{{formData.phone ? '该手机号将作为登录账号，请确认' : '请输入常用手机号，提交后将绑定为登录账号'}}</text>
+</view>
 
     <!-- 学号 -->
     <view class="form-item">

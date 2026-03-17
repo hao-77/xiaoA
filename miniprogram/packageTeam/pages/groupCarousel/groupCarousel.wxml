@@ -41,7 +41,7 @@
 
     <block wx:for="{{teams}}" wx:key="id">
       <view class="card-wrapper"
-            style="z-index: {{cardStyles[index].zIndex}}; opacity: {{cardStyles[index].opacity}}; transform: translateY({{cardStyles[index].translateY}}rpx) scale({{cardStyles[index].scale}}); transition: {{isAnimating ? 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)' : 'none'}};"
+            style="z-index: {{cardStyles[index].zIndex}}; opacity: {{cardStyles[index].opacity}}; transform: translateY({{cardStyles[index].translateY}}rpx) scale({{cardStyles[index].scale}}); transition: {{isAnimating ? 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)' : 'none'}};"
             wx:if="{{cardStyles[index].visible}}"
             data-index="{{index}}"
             bindtap="onCardTap">
