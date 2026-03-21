@@ -2,15 +2,15 @@
 <!-- 顶部标题区域 -->
 <view class="top-title" style="height: 506rpx; display: block; box-sizing: border-box; left: -2rpx; top: 0rpx; position: relative">
 <image style="position: absolute; left: 44rpx; top: 23rpx; width: 669rpx; height: 180rpx; display: block; box-sizing: border-box" class="Always" src="../../assets/Always.png" mode=""/>
-<image style="position: absolute; left: 116rpx; top: 53rpx; height: 416rpx; display: block; box-sizing: border-box" class="homeLogo" src="../../assets/homeLogo.png" mode=""/>
+<image style="position: absolute; left: 116rpx; top: 53rpx; height: 416rpx; display: block; box-sizing: border-box" class="homeLogo dinosaur-jump" src="../../assets/homeLogo.png" mode=""/>
 <image style="position: relative; left: 62rpx; top: 175rpx; height: 225rpx; display: inline-block; box-sizing: border-box; width: 628rpx" class="homeLogo0" src="../../assets/homeLogo0.png" mode=""/>
 <image style="height: 123rpx; display: block; box-sizing: border-box; left: 32rpx; top: 23rpx; width: 168rpx; position: absolute" class="blueCloud" src="../../assets/blueCloud.png" mode=""/>
 
 <image style="position: absolute; left: 375rpx; top: 84rpx; width: 332rpx; height: 355rpx; display: block; box-sizing: border-box" class="pinkCloud1" src="../../assets/pinkCloud1.png" mode=""/>
 <image style="position: absolute; left: 32rpx; top: 140rpx; width: 217rpx; height: 203rpx; display: block; box-sizing: border-box" class="pinkCloud2" src="../../assets/pinkCloud2.png" mode=""/>
-<image style="position: absolute; left: 644rpx; top: 0rpx; width: 107rpx; height: 180rpx; display: block; box-sizing: border-box" src="../../assets/star1.png" mode=""/>
-<image style="width: 107rpx; height: 123rpx; display: block; box-sizing: border-box; left: 606rpx; top: 346rpx; position: absolute" src="../../assets/star1.png" mode=""/>
-<image style="width: 84rpx; height: 91rpx; display: block; box-sizing: border-box; left: 91rpx; top: 316rpx; position: absolute" src="../../assets/star1.png" mode=""/>
+<image style="position: absolute; left: 644rpx; top: 0rpx; width: 107rpx; height: 180rpx; display: block; box-sizing: border-box" class="star-sway" src="../../assets/star1.png" mode=""/>
+<image style="width: 107rpx; height: 123rpx; display: block; box-sizing: border-box; left: 606rpx; top: 346rpx; position: absolute" class="star-sway" src="../../assets/star1.png" mode=""/>
+<image style="width: 84rpx; height: 91rpx; display: block; box-sizing: border-box; left: 91rpx; top: 316rpx; position: absolute" class="star-sway" src="../../assets/star1.png" mode=""/>
 </view>
 
 <!-- 按钮区域 -->
@@ -45,11 +45,12 @@
 <!-- 精选推文区域 -->
 <view class="post-area" style="height: 457rpx; display: block; box-sizing: border-box; position: relative; left: -2rpx; top: -20rpx" bindtap="toTweets">
   <image class="post-title" src="../../assets/post-title.png" style="width: 313rpx; height: 91rpx; display: inline-block; box-sizing: border-box; position: relative; left: 28rpx; top: 20rpx"></image>
-  <image style="position: relative; left: 191rpx; top: -16rpx; width: 138rpx; height: 130rpx; display: inline-block; box-sizing: border-box" src="../../assets/star1.png" mode=""/>
+  <image style="position: relative; left: 191rpx; top: -16rpx; width: 138rpx; height: 130rpx; display: inline-block; box-sizing: border-box" class="star-sway" src="../../assets/star1.png" mode=""/>
   <view class="post-card" style="height: 227rpx; display: flex; box-sizing: border-box; position: relative; left: 0rpx; top: 0rpx">
 <image style="height: 280rpx; display: block; box-sizing: border-box; position: absolute; left: 7rpx; top: -2rpx; width: 613rpx; z-index: 1" src="../../assets/border.png" mode=""/>
-<image style="height: 232rpx; display: block; box-sizing: border-box; position: absolute; left: 28rpx; top: 23rpx; width: 573rpx; z-index: 2" src="../../assets/tuiwen.png" mode=""/>
+<image style="height: 232rpx; display: block; box-sizing: border-box; position: absolute; left: 28rpx; top: 23rpx; width: 573rpx; z-index: 2" src="{{latestTweetCover || '../../assets/tuiwen.png'}}" mode=""/>
   </view>
+  <text class="latest-tweet-title" wx:if="{{latestTweetTitle}}">{{latestTweetTitle}}</text>
 </view>
 
 <!-- 报名弹窗 -->
@@ -61,6 +62,44 @@
   <view class="modal-buttons">
     <button class="modal-btn cancel" bindtap="closeModal">{{hasSignup ? '我知道啦~' : '暂时不用，谢谢'}}</button>
     <button class="modal-btn confirm" bindtap="goToSignup" wx:if="{{!hasSignup}}">点我报名！</button>
+  </view>
+</view>
+
+<!-- 登录选择弹窗 -->
+<view class="login-modal-mask" wx:if="{{showLoginModal}}" bindtap="closeLoginModal"></view>
+<view class="login-modal-container" wx:if="{{showLoginModal}}">
+  <view class="login-modal-header">
+    <text class="login-modal-title">查看报名进度</text>
+    <view class="login-modal-desc">登录后可查看您的报名审核进度</view>
+  </view>
+  <view class="login-modal-options">
+    <view class="login-modal-option login-option-primary" bindtap="goToLogin">
+      <view class="option-icon">🔑</view>
+      <view class="option-content">
+        <text class="option-title">我已报过名，登录查看</text>
+        <text class="option-desc">登录并且查看报名进度</text>
+      </view>
+      <view class="option-arrow">›</view>
+    </view>
+    <view class="login-modal-option" bindtap="notLoginNow">
+      <view class="option-icon">⏰</view>
+      <view class="option-content">
+        <text class="option-title">暂不登录</text>
+        <text class="option-desc">稍后再查看进度</text>
+      </view>
+      <view class="option-arrow">›</view>
+    </view>
+    <view class="login-modal-option" bindtap="goToSignup" wx:if="{{showRegisteredOption}}">
+      <view class="option-icon">✅</view>
+      <view class="option-content">
+        <text class="option-title">没报过名，我要去报名</text>
+        <text class="option-desc">填写表单，申请报名加入小A！</text>
+      </view>
+      <view class="option-arrow">›</view>
+    </view>
+  </view>
+  <view class="login-modal-cancel" bindtap="closeLoginModal">
+    <text>取消</text>
   </view>
 </view>
 

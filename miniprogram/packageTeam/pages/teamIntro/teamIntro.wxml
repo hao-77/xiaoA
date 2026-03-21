@@ -85,11 +85,11 @@
         </view>
         <view class="honor-item">
           <view class="honor-badge">国、省级奖项</view>
-          <view class="honor-desc">累计200+项</view>
+          <view class="honor-desc">累计300+项</view>
         </view>
         <view class="honor-item">
           <view class="honor-badge">交流机会</view>
-          <view class="honor-desc">国内外30+次</view>
+          <view class="honor-desc">国内外40+次</view>
         </view>
       </view>
     </view>

@@ -1,11 +1,13 @@
 {
   "pages": [
+    "pages/home/home",
     "pages/login/login",
     "pages/registerPassword/registerPassword",
     "pages/index/index",
-    "pages/home/home",
     "pages/mine/mine",
-    "pages/backStage/backStage"
+    "pages/backStage/backStage",
+    "pages/logs/logs",
+    "pages/webview/webview"
   ],
   "subPackages": [
     {

@@ -7,41 +7,17 @@ Page({
     onLoading: false, // 加载状态，避免用户重复点击
     showSignupModal: false, // 报名弹窗显示
     hasSignup: false,      // 是否已报名
-    userSignupGroup: ''   // 用户报名的组别
+    userSignupGroup: '',   // 用户报名的组别
+    latestTweetCover: '',   // 最新推文的封面图片
+    latestTweetTitle: '',   // 最新推文的标题
+    showLoginModal: false, // 登录选择弹窗显示
+    showRegisteredOption: true, // 是否显示"已报名，点击登录查询"选项
   },
 
-  // 跳转至申请表单页 - 先检查是否已登录
+  // 跳转至申请表单页 - 直接跳转到报名页，让用户在表单提交时才登录
   toApplication: function() {
-    const that = this;
-    const token = wx.getStorageSync('token');
-    const isLogin = wx.getStorageSync('isLogin');
-
-    // 检查是否已登录
-    if (!token || !isLogin) {
-      // 未登录，跳转到登录页，并传递报名意图
-      wx.showModal({
-        title: '提示',
-        content: '请先登录后再报名',
-        confirmText: '去登录',
-        cancelText: '取消',
-        success: (res) => {
-          if (res.confirm) {
-            // 跳转到登录页，登录成功后返回并跳转到报名页
-            wx.navigateTo({
-              url: '/pages/login/login',
-              success: () => {
-                // 可以通过事件通道或全局变量传递报名意图
-                // 这里使用简单的方式：登录页检测到已报名意图会自动处理
-                wx.setStorageSync('pendingAction', 'toApplication');
-              }
-            });
-          }
-        }
-      });
-      return;
-    }
-
-    // 已登录，直接跳转到报名页
+    // 直接跳转到报名页，不检查登录状态
+    // 用户可以浏览和填写表单，只有在提交时才需要登录
     wx.navigateTo({
       url: "/packageBusiness/pages/application/application"
     });
@@ -51,19 +27,32 @@ Page({
   toProgress: function() {
     const that = this;
     const apiBaseUrl = getApp().globalData.apiBaseUrl;
+    const token = wx.getStorageSync('token');
+    const isLogin = wx.getStorageSync('isLogin');
+    const showRegisteredButton = wx.getStorageSync('showRegisteredButton');
 
-    // 检查用户是否已报名
+    // 如果未登录，显示自定义弹窗让用户选择
+    if (!token || !isLogin) {
+      // 显示自定义登录选择弹窗
+      this.setData({
+        showLoginModal: true,
+        showRegisteredOption: showRegisteredButton !== false
+      });
+      return;
+    }
+
+    // 已登录，检查用户是否已报名
     wx.request({
       url: apiBaseUrl + '/user/user/sign-up',
       method: 'GET',
       header: {
-        'Authorization': wx.getStorageSync('token')
+        'Authorization': token
       },
       success: (res) => {
         if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
           // 已报名 - 直接跳转到进度页
           wx.navigateTo({
-            url: "/packageDisplay/pages/nowProgress/nowProgress"
+            url: "/packageBusiness/pages/progress/progress"
           });
         } else {
           // 未报名 - 显示弹窗
@@ -87,6 +76,48 @@ Page({
   closeModal: function() {
     this.setData({
       showSignupModal: false
+    });
+  },
+
+  // 关闭登录选择弹窗
+  closeLoginModal: function() {
+    this.setData({
+      showLoginModal: false
+    });
+  },
+
+  // 去登录
+  goToLogin: function() {
+    this.setData({
+      showLoginModal: false
+    });
+    wx.setStorageSync('pendingAction', 'checkProgress');
+    wx.navigateTo({
+      url: '/pages/login/login'
+    });
+  },
+
+  // 暂不登录
+  notLoginNow: function() {
+    this.setData({
+      showLoginModal: false
+    });
+    wx.showModal({
+      title: '提示',
+      content: '查看报名进度需要先登录',
+      showCancel: false,
+      confirmText: '知道了'
+    });
+  },
+
+  // 已报名，点击登录查询
+  goToLoginCheckRegistered: function() {
+    this.setData({
+      showLoginModal: false
+    });
+    wx.setStorageSync('pendingAction', 'checkProgressIfRegistered');
+    wx.navigateTo({
+      url: '/pages/login/login'
     });
   },
 
@@ -207,6 +238,51 @@ Page({
     });
   },
 
+  // 获取最新推文的封面图片和标题
+  fetchLatestTweetCover: function() {
+    const apiBaseUrl = getApp().globalData.apiBaseUrl;
+
+    wx.request({
+      url: `${apiBaseUrl}/user/tweet/list`,
+      method: 'GET',
+      data: {
+        page: 1,
+        pageSize: 1
+      },
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: (res) => {
+        if (res.data.code === 200 && res.data.data) {
+          // Handle both array response and paginated response with records
+          // (Same logic as used in tweets.js)
+          const tweets = Array.isArray(res.data.data) ? res.data.data : (res.data.data.records || []);
+
+          if (tweets.length > 0) {
+            const latestTweet = tweets[0];
+            this.setData({
+              latestTweetCover: latestTweet.coverImageUrl || '',
+              latestTweetTitle: latestTweet.title || ''
+            });
+            console.log('最新推文封面:', latestTweet.coverImageUrl);
+            console.log('最新推文标题:', latestTweet.title);
+          } else {
+            console.log('推文列表为空');
+          }
+        } else {
+          console.log('获取推文失败:', res.data.msg);
+        }
+      },
+      fail: (err) => {
+        console.error('获取最新推文封面失败:', err);
+        wx.showToast({
+          title: '获取推文失败，请检查网络',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -214,6 +290,9 @@ Page({
     // 移除自动调用超级管理员登录 - 这会导致所有用户都尝试登录管理员
     // 管理员登录功能现在通过"我的"页面的管理员入口手动触发
     console.log('Home page loaded');
+    
+    // 获取最新推文的封面图片
+    this.fetchLatestTweetCover();
   },
 
   /**

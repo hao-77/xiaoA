@@ -22,8 +22,15 @@ const getApiBaseUrl = () => {
   return API_BASE_URL;
 };
 
+// API 接口列表
+const API_LIST = {
+  // 学院列表
+  COLLEGE: '/user/user/college'
+};
+
 // 导出供其他模块使用
 module.exports = {
   API_BASE_URL: API_BASE_URL,
-  getApiBaseUrl: getApiBaseUrl
+  getApiBaseUrl: getApiBaseUrl,
+  API_LIST: API_LIST
 };

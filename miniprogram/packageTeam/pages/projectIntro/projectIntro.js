@@ -36,15 +36,6 @@ Page({
       },
       {
         id: 3,
-        shortName: '智能小A',
-        fullName: '智能小A',
-        image: '../../assets/project_xiaoa.png',
-        description: 'AI智能助手',
-        detail: '（待补充）',
-        awards: []
-      },
-      {
-        id: 4,
         shortName: '金盾卫士',
         fullName: '金盾卫士',
         image: '../../../assets/金盾卫士.jpg',

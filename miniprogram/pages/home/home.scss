@@ -96,6 +96,19 @@ page {
   height: 80rpx;
 }
 
+/* 最新推文标题 */
+.latest-tweet-title {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  text-align: center;
+  margin-top: 10rpx;
+  padding: 0 20rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* 报名弹窗样式 */
 .modal-mask {
   position: fixed;
@@ -162,4 +175,189 @@ page {
     background: linear-gradient(135deg, #ff7a45, #ff6b6b);
     color: #fff;
   }
+}
+
+/* 登录选择弹窗样式 */
+.login-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.login-modal-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 40rpx 32rpx 60rpx;
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.login-modal-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.login-modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.login-modal-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.login-modal-options {
+  margin-bottom: 30rpx;
+}
+
+.login-modal-option {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  transition: all 0.2s;
+
+  &:active {
+    background: #f0f0f0;
+    transform: scale(0.98);
+  }
+
+  &.login-option-primary {
+    background: linear-gradient(135deg, #fff5f0, #fff0eb);
+    border: 1rpx solid #ffdbcc;
+
+    .option-title {
+      color: #ff6b4a;
+    }
+  }
+}
+
+.option-icon {
+  font-size: 44rpx;
+  margin-right: 24rpx;
+  width: 60rpx;
+  text-align: center;
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-title {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.option-desc {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+.option-arrow {
+  font-size: 40rpx;
+  color: #ccc;
+  font-weight: 300;
+}
+
+.login-modal-cancel {
+  text-align: center;
+  padding: 24rpx;
+  border-top: 1rpx solid #eee;
+  margin-top: 10rpx;
+}
+
+.login-modal-cancel text {
+  font-size: 30rpx;
+  color: #999;
+}
+
+/* ========================================
+   Animation Effects
+   ======================================== */
+
+/* Dinosaur Jump Animation - gentle jumping twice */
+@keyframes dinosaur-jump {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-15rpx);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10rpx);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.dinosaur-jump {
+  animation: dinosaur-jump 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Star Sway Animation - rotating left and right */
+@keyframes star-sway {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.star-sway {
+  animation: star-sway 2.5s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Staggered star animations for more dynamic effect */
+.star-sway:nth-child(odd) {
+  animation-delay: 0.3s;
+}
+
+.star-sway:nth-child(even) {
+  animation-delay: 0.8s;
 }
