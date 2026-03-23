@@ -2,12 +2,7 @@
 <navigation-bar title="我的" back="{{true}}" color="#000" background="#ffede5"></navigation-bar>
 
 <!-- 背景装饰 - 粉色云朵 -->
-<view class="bg-decoration">
-  <image class="bg-cloud cloud-1" src="../assets/pinkCloud1.png" mode="aspectFit"/>
-  <image class="bg-cloud cloud-2" src="../assets/pinkCloud2.png" mode="aspectFit"/>
-  <image class="bg-star star-1" src="../assets/star1.png" mode="aspectFit"/>
-  <image class="bg-star star-2" src="../assets/star1.png" mode="aspectFit"/>
-</view>
+
 
 <!-- 已登录状态 - 显示个人信息 -->
 <block wx:if="{{isLogin }}">

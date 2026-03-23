@@ -378,3 +378,35 @@ button {
   background-color: #165dff;
   color: #fff;
 }
+/* 考核中样式 */
+.process-desc.doing {
+  color: #ff9500; /* 橙色标识考核中 */
+  font-weight: 500;
+}
+
+/* 考核不通过样式 */
+.process-desc.fail {
+  color: #ff3b30; /* 红色标识不通过 */
+}
+
+/* 考核中状态文本样式 */
+.status-doing {
+  color: #ff9500;
+  font-weight: bold;
+}
+/* 底部连接线样式 */
+.process-line-bottom {
+  position: absolute;
+  left: 8rpx;
+  top: -80rpx;
+  width: 4rpx;
+  height: 100rpx;
+  background:  #ffb6c1 0%;
+  border-radius: 2rpx;
+  transition: all 0.3s ease;
+}
+
+.process-line-bottom.active {
+  background: linear-gradient(180deg, #ff6b6b 0%, #ff9a9e 100%);
+  box-shadow: 0 2rpx 8rpx rgba(255, 107, 107, 0.3);
+}

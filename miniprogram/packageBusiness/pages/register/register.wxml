@@ -1,13 +1,13 @@
 <navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
 <!-- 自定义日期下拉选择框（替换原生picker） -->
-<view class="registerDate" wx:if="{{availableDates.length > 0}}">
+<view class="registerDate">
   <view class="registerDateLeft">选择日期：</view>
   <view class="registerDateRight">
     <!-- 下拉框触发按钮 -->
-    <view class="custom-picker" bindtap="toggleDatePicker">
+    <view class="custom-picker" bindtap="toggleDatePicker" style="height: 81rpx; display: flex; box-sizing: border-box">
       <text class="picker-text">
-        {{formatDate(currentDate)}} {{formatWeekday(currentDate)}}
+        {{currentDate}}
       </text>
       <icon type="{{showDatePicker ? 'up' : 'down'}}" size="16" color="#666"></icon>
     </view>
@@ -23,16 +23,16 @@
         style="{{item.value === currentDate ? 'background:#fff3e9;color:#ff6700;' : ''}}">
         {{item.label}}
       </view>
+      <!-- 空状态提示 -->
+      <view wx:if="{{formatAvailableDates.length === 0}}" class="date-item empty">
+        暂无可用日期
+      </view>
     </view>
   </view>
 </view>
-<!-- 无可用日期提示 -->
-<view class="empty-tip" wx:else>
-  暂无可预约日期
-</view>
 
-<!-- 时间段列表（原有代码不变） -->
-<view class="time-list" wx:if="{{timeList.length > 0}}">
+<!-- 时间段列表（仅未预约时显示） -->
+<view class="time-list" >
   <block wx:for="{{timeList}}" wx:key="id">
     <view class="time-item {{item.active ? 'active' : ''}} {{item.availablePerson <= 0 ? 'disabled' : ''}}"
           data-index="{{index}}"
@@ -42,20 +42,31 @@
     </view>
   </block>
 </view>
-<view class="empty-tip" wx:else>
-  当前日期暂无可预约时间段
-</view>
 
-<!-- 提交按钮 + 已选信息（原有代码不变） -->
+
+<!-- 提交按钮：未预约时正常显示，已预约时灰色禁用 -->
 <button class="submit-btn" 
         bindtap="submitAppointment" 
-        disabled="{{!selectedTime || selectedCount <= 0}}">
-  确认预约
+        disabled="{{!selectedTime || selectedCount <= 0 || hasAppointed}}"
+        style="{{hasAppointed ? 'background:#ccc;color:#999;border:none;' : ''}}">
+  {{hasAppointed ? '已预约' : '确认预约'}}
 </button>
 
-<view class="registerInfo" wx:if="{{selectedTime}}">
+<!-- 已选信息/已预约信息 -->
+<view class="registerInfo" wx:if="{{selectedTime && !hasAppointed}}">
   <view class="registerTime">已选时间：{{formatDate(currentDate)}} {{selectedTime}}</view>
   <view>剩余名额：{{selectedCount || 0}}人</view>
+</view>
+
+<!-- 已预约信息展示（核心新增） -->
+<view class="registerInfo appointed-info" wx:if="{{hasAppointed && appointmentInfo}}">
+  <view class="registerTime">✅ 已报名时间段：</view>
+  <view class="appointed-time">
+  <!-- {{formatDate(appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[0] : '')}}
+  ({{formatWeekday(appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[0] : '')}})
+  {{appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[1].substring(0,5) : ''}}-{{appointmentInfo.endTime ? appointmentInfo.endTime.split(' ')[1].substring(0,5) : ''}} -->
+  {{appointmentInfoStartYear}} {{appointmentInfoStart}}-{{appointmentInfoEnd}}
+</view>
 </view>
 
 <!-- 自定义报名成功弹窗 -->

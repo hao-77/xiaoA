@@ -157,7 +157,7 @@ handleLoginResponse: function(res) {
 
   if (res.statusCode === 200 && res.data.code === 200) {
     var loginData = res.data.data;
-
+    
     // 【核心修复】用ES5写法替代可选链，兼容所有环境
     var tokenValue = null;
     // 先判断saTokenInfo是否存在，再取tokenValue
@@ -172,7 +172,7 @@ handleLoginResponse: function(res) {
       wx.removeStorageSync('token');
       wx.removeStorageSync('isLogin');
       wx.removeStorageSync('userInfo');
-
+      
       // 2. 存储 token
       wx.setStorageSync('token', tokenValue);
       wx.setStorageSync('isLogin', true);
@@ -192,35 +192,17 @@ handleLoginResponse: function(res) {
       console.log('本地token:', wx.getStorageSync('token'));
       console.log('登录状态:', wx.getStorageSync('isLogin'));
 
-      // 4. 处理pendingAction
+      // 4. 跳转逻辑
       var pendingAction = wx.getStorageSync('pendingAction');
-      var pendingFormData = wx.getStorageSync('pendingFormData');
-
       wx.showToast({
         title: '登录成功',
         icon: 'success',
         duration: 1500,
-        success: function() {
-          setTimeout(function() {
-            // 检查是否有待处理的表单数据
-            if (pendingAction === 'submitApplication') {
-              // 保留pendingAction，让应用页面在onLoad和onShow中处理
-              // 【修复Bug1】使用redirectTo替换当前页面，避免页面栈问题
-              // 用户返回时会直接回到登录之前的页面，而不是回到登录页再返回
-              wx.redirectTo({
-                url: "/packageBusiness/pages/application/application"
-              });
-            } else if (pendingAction === 'toApplication') {
+        success: function() { 
+          setTimeout(function() { 
+            if (pendingAction === 'toApplication') {
               wx.removeStorageSync('pendingAction');
               wx.navigateTo({ url: "/packageBusiness/pages/application/application" });
-            } else if (pendingAction === 'checkProgress') {
-              // 登录后检查报名进度
-              wx.removeStorageSync('pendingAction');
-              that.checkProgressAfterLogin();
-            } else if (pendingAction === 'checkProgressIfRegistered') {
-              // 登录后检查是否已报名，如果是则跳转进度页
-              wx.removeStorageSync('pendingAction');
-              that.checkProgressIfRegistered();
             } else {
               that.navigateToHome(); // 现在that已定义，可正常调用
             }
@@ -277,150 +259,5 @@ handleLoginResponse: function(res) {
         url: '/pages/registerPassword/registerPassword'
       });
     }
-  },
-
-  // 检查报名状态并处理（从注册流程过来时使用）
-  checkRegistrationAndHandle: function(pendingFormData) {
-    var that = this;
-    var apiBaseUrl = getApp().globalData ? getApp().globalData.apiBaseUrl : api.API_BASE_URL;
-    var token = wx.getStorageSync('token');
-
-    wx.request({
-      url: apiBaseUrl + '/user/user/sign-up',
-      method: 'GET',
-      header: {
-        'Authorization': token
-      },
-      success: function(res) {
-        wx.removeStorageSync('pendingAction');
-        wx.removeStorageSync('pendingFormData');
-
-        if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
-          // 已报名 - 显示"是否沿用之前报名信息？"对话框
-          wx.showModal({
-            title: '您已报名过',
-            content: '是否沿用之前报名信息？',
-            confirmText: '否，使用我刚刚填写的信息重新报名',
-            cancelText: '是，让我返回修改我之前报过的报名信息（会覆盖刚刚填写的内容）',
-            success: function(modalRes) {
-              if (modalRes.confirm) {
-                // 使用新填写的信息重新报名 - 跳转表单页并传递新数据
-                wx.setStorageSync('pendingFormData', pendingFormData);
-                wx.navigateTo({
-                  url: "/packageBusiness/pages/application/application?useNewData=true"
-                });
-              } else {
-                // 沿用之前的报名信息 - 跳转到进度页查看
-                wx.navigateTo({
-                  url: "/packageBusiness/pages/progress/progress"
-                });
-              }
-            }
-          });
-        } else {
-          // 未报名 - 显示提交成功
-          wx.showToast({
-            title: '提交成功',
-            icon: 'success',
-            duration: 1500
-          });
-        }
-      },
-      fail: function(err) {
-        console.error('检查报名状态失败:', err);
-        // 失败时直接跳转表单页
-        wx.navigateTo({
-          url: "/packageBusiness/pages/application/application"
-        });
-      }
-    });
-  },
-
-  // 登录后检查报名进度（普通查询）
-  checkProgressAfterLogin: function() {
-    var that = this;
-    var apiBaseUrl = getApp().globalData ? getApp().globalData.apiBaseUrl : api.API_BASE_URL;
-    var token = wx.getStorageSync('token');
-
-    wx.request({
-      url: apiBaseUrl + '/user/user/sign-up',
-      method: 'GET',
-      header: {
-        'Authorization': token
-      },
-      success: function(res) {
-        if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
-          // 已报名 - 跳转到进度页（使用redirectTo替换当前页面，避免返回到登录页）
-          wx.redirectTo({
-            url: "/packageBusiness/pages/progress/progress"
-          });
-        } else {
-          // 未报名 - 显示未报名弹窗
-          wx.setStorageSync('showRegisteredButton', false);
-          wx.showModal({
-            title: '暂未报名',
-            content: '您尚未报名，无法查看进度',
-            confirmText: '前往报名',
-            showCancel: true,
-            cancelText: '取消',
-            success: function(modalRes) {
-              if (modalRes.confirm) {
-                wx.navigateTo({
-                  url: "/packageBusiness/pages/application/application"
-                });
-              }
-            }
-          });
-        }
-      },
-      fail: function(err) {
-        console.error('检查报名状态失败:', err);
-        wx.showToast({
-          title: '获取报名信息失败',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
-  // 登录后检查是否已报名，如果是则跳转进度页
-  checkProgressIfRegistered: function() {
-    var that = this;
-    var apiBaseUrl = getApp().globalData ? getApp().globalData.apiBaseUrl : api.API_BASE_URL;
-    var token = wx.getStorageSync('token');
-
-    wx.request({
-      url: apiBaseUrl + '/user/user/sign-up',
-      method: 'GET',
-      header: {
-        'Authorization': token
-      },
-      success: function(res) {
-        wx.removeStorageSync('pendingAction');
-
-        if (res.data.code === 200 && res.data.data && res.data.data.groupId) {
-          // 已报名 - 跳转到进度页（使用redirectTo替换当前页面，避免返回到登录页）
-          wx.redirectTo({
-            url: "/packageBusiness/pages/progress/progress"
-          });
-        } else {
-          // 未报名 - 设置flag隐藏"已报名，点击登录查询"按钮，并显示"暂未登录"
-          wx.setStorageSync('showRegisteredButton', false);
-          wx.showModal({
-            title: '暂未登录',
-            content: '您暂未报名，无法查看进度',
-            showCancel: false,
-            confirmText: '知道了'
-          });
-        }
-      },
-      fail: function(err) {
-        console.error('检查报名状态失败:', err);
-        wx.showToast({
-          title: '获取报名信息失败',
-          icon: 'none'
-        });
-      }
-    });
   }
 });
