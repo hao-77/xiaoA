@@ -1,0 +1,154 @@
+// packageBusiness/pages/workDetailed/workDetailed.scss
+
+// 淡粉色系配色
+$bg-color: #fff3e9; // 导航栏背景色（浅橙色/淡粉）
+$card-bg: #ffffff; // 卡片背景色
+$card-shadow: 0 2rpx 12rpx rgba(255, 182, 193, 0.3); // 淡粉色阴影
+$primary-color: #ff8da1; // 主色调（粉色）
+$text-primary: #333333; // 主要文字颜色
+$text-secondary: #666666; // 次要文字颜色
+$text-placeholder: #999999; // 占位符颜色
+$border-color: #ffdbe2; // 边框颜色（淡粉色）
+
+.work-detailed-container {
+  min-height: 100vh;
+  background-color: $bg-color;
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+
+// 卡片通用样式
+.card {
+  background-color: $card-bg;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: $card-shadow;
+}
+
+.card-title {
+  font-size: 28rpx;
+  color: $text-secondary;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+  border-left: 6rpx solid $primary-color;
+}
+
+// 作业时间段卡片
+.period-card {
+  .period-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .period-name {
+      font-size: 36rpx;
+      font-weight: bold;
+      color: $text-primary;
+      margin-bottom: 15rpx;
+    }
+
+    .period-time {
+      font-size: 28rpx;
+      color: $primary-color;
+      background-color: rgba(255, 141, 161, 0.1);
+      padding: 10rpx 20rpx;
+      border-radius: 30rpx;
+      height: 50rpx;
+      line-height: 18rpx;
+    }
+  }
+}
+
+// 提交邮箱卡片
+.email-card {
+  .email-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 141, 161, 0.05);
+    padding: 20rpx 25rpx;
+    border-radius: 15rpx;
+    border: 1rpx solid $border-color;
+
+    .email-text {
+      font-size: 30rpx;
+      color: $text-primary;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      background-color: $primary-color;
+      color: #ffffff;
+      padding: 12rpx 24rpx;
+      border-radius: 30rpx;
+      margin-left: 20rpx;
+      flex-shrink: 0;
+
+      .copy-icon {
+        font-size: 24rpx;
+        margin-right: 8rpx;
+      }
+
+      .copy-text {
+        font-size: 26rpx;
+      }
+
+      &:active {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+    }
+  }
+}
+
+// 作业附件卡片
+.attachment-card {
+  .attachment-wrapper {
+    min-height: 120rpx;
+
+    .attachment-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30rpx;
+      background-color: rgba(255, 141, 161, 0.08);
+      border-radius: 15rpx;
+      border: 2rpx dashed $primary-color;
+
+      &:active {
+        background-color: rgba(255, 141, 161, 0.15);
+      }
+
+      .attachment-icon {
+        font-size: 40rpx;
+        margin-right: 15rpx;
+      }
+
+      .attachment-name {
+        font-size: 28rpx;
+        color: $primary-color;
+        font-weight: 500;
+      }
+    }
+
+    .no-attachment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30rpx;
+      background-color: #f5f5f5;
+      border-radius: 15rpx;
+
+      text {
+        font-size: 28rpx;
+        color: $text-placeholder;
+      }
+    }
+  }
+}

@@ -31,8 +31,8 @@
   </view>
 </view>
 
-<!-- 时间段列表（仅未预约时显示） -->
-<view class="time-list" >
+<!-- 时间段列表 -->
+<view class="time-list">
   <block wx:for="{{timeList}}" wx:key="id">
     <view class="time-item {{item.active ? 'active' : ''}} {{item.availablePerson <= 0 ? 'disabled' : ''}}"
           data-index="{{index}}"
@@ -43,30 +43,49 @@
   </block>
 </view>
 
-
-<!-- 提交按钮：未预约时正常显示，已预约时灰色禁用 -->
-<button class="submit-btn" 
-        bindtap="submitAppointment" 
-        disabled="{{!selectedTime || selectedCount <= 0 || hasAppointed}}"
-        style="{{hasAppointed ? 'background:#ccc;color:#999;border:none;' : ''}}">
-  {{hasAppointed ? '已预约' : '确认预约'}}
-</button>
-
-<!-- 已选信息/已预约信息 -->
-<view class="registerInfo" wx:if="{{selectedTime && !hasAppointed}}">
+<!-- 已选信息（修改模式或未预约时显示） -->
+<view class="registerInfo" wx:if="{{selectedTime && (!hasAppointed || isModifying)}}">
   <view class="registerTime">已选时间：{{formatDate(currentDate)}} {{selectedTime}}</view>
   <view>剩余名额：{{selectedCount || 0}}人</view>
 </view>
 
-<!-- 已预约信息展示（核心新增） -->
-<view class="registerInfo appointed-info" wx:if="{{hasAppointed && appointmentInfo}}">
+<!-- 已预约信息展示（非修改模式时显示） -->
+<view class="registerInfo appointed-info" wx:if="{{hasAppointed && !isModifying}}">
   <view class="registerTime">✅ 已报名时间段：</view>
   <view class="appointed-time">
-  <!-- {{formatDate(appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[0] : '')}}
-  ({{formatWeekday(appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[0] : '')}})
-  {{appointmentInfo.startTime ? appointmentInfo.startTime.split(' ')[1].substring(0,5) : ''}}-{{appointmentInfo.endTime ? appointmentInfo.endTime.split(' ')[1].substring(0,5) : ''}} -->
-  {{appointmentInfoStartYear}} {{appointmentInfoStart}}-{{appointmentInfoEnd}}
+    {{appointmentInfoStartYear}} {{appointmentInfoStart}}-{{appointmentInfoEnd}}
+  </view>
 </view>
+
+<!-- 按钮区域 -->
+<view class="button-container">
+  <!-- 未预约且非修改模式：显示预约按钮 -->
+  <block wx:if="{{!hasAppointed && !isModifying}}">
+    <button class="submit-btn" 
+            bindtap="submitAppointment" 
+            disabled="{{!selectedTime || selectedCount <= 0}}">
+      确认预约
+    </button>
+  </block>
+  
+  <!-- 修改模式：显示确认修改和取消修改按钮 -->
+  <block wx:if="{{isModifying}}">
+    <button class="submit-btn modify-submit-btn" 
+            bindtap="submitAppointment" 
+            disabled="{{!selectedTime || selectedCount <= 0}}">
+      确认修改
+    </button>
+    <button class="cancel-btn" bindtap="cancelModify">
+      取消修改
+    </button>
+  </block>
+  
+  <!-- 已预约且非修改模式：显示修改预约按钮 -->
+  <block wx:if="{{hasAppointed && !isModifying}}">
+    <button class="modify-btn" bindtap="startModifyAppointment">
+      修改预约
+    </button>
+  </block>
 </view>
 
 <!-- 自定义报名成功弹窗 -->

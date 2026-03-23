@@ -30,7 +30,8 @@
         "pages/application/application",
         "pages/progress/progress",
         "pages/homework/homework",
-        "pages/register/register"
+        "pages/register/register",
+        "pages/workDetailed/workDetailed"
       ]
     },
     {

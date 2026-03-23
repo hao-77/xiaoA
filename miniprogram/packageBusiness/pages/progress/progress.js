@@ -104,65 +104,65 @@ Page({
     });
   },
   // 新增：获取可预约日期列表
-fetchAvailableDates() {
-  const processId = wx.getStorageSync('currentProcessId');
-  if (!processId) {
-    wx.showToast({ title: '流程ID缺失', icon: 'none' });
-    return;
-  }
-
-  wx.showLoading({ title: '加载可预约日期...' });
-  wx.request({
-    url: getApp().globalData.apiBaseUrl + '/user/user-appointments/date',
-    method: 'GET',
-    header: {
-      'Authorization': wx.getStorageSync('token')
-    },
-    data: {
-      processId: processId
-    },
-    success: (res) => {
-      wx.hideLoading();
-      if (res.data.code === 200 && res.data.data) {
-        const availableDates = res.data.data;
-        console.log('可预约日期接口返回：', availableDates);
-        
-        // 格式化可预约日期（转成带中文日期+星期的结构）
-        const formatAvailableDates = availableDates.map(date => ({
-          value: date,
-          label: `${this.formatDate(date)}(${this.formatWeekday(date)})`
-        }));
-
-        this.setData({
-          availableDates: availableDates,
-          formatAvailableDates: formatAvailableDates
-        }, () => {
-          // 初始化默认日期（优先选可预约日期第一个，无则选今日）
-          const today = this.formatToday();
-          const defaultDate = this.data.availableDates.length > 0 
-            ? this.data.availableDates[0] 
-            : today;
-          
-          this.setData({
-            currentDate: defaultDate
-          }, () => {
-            // 加载默认日期的时间段
-            this.loadTimeListByDate(defaultDate);
-            // 查询当前预约信息
-            this.fetchUserAppointmentInfo();
-          });
-        });
-      } else {
-        wx.showToast({ title: '获取可预约日期失败', icon: 'none' });
-      }
-    },
-    fail: (err) => {
-      wx.hideLoading();
-      wx.showToast({ title: '网络错误，请重试', icon: 'none' });
-      console.error('获取可预约日期失败:', err);
+  fetchAvailableDates() {
+    const processId = wx.getStorageSync('currentProcessId');
+    if (!processId) {
+      wx.showToast({ title: '流程ID缺失', icon: 'none' });
+      return;
     }
-  });
-},
+
+    wx.showLoading({ title: '加载可预约日期...' });
+    wx.request({
+      url: getApp().globalData.apiBaseUrl + '/user/user-appointments/date',
+      method: 'GET',
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      },
+      data: {
+        processId: processId
+      },
+      success: (res) => {
+        wx.hideLoading();
+        if (res.data.code === 200 && res.data.data) {
+          const availableDates = res.data.data;
+          console.log('可预约日期接口返回：', availableDates);
+
+          // 格式化可预约日期（转成带中文日期+星期的结构）
+          const formatAvailableDates = availableDates.map(date => ({
+            value: date,
+            label: `${this.formatDate(date)}(${this.formatWeekday(date)})`
+          }));
+
+          this.setData({
+            availableDates: availableDates,
+            formatAvailableDates: formatAvailableDates
+          }, () => {
+            // 初始化默认日期（优先选可预约日期第一个，无则选今日）
+            const today = this.formatToday();
+            const defaultDate = this.data.availableDates.length > 0
+              ? this.data.availableDates[0]
+              : today;
+
+            this.setData({
+              currentDate: defaultDate
+            }, () => {
+              // 加载默认日期的时间段
+              this.loadTimeListByDate(defaultDate);
+              // 查询当前预约信息
+              this.fetchUserAppointmentInfo();
+            });
+          });
+        } else {
+          wx.showToast({ title: '获取可预约日期失败', icon: 'none' });
+        }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        wx.showToast({ title: '网络错误，请重试', icon: 'none' });
+        console.error('获取可预约日期失败:', err);
+      }
+    });
+  },
 
   // 查询流程可预约日期
   userAppointmentsDate() {
@@ -212,7 +212,7 @@ fetchAvailableDates() {
   // 跳转到register页面（预约页面）
   // gotoRegisterPage() {
   //   const { currentProcess } = this.data;
-    
+
   //   if (!currentProcess || !currentProcess.id) {
   //     wx.showToast({
   //       title: '暂无考核流程',
@@ -228,10 +228,10 @@ fetchAvailableDates() {
   // },
 
   // 跳转到我的
-  
+
   gotoRegisterPage() {
     const { currentProcess, availableDates } = this.data;
-    
+
     // 添加保护：如果已完成面试，阻止跳转
     if (currentProcess.userStatus === 2) {
       wx.showToast({
@@ -241,7 +241,7 @@ fetchAvailableDates() {
       });
       return;
     }
-    
+
     if (!currentProcess || !currentProcess.id) {
       wx.showToast({
         title: '暂无考核流程',
@@ -249,10 +249,10 @@ fetchAvailableDates() {
       });
       return;
     }
-  
+
     // 保存流程ID
     wx.setStorageSync('currentProcessId', currentProcess.id);
-    
+
     // 如果没有可预约日期，先获取再跳转
     if (!availableDates || availableDates.length === 0) {
       wx.showLoading({ title: '加载可预约日期...' });
@@ -264,11 +264,11 @@ fetchAvailableDates() {
       this.navigateToRegister();
     }
   },
-  
+
   // 新增：跳转前获取可预约日期
   fetchAvailableDatesBeforeJump(callback) {
     const processId = this.data.currentProcess.id;
-    
+
     wx.request({
       url: getApp().globalData.apiBaseUrl + '/user/user-appointments/date',
       method: 'GET',
@@ -282,10 +282,10 @@ fetchAvailableDates() {
         if (res.data.code === 200 && res.data.data) {
           const availableDates = res.data.data;
           this.setData({ availableDates: availableDates });
-          
+
           // 保存到本地缓存，供register页面使用
           wx.setStorageSync('availableDates', availableDates);
-          
+
           if (callback) callback();
         } else {
           if (callback) callback();
@@ -297,18 +297,18 @@ fetchAvailableDates() {
       }
     });
   },
-  
+
   // 新增：跳转到预约页面
   navigateToRegister() {
     const { availableDates } = this.data;
-    
+
     // 将可预约日期作为参数传递
     let url = '/packageBusiness/pages/register/register';
     if (availableDates && availableDates.length > 0) {
       const encodedDates = encodeURIComponent(JSON.stringify(availableDates));
       url += `?availableDates=${encodedDates}`;
     }
-    
+
     wx.navigateTo({
       url: url
     });
@@ -319,21 +319,12 @@ fetchAvailableDates() {
     });
   },
 
-  // 查看作业详情（打开fileUrl）
+  // 查看作业详情（跳转到workDetailed页面）
   viewWorkDetail() {
-    const fileUrl = this.data.currentProcess.fileUrl;
-    if (fileUrl) {
-      wx.showModal({
-        title: '作业详情',
-        content: '将打开外部链接查看作业详情',
-        confirmText: '打开',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/webview/webview?url=' + encodeURIComponent(fileUrl)
-            });
-          }
-        }
+    const currentProcess = this.data.currentProcess;
+    if (currentProcess && currentProcess.id) {
+      wx.navigateTo({
+        url: '/packageBusiness/pages/workDetailed/workDetailed?processData=' + encodeURIComponent(JSON.stringify(currentProcess))
       });
     } else {
       wx.showToast({

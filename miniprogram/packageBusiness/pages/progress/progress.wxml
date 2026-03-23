@@ -37,7 +37,6 @@
     <view class="process-number {{currentProcess.userStatus >= 0 ? 'active' : ''}}">1</view>
     <view class="process-content">
       <view class="process-text">已提交报名</view>
-      <view class="process-desc">等待审核中</view>
     </view>
     <button 
       class="detail-btn {{currentProcess.userStatus === 2 ? 'disabled' : ''}}" 

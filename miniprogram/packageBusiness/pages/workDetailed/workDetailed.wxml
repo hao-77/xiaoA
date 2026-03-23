@@ -1,0 +1,37 @@
+<navigation-bar title="作业详情" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
+<view class="work-detailed-container">
+  <!-- 顶部：作业时间段 -->
+  <view class="card period-card">
+    <view class="card-title">作业时间段</view>
+    <view class="period-info">
+      <text class="period-name">{{workDetail.periodName || '暂无期数'}}</text>
+      <text class="period-time">
+        {{workDetail.startTime || '--'}} - {{workDetail.endTime || '--'}}
+      </text>
+    </view>
+  </view>
+  <!-- 中间：提交邮箱 -->
+  <view class="card email-card">
+    <view class="card-title">提交邮箱</view>
+    <view class="email-wrapper">
+      <view class="email-text">{{workDetail.email || '暂无邮箱'}}</view>
+      <view class="copy-btn" bindtap="copyEmail">
+        <text class="copy-icon">📋</text>
+        <text class="copy-text">复制</text>
+      </view>
+    </view>
+  </view>
+  <!-- 底部：作业附件下载区域 -->
+  <view class="card attachment-card">
+    <view class="card-title">作业附件</view>
+    <view class="attachment-wrapper" bindtap="downloadAttachment">
+      <view class="attachment-info" wx:if="{{workDetail.fileUrl}}">
+        <view class="attachment-icon">📎</view>
+        <view class="attachment-name">点击下载/预览附件</view>
+      </view>
+      <view class="no-attachment" wx:else>
+        <text>暂无附件</text>
+      </view>
+    </view>
+  </view>
+</view>
