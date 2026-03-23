@@ -3,7 +3,8 @@ Page({
     currentProcess: {}, // 保存当前流程信息
     processList: [],    // 保存所有流程列表（用于动态渲染步骤）
     availableDates: [], // 存储可预约日期
-    appointmentInfo: null // 保存当前流程的预约信息
+    appointmentInfo: null, // 保存当前流程的预约信息
+    hasFailedProcess: false // 新增：标记是否有考核未通过的流程
   },
 
   onLoad() {
@@ -74,9 +75,15 @@ Page({
           const { currentProcess, processList } = res.data.data;
           console.log('拉取到的流程数据：', currentProcess, processList);
 
+          // 核心新增：判断是否有考核未通过的流程（userStatus 既不是0/1/2，视为不通过）
+          const hasFailedProcess = processList.some(item => 
+            item.userStatus !== 0 && item.userStatus !== 1 && item.userStatus !== 2
+          );
+
           this.setData({
             currentProcess: currentProcess,
             processList: processList, // 关键：将流程列表存入data供渲染
+            hasFailedProcess: hasFailedProcess, // 标记是否有未通过流程
             'cardTitle': currentProcess.name || '暂无',
             'groupName': currentProcess.groupName || '未获取',
             'startTime': currentProcess.startTime || '',
@@ -103,6 +110,7 @@ Page({
       }
     });
   },
+
   // 新增：获取可预约日期列表
   fetchAvailableDates() {
     const processId = wx.getStorageSync('currentProcessId');
@@ -210,29 +218,20 @@ Page({
   },
 
   // 跳转到register页面（预约页面）
-  // gotoRegisterPage() {
-  //   const { currentProcess } = this.data;
-
-  //   if (!currentProcess || !currentProcess.id) {
-  //     wx.showToast({
-  //       title: '暂无考核流程',
-  //       icon: 'none'
-  //     });
-  //     return;
-  //   }
-
-  //   wx.setStorageSync('currentProcessId', currentProcess.id);
-  //   wx.navigateTo({
-  //     url: '/packageBusiness/pages/register/register'
-  //   });
-  // },
-
-  // 跳转到我的
-
   gotoRegisterPage() {
-    const { currentProcess, availableDates } = this.data;
+    const { currentProcess, availableDates, hasFailedProcess } = this.data;
 
-    // 添加保护：如果已完成面试，阻止跳转
+    // 核心修改1：如果有未通过流程，直接提示并阻止跳转
+    if (hasFailedProcess) {
+      wx.showToast({
+        title: '你有考核未通过，禁止预约',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
+
+    // 核心修改2：如果已完成面试，阻止跳转
     if (currentProcess.userStatus === 2) {
       wx.showToast({
         title: '已完成面试，无需再次预约',
@@ -313,6 +312,8 @@ Page({
       url: url
     });
   },
+
+  // 跳转到我的
   goToMy() {
     wx.switchTab({
       url: '/pages/my/my'
@@ -332,5 +333,34 @@ Page({
         icon: 'none'
       });
     }
+  },
+
+  // 以下为格式化工具方法（如果需要的话）
+  formatDate(dateStr) {
+    if (!dateStr) return '';
+    const datePart = dateStr.split(' ')[0];
+    const [year, month, day] = datePart.split('-');
+    return `${month}月${day}日`;
+  },
+
+  formatWeekday(dateStr) {
+    if (!dateStr) return '';
+    const weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const datePart = dateStr.split(' ')[0];
+    const date = new Date(datePart);
+    return weekList[date.getDay()];
+  },
+
+  formatToday() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  },
+
+  loadTimeListByDate(date) {
+    // 这里可以保留原有的加载时间段逻辑（如果需要）
+    console.log('加载日期：', date, '的时间段');
   }
 });

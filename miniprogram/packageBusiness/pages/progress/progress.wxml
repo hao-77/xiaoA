@@ -1,8 +1,6 @@
 <!-- 顶部导航栏 -->
 <view class="page-container">
   <!-- 装饰性背景元素 -->
- 
-
   <navigation-bar title="考核进度" back="{{true}}" color="#000" background="#fff3e9"></navigation-bar>
 
   <!-- 流程卡片：动态绑定接口数据 -->
@@ -29,49 +27,51 @@
     </view>
   </view>
 
-<!-- 流程步骤：动态渲染（第一个固定，其余从processList获取） -->
-<view class="process-container" style="width: 689rpx; display: block; box-sizing: border-box; left: -29rpx; top: 152rpx; position: relative">
-  
-  <!-- 第一个固定项：已提交报名 -->
-  <view class="process-item {{currentProcess.userStatus >= 0 ? 'active' : ''}}">
-    <view class="process-number {{currentProcess.userStatus >= 0 ? 'active' : ''}}">1</view>
-    <view class="process-content">
-      <view class="process-text">已提交报名</view>
-    </view>
-    <button 
-      class="detail-btn {{currentProcess.userStatus === 2 ? 'disabled' : ''}}" 
-      bindtap="gotoRegisterPage"
-      disabled="{{currentProcess.userStatus === 2}}"
-    >{{currentProcess.userStatus === 2 ? '已完成面试' : '预约面试'}}</button>
-  </view>
-
-  <!-- 第一个固定项的分割线：只有报名流程完成时才显示 -->
-  <view wx:if="{{processList.length > 0 }}" style="position: relative;">
-    <view class="process-line-bottom" style="left: 8rpx;"></view>
-  </view>
-
-  <!-- 动态渲染processList中的流程项 -->
-  <block wx:for="{{processList}}" wx:key="id">
-    <!-- 流程项 -->
-    <view class="process-item {{item.userStatus === 2 ? 'active' : ''}}">
-      <view class="process-number {{item.userStatus === 2 ? 'active' : 'inactive'}}">{{index + 2}}</view>
+  <!-- 流程步骤：动态渲染（第一个固定，其余从processList获取） -->
+  <view class="process-container" style="width: 689rpx; display: block; box-sizing: border-box; left: -29rpx; top: 152rpx; position: relative">
+    <!-- 第一个固定项：已提交报名 -->
+    <view class="process-item {{currentProcess.userStatus >= 0 ? 'active' : ''}}">
+      <view class="process-number {{currentProcess.userStatus >= 0 ? 'active' : ''}}">1</view>
       <view class="process-content">
-        <view class="process-text">{{item.name || '未命名流程'}}</view>
-        <view class="process-desc {{item.userStatus === 2 ? 'done' : ''}}">
-           <text wx:if="{{item.userStatus === 0}}">未考核</text>
-           <text wx:elif="{{item.userStatus === 1}}">考核中</text>
-           <text wx:elif="{{item.userStatus === 2}}">通过</text>
-           <text wx:else>不通过</text>
+        <view class="process-text">已提交报名</view>
+      </view>
+      <!-- 核心修改：增加「不通过」状态判断，禁用预约按钮 -->
+      <button 
+        class="detail-btn {{(currentProcess.userStatus === 2 || hasFailedProcess) ? 'disabled' : ''}}" 
+        bindtap="gotoRegisterPage"
+        disabled="{{currentProcess.userStatus === 2 || hasFailedProcess}}"
+      >
+        {{hasFailedProcess ? '考核未通过，禁止预约' : (currentProcess.userStatus === 2 ? '已完成面试' : '预约面试')}}
+      </button>
+    </view>
+
+    <!-- 第一个固定项的分割线：只有报名流程完成时才显示 -->
+    <view wx:if="{{processList.length > 0 }}" style="position: relative;">
+      <view class="process-line-bottom" style="left: 8rpx;"></view>
+    </view>
+
+    <!-- 动态渲染processList中的流程项 -->
+    <block wx:for="{{processList}}" wx:key="id">
+      <!-- 流程项 -->
+      <view class="process-item {{item.userStatus === 2 ? 'active' : (item.userStatus !== 0 && item.userStatus !== 1 ? 'failed' : '')}}">
+        <view class="process-number {{item.userStatus === 2 ? 'active' : (item.userStatus !== 0 && item.userStatus !== 1 ? 'failed' : 'inactive')}}">{{index + 2}}</view>
+        <view class="process-content">
+          <view class="process-text">{{item.name || '未命名流程'}}</view>
+          <view class="process-desc {{item.userStatus === 2 ? 'done' : (item.userStatus !== 0 && item.userStatus !== 1 ? 'failed' : '')}}">
+             <text wx:if="{{item.userStatus === 0}}">未考核</text>
+             <text wx:elif="{{item.userStatus === 1}}">考核中</text>
+             <text wx:elif="{{item.userStatus === 2}}">通过</text>
+             <text wx:else>不通过</text>
+          </view>
         </view>
       </view>
-    </view>
 
-    <!-- 流程分割线：只有当前流程完成（userStatus === 2）且不是最后一项时才显示 -->
-    <view wx:if="{{index < processList.length - 1 && item.userStatus === 2}}" style="position: relative;">
-      <view class="process-line-bottom"></view>
-    </view>
-  </block>
-</view>
+      <!-- 流程分割线：只有当前流程完成（userStatus === 2）且不是最后一项时才显示 -->
+      <view wx:if="{{index < processList.length - 1 && item.userStatus === 2}}" style="position: relative;">
+        <view class="process-line-bottom"></view>
+      </view>
+    </block>
+  </view>
 
   <!-- 底部装饰 -->
   <view class="footer-decoration" style="position: relative; left: 0rpx; top: 139rpx">

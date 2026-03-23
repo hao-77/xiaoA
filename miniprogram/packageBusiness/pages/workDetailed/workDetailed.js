@@ -126,7 +126,9 @@ Page({
         wx.hideLoading();
         if (res.statusCode === 200) {
           const arrayBuffer = res.data;
-          const fileExtension = fileName.split('.').pop()?.toLowerCase();
+          const parts = fileName.split('.');
+          const lastPart = parts.pop();
+          const fileExtension = lastPart ? lastPart.toLowerCase() : '';
           const filePath = `${wx.env.USER_DATA_PATH}/temp_${Date.now()}.${fileExtension}`;
           const fs = wx.getFileSystemManager();
 
