@@ -100,63 +100,66 @@ Page({
     });
   },
 
-  // ✅ 直接使用 fileUrl 打开/预览附件（修改核心）
-  downloadAttachment() {
-    const { fileUrl } = this.data.workDetail;
-    
-    // 无链接判断
-    if (!fileUrl) {
-      wx.showToast({ title: '暂无附件', icon: 'none' });
-      return;
-    }
+// ✅ 直接使用 fileUrl 打开/预览附件（修复兼容版）
+downloadAttachment() {
+  const { fileUrl } = this.data.workDetail;
+  
+  // 无链接判断
+  if (!fileUrl) {
+    wx.showToast({ title: '暂无附件', icon: 'none' });
+    return;
+  }
 
-    wx.showLoading({ title: '正在打开...' });
+  wx.showLoading({ title: '正在打开...' });
 
-    // 获取文件后缀
-    const fileExtension = fileUrl.split('.').pop()?.toLowerCase() || '';
+  // 获取文件后缀（兼容低版本语法）
+  let fileExtension = '';
+  const lastPart = fileUrl.split('.').pop();
+  if (lastPart) {
+    fileExtension = lastPart.toLowerCase();
+  }
 
-    // 1. 图片 → 直接预览
-    if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension)) {
-      wx.previewImage({
-        urls: [fileUrl],
-        complete: () => wx.hideLoading()
-      });
-    }
-    // 2. PDF/Word/Excel 等文档 → 直接打开
-    else if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(fileExtension)) {
-      wx.downloadFile({
-        url: fileUrl,
-        success: (res) => {
-          if (res.statusCode === 200) {
-            wx.openDocument({
-              filePath: res.tempFilePath,
-              success: () => console.log('打开文档成功'),
-              fail: () => wx.showToast({ title: '打开失败', icon: 'none' })
-            });
-          }
-        },
-        fail: () => wx.showToast({ title: '文件下载失败', icon: 'none' }),
-        complete: () => wx.hideLoading()
-      });
-    }
-    // 3. 其他类型 → 提示下载
-    else {
-      wx.hideLoading();
-      wx.showModal({
-        title: '提示',
-        content: '该文件无法直接预览，是否前往下载？',
-        success: (modalRes) => {
-          if (modalRes.confirm) {
-            wx.setClipboardData({
-              data: fileUrl,
-              success: () => wx.showToast({ title: '链接已复制，可在浏览器打开', icon: 'success' })
-            });
-          }
+  // 1. 图片 → 直接预览
+  if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension)) {
+    wx.previewImage({
+      urls: [fileUrl],
+      complete: () => wx.hideLoading()
+    });
+  }
+  // 2. PDF/Word/Excel 等文档 → 直接打开
+  else if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(fileExtension)) {
+    wx.downloadFile({
+      url: fileUrl,
+      success: (res) => {
+        if (res.statusCode === 200) {
+          wx.openDocument({
+            filePath: res.tempFilePath,
+            success: () => console.log('打开文档成功'),
+            fail: () => wx.showToast({ title: '打开失败', icon: 'none' })
+          });
         }
-      });
-    }
-  },
-
+      },
+      fail: () => wx.showToast({ title: '文件下载失败', icon: 'none' }),
+      complete: () => wx.hideLoading()
+    });
+  }
+  // 3. 其他类型 → 提示下载
+  else {
+    wx.hideLoading();
+    wx.showModal({
+      title: '提示',
+      content: '该文件无法直接预览，是否前往下载？',
+      success: (modalRes) => {
+        if (modalRes.confirm) {
+          wx.setClipboardData({
+            data: fileUrl,
+            success: () => wx.showToast({ title: '链接已复制，可在浏览器打开', icon: 'success' })
+          });
+        }
+      }
+    });
+  }
+},
   onReady() {},
   onShow() {},
   onHide() {},
