@@ -320,20 +320,21 @@ Page({
     });
   },
 
-  // 查看作业详情（跳转到workDetailed页面）
-  viewWorkDetail() {
-    const currentProcess = this.data.currentProcess;
-    if (currentProcess && currentProcess.id) {
-      wx.navigateTo({
-        url: '/packageBusiness/pages/workDetailed/workDetailed?processData=' + encodeURIComponent(JSON.stringify(currentProcess))
-      });
-    } else {
-      wx.showToast({
-        title: '暂无作业详情',
-        icon: 'none'
-      });
-    }
-  },
+// 查看作业详情（跳转到workDetailed页面）
+viewWorkDetail() {
+  const currentProcess = this.data.currentProcess;
+  if (currentProcess && currentProcess.id) {
+    // ✅ 正确传参：直接传 currentProcess
+    wx.navigateTo({
+      url: '/packageBusiness/pages/workDetailed/workDetailed?processData=' + encodeURIComponent(JSON.stringify(currentProcess))
+    });
+  } else {
+    wx.showToast({
+      title: '暂无作业详情',
+      icon: 'none'
+    });
+  }
+},
 
   // 以下为格式化工具方法（如果需要的话）
   formatDate(dateStr) {

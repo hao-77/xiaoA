@@ -8,29 +8,30 @@ Page({
   },
 
   onLoad(options) {
+    // ✅ 正确解析：直接拿到 processData 就是 currentProcess 对象
     if (options.processData) {
       try {
         const decodedData = decodeURIComponent(options.processData);
-        const processData = JSON.parse(decodedData);
-        const currentProcess = processData.currentProcess;
-
+        const currentProcess = JSON.parse(decodedData); // ✅ 直接解析
+  
         if (currentProcess) {
           const workDetail = {
             periodName: currentProcess.name || '',
             startTime: this.formatTime(currentProcess.startTime),
             endTime: currentProcess.endTime ? this.formatTime(currentProcess.endTime) : this.formatTime(currentProcess.startTime),
             fileUrl: currentProcess.fileUrl || '',
-            email: '1111111@qq.com'
+            email: currentProcess.email || "暂无"
           };
           const processId = currentProcess.id || '';
           this.setData({ processId, workDetail });
-          return;
+          return; // 解析成功，直接结束，不走下面的逻辑
         }
       } catch (e) {
         console.error('解析 processData 失败：', e);
       }
     }
-
+  
+    // 备用方案：解析失败才走这里
     const processId = options.processId || wx.getStorageSync('currentProcessId');
     if (processId) {
       this.setData({ processId });
@@ -38,11 +39,11 @@ Page({
     } else {
       this.setData({
         workDetail: {
-          periodName: '第一期',
-          startTime: '2024-01-01',
-          endTime: '2024-01-15',
+          periodName: '暂无',
+          startTime: '暂无',
+          endTime: '暂无',
           fileUrl: 'https://example.com/homework.pdf',
-          email: '1111111@qq.com'
+          email: '暂无'
         }
       });
     }
@@ -99,85 +100,61 @@ Page({
     });
   },
 
+  // ✅ 直接使用 fileUrl 打开/预览附件（修改核心）
   downloadAttachment() {
-    const fileUrl = this.data.workDetail.fileUrl;
+    const { fileUrl } = this.data.workDetail;
+    
+    // 无链接判断
     if (!fileUrl) {
       wx.showToast({ title: '暂无附件', icon: 'none' });
       return;
     }
 
-    const fileName = fileUrl.split('/').pop();
-    if (!fileName) {
-      wx.showToast({ title: '文件名解析失败', icon: 'none' });
-      return;
+    wx.showLoading({ title: '正在打开...' });
+
+    // 获取文件后缀
+    const fileExtension = fileUrl.split('.').pop()?.toLowerCase() || '';
+
+    // 1. 图片 → 直接预览
+    if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension)) {
+      wx.previewImage({
+        urls: [fileUrl],
+        complete: () => wx.hideLoading()
+      });
     }
-
-    wx.showLoading({ title: '获取文件中...' });
-
-    wx.request({
-      url: api.API_BASE_URL + '/file/getFile',
-      method: 'GET',
-      header: {
-        'Authorization': wx.getStorageSync('token')
-      },
-      data: { fileName: fileName },
-      responseType: 'arraybuffer',
-      success: (res) => {
-        wx.hideLoading();
-        if (res.statusCode === 200) {
-          const arrayBuffer = res.data;
-          const parts = fileName.split('.');
-          const lastPart = parts.pop();
-          const fileExtension = lastPart ? lastPart.toLowerCase() : '';
-          const filePath = `${wx.env.USER_DATA_PATH}/temp_${Date.now()}.${fileExtension}`;
-          const fs = wx.getFileSystemManager();
-
-          fs.writeFile({
-            filePath: filePath,
-            data: arrayBuffer,
-            success: () => {
-              if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension || '')) {
-                wx.previewImage({ urls: [filePath] });
-              } else if (['pdf'].includes(fileExtension || '')) {
-                wx.openDocument({
-                  filePath: filePath,
-                  success: () => console.log('打开文档成功'),
-                  fail: (err) => {
-                    console.error('打开文档失败:', err);
-                    wx.showToast({ title: '打开失败', icon: 'none' });
-                  }
-                });
-              } else {
-                wx.showModal({
-                  title: '提示',
-                  content: '是否保存到手机？',
-                  success: (modalRes) => {
-                    if (modalRes.confirm) {
-                      wx.saveFile({
-                        tempFilePath: filePath,
-                        success: () => wx.showToast({ title: '保存成功', icon: 'success' }),
-                        fail: () => wx.showToast({ title: '保存失败', icon: 'none' })
-                      });
-                    }
-                  }
-                });
-              }
-            },
-            fail: (err) => {
-              console.error('写入临时文件失败:', err);
-              wx.showToast({ title: '文件处理失败', icon: 'none' });
-            }
-          });
-        } else {
-          wx.showToast({ title: '获取文件失败', icon: 'none' });
+    // 2. PDF/Word/Excel 等文档 → 直接打开
+    else if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(fileExtension)) {
+      wx.downloadFile({
+        url: fileUrl,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            wx.openDocument({
+              filePath: res.tempFilePath,
+              success: () => console.log('打开文档成功'),
+              fail: () => wx.showToast({ title: '打开失败', icon: 'none' })
+            });
+          }
+        },
+        fail: () => wx.showToast({ title: '文件下载失败', icon: 'none' }),
+        complete: () => wx.hideLoading()
+      });
+    }
+    // 3. 其他类型 → 提示下载
+    else {
+      wx.hideLoading();
+      wx.showModal({
+        title: '提示',
+        content: '该文件无法直接预览，是否前往下载？',
+        success: (modalRes) => {
+          if (modalRes.confirm) {
+            wx.setClipboardData({
+              data: fileUrl,
+              success: () => wx.showToast({ title: '链接已复制，可在浏览器打开', icon: 'success' })
+            });
+          }
         }
-      },
-      fail: (err) => {
-        wx.hideLoading();
-        console.error('获取OSS文件失败:', err);
-        wx.showToast({ title: '网络错误，请重试', icon: 'none' });
-      }
-    });
+      });
+    }
   },
 
   onReady() {},
